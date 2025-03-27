@@ -27,9 +27,9 @@ class _DiseaseDetectionScreenState extends State<DiseaseDetectionScreen> {
         });
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error picking image: $e')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Error picking image: $e')));
     }
   }
 
@@ -43,17 +43,17 @@ class _DiseaseDetectionScreenState extends State<DiseaseDetectionScreen> {
 
     try {
       var request = http.MultipartRequest(
-        'POST', 
-        Uri.parse('http://192.168.0.104:5000/predict')
+        'POST',
+        Uri.parse('http://192.168.87.244:5000/predict'),
       );
-      
+
       request.files.add(
-        await http.MultipartFile.fromPath('image', _imageFile!.path)
+        await http.MultipartFile.fromPath('image', _imageFile!.path),
       );
 
       var response = await request.send();
       var responseBody = await response.stream.bytesToString();
-      
+
       setState(() {
         _predictionResult = json.decode(responseBody);
         _isLoading = false;
@@ -62,9 +62,9 @@ class _DiseaseDetectionScreenState extends State<DiseaseDetectionScreen> {
       setState(() {
         _isLoading = false;
       });
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error detecting disease: $e')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Error detecting disease: $e')));
     }
   }
 
@@ -74,10 +74,10 @@ class _DiseaseDetectionScreenState extends State<DiseaseDetectionScreen> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(
-          'Plant Disease Detector', 
+          'Plant Disease Detector',
           style: TextStyle(
-            fontWeight: FontWeight.bold, 
-            color: Colors.green[800]
+            fontWeight: FontWeight.bold,
+            color: Colors.green[800],
           ),
         ),
         backgroundColor: Colors.white,
@@ -102,89 +102,92 @@ class _DiseaseDetectionScreenState extends State<DiseaseDetectionScreen> {
                     border: Border.all(
                       color: Colors.green.shade200,
                       width: 2,
-                      style: BorderStyle.solid
+                      style: BorderStyle.solid,
                     ),
                   ),
-                  child: _imageFile == null
-                      ? Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.image_search, 
-                              size: 100, 
-                              color: Colors.green[300]
-                            ),
-                            Text(
-                              'Tap to select an image',
-                              style: TextStyle(
-                                color: Colors.green[700],
-                                fontSize: 16
+                  child:
+                      _imageFile == null
+                          ? Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.image_search,
+                                size: 100,
+                                color: Colors.green[300],
                               ),
-                            )
-                          ],
-                        )
-                      : ClipRRect(
-                          borderRadius: BorderRadius.circular(18),
-                          child: Image.file(
-                            _imageFile!, 
-                            fit: BoxFit.cover
+                              Text(
+                                'Tap to select an image',
+                                style: TextStyle(
+                                  color: Colors.green[700],
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ],
+                          )
+                          : ClipRRect(
+                            borderRadius: BorderRadius.circular(18),
+                            child: Image.file(_imageFile!, fit: BoxFit.cover),
                           ),
-                        ),
                 ),
               ),
-              
+
               const SizedBox(height: 20),
-              
+
               // Detect Button
               ElevatedButton(
                 onPressed: _imageFile != null ? _detectDisease : null,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.green[600],
                   padding: const EdgeInsets.symmetric(
-                    horizontal: 50, 
-                    vertical: 15
+                    horizontal: 50,
+                    vertical: 15,
                   ),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30)
-                  )
+                    borderRadius: BorderRadius.circular(30),
+                  ),
                 ),
-                child: _isLoading
-                    ? const CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                      )
-                    : const Text(
-                        'Detect Disease', 
-                        style: TextStyle(
-                          fontSize: 18, 
-                          fontWeight: FontWeight.bold
+                child:
+                    _isLoading
+                        ? const CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                            Colors.white,
+                          ),
                         )
-                      ),
+                        : const Text(
+                          'Detect Disease',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
               ),
-              
+
               const SizedBox(height: 20),
-              
+
               // Prediction Result
-              if (_predictionResult != null) ...[
-                _buildResultCard()
-              ]
+              if (_predictionResult != null) ...[_buildResultCard()],
             ],
           ),
         ),
       ),
-      floatingActionButton: _imageFile != null
-          ? FloatingActionButton(
-              onPressed: () => _showImageSourceDialog(),
-              backgroundColor: Colors.green[400],
-              child: const Icon(Icons.refresh),
-            )
-          : null,
+      floatingActionButton:
+          _imageFile != null
+              ? FloatingActionButton(
+                onPressed: () => _showImageSourceDialog(),
+                backgroundColor: Colors.green[400],
+                child: const Icon(Icons.refresh),
+              )
+              : null,
     );
   }
 
   Widget _buildResultCard() {
     final result = _predictionResult!;
     final confidence = (result['confidence'] * 100).toStringAsFixed(2);
-    final remedies = result['remedies'] is List ? result['remedies'] as List<dynamic> : [result['remedies'].toString()];
+    final remedies =
+        result['remedies'] is List
+            ? result['remedies'] as List<dynamic>
+            : [result['remedies'].toString()];
 
     return Container(
       width: double.infinity,
@@ -192,7 +195,7 @@ class _DiseaseDetectionScreenState extends State<DiseaseDetectionScreen> {
       decoration: BoxDecoration(
         color: Colors.green[50],
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Colors.green.shade200)
+        border: Border.all(color: Colors.green.shade200),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -202,7 +205,7 @@ class _DiseaseDetectionScreenState extends State<DiseaseDetectionScreen> {
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
-              color: Colors.green[800]
+              color: Colors.green[800],
             ),
           ),
           const SizedBox(height: 10),
@@ -211,14 +214,14 @@ class _DiseaseDetectionScreenState extends State<DiseaseDetectionScreen> {
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w600,
-              color: Colors.green[700]
+              color: Colors.green[700],
             ),
           ),
           Text(
             'Confidence: $confidence%',
             style: TextStyle(
               color: Colors.green[600],
-              fontStyle: FontStyle.italic
+              fontStyle: FontStyle.italic,
             ),
           ),
           const SizedBox(height: 10),
@@ -239,17 +242,11 @@ class _DiseaseDetectionScreenState extends State<DiseaseDetectionScreen> {
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
-            color: Colors.green[700]
+            color: Colors.green[700],
           ),
         ),
         const SizedBox(height: 5),
-        Text(
-          content,
-          style: TextStyle(
-            color: Colors.green[800],
-            height: 1.5
-          ),
-        )
+        Text(content, style: TextStyle(color: Colors.green[800], height: 1.5)),
       ],
     );
   }
@@ -263,32 +260,33 @@ class _DiseaseDetectionScreenState extends State<DiseaseDetectionScreen> {
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
-            color: Colors.green[700]
+            color: Colors.green[700],
           ),
         ),
         const SizedBox(height: 5),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: remedies.map((remedy) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(vertical: 4),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text('• ', style: TextStyle(fontSize: 16)),
-                  Expanded(
-                    child: Text(
-                      remedy.toString(),
-                      style: TextStyle(
-                        color: Colors.green[800],
-                        height: 1.5
+          children:
+              remedies.map((remedy) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 4),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text('• ', style: TextStyle(fontSize: 16)),
+                      Expanded(
+                        child: Text(
+                          remedy.toString(),
+                          style: TextStyle(
+                            color: Colors.green[800],
+                            height: 1.5,
+                          ),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
-                ],
-              ),
-            );
-          }).toList(),
+                );
+              }).toList(),
         ),
       ],
     );

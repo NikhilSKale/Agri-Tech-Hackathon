@@ -193,4 +193,5 @@ flutter:
   assets:
     - assets/farm_background.jpg
     - assets/logo.jpg
-    - assets/icon/app_icon.jpg
+    - assets/icon/app_icon.png
+    
