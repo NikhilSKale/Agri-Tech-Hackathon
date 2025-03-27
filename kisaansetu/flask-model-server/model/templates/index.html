@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plant Disease Detector</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-green-50 min-h-screen flex flex-col items-center justify-center">
+    <div class="bg-white p-8 rounded-xl shadow-lg max-w-md w-full">
+        <h1 class="text-3xl font-bold text-center text-green-700 mb-6">Plant Disease Detector</h1>
+        
+        <form id="upload-form" class="space-y-4">
+            <div class="flex flex-col items-center">
+                <input 
+                    type="file" 
+                    id="image-upload" 
+                    accept="image/*" 
+                    class="hidden"
+                >
+                <label 
+                    for="image-upload" 
+                    class="cursor-pointer bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition"
+                >
+                    Select Image
+                </label>
+                <p id="file-name" class="text-sm text-gray-500 mt-2">No file chosen</p>
+            </div>
+
+            <div id="preview-container" class="hidden text-center">
+                <img id="image-preview" src="#" alt="Image Preview" class="max-w-full rounded-lg mx-auto mb-4">
+            </div>
+
+            <button 
+                type="submit" 
+                id="predict-btn" 
+                class="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 transition disabled:opacity-50"
+                disabled
+            >
+                Detect Disease
+            </button>
+        </form>
+
+        <div id="result-container" class="mt-6 hidden">
+            <div class="bg-gray-100 p-4 rounded-lg">
+                <h2 class="text-xl font-semibold text-green-800 mb-2" id="prediction-title"></h2>
+                <p class="mb-2"><strong>Confidence:</strong> <span id="confidence-score"></span></p>
+                <div class="mt-4">
+                    <h3 class="font-bold text-green-700">Cause:</h3>
+                    <p id="cause-text" class="text-gray-700"></p>
+                    <h3 class="font-bold text-green-700 mt-2">Remedy:</h3>
+                    <p id="remedy-text" class="text-gray-700"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const imageUpload = document.getElementById('image-upload');
+        const fileName = document.getElementById('file-name');
+        const predictBtn = document.getElementById('predict-btn');
+        const uploadForm = document.getElementById('upload-form');
+        const previewContainer = document.getElementById('preview-container');
+        const imagePreview = document.getElementById('image-preview');
+        const resultContainer = document.getElementById('result-container');
+        const predictionTitle = document.getElementById('prediction-title');
+        const confidenceScore = document.getElementById('confidence-score');
+        const causeText = document.getElementById('cause-text');
+        const remedyText = document.getElementById('remedy-text');
+
+        imageUpload.addEventListener('change', function(event) {
+            if (this.files && this.files[0]) {
+                fileName.textContent = this.files[0].name;
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    imagePreview.src = e.target.result;
+                    previewContainer.classList.remove('hidden');
+                }
+                reader.readAsDataURL(this.files[0]);
+                
+                predictBtn.disabled = false;
+            }
+        });
+
+        uploadForm.addEventListener('submit', async function(event) {
+            event.preventDefault();
+            
+            const formData = new FormData();
+            formData.append('image', imageUpload.files[0]);
+
+            try {
+                const response = await fetch('/predict', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (data.status === 'success') {
+                    resultContainer.classList.remove('hidden');
+                    predictionTitle.textContent = data.prediction.replace(/_/g, ' ');
+                    confidenceScore.textContent = `${(data.confidence * 100).toFixed(2)}%`;
+                    causeText.textContent = data.cause;
+                    remedyText.textContent = data.remedy;
+                } else {
+                    alert('Error: ' + data.error);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred while processing the image');
+            }
+        });
+    </script>
+</body>
+</html>
