@@ -303,7 +303,7 @@
 //     'Bengali',
 //     'Marathi',
 //   ];
-  
+
 //   // Weather data variables
 //   bool isLoading = true;
 //   String temperature = '--';
@@ -313,19 +313,19 @@
 //   String rainChance = '--';
 //   IconData weatherIcon = Icons.cloud;
 //   Color weatherIconColor = Colors.grey;
-  
+
 //   @override
 //   void initState() {
 //     super.initState();
 //     _loadWeatherData();
 //   }
-  
+
 //   // Method to get user's location and fetch weather data
 //   Future<void> _loadWeatherData() async {
 //     setState(() {
 //       isLoading = true;
 //     });
-    
+
 //     try {
 //       // First check and request location permission
 //       var status = await Permission.location.status;
@@ -340,40 +340,40 @@
 //           return;
 //         }
 //       }
-      
+
 //       // Get current position
 //       Position position = await Geolocator.getCurrentPosition(
 //         desiredAccuracy: LocationAccuracy.low,
 //       );
-      
+
 //       // Fetch weather data using your existing ApiService
 //       final apiService = ApiService();
 //       final weatherData = await apiService.getCurrentWeather(
 //         latitude: position.latitude,
 //         longitude: position.longitude,
 //       );
-      
+
 //       // Update UI with weather data
 //       setState(() {
 //         isLoading = false;
-        
+
 //         // Extract and format temperature
 //         temperature = '${weatherData['main']['temp'].round()}°C';
-        
+
 //         // Extract weather condition
 //         weatherCondition = weatherData['weather'][0]['main'];
-        
+
 //         // Extract humidity
 //         humidity = '${weatherData['main']['humidity']}%';
-        
+
 //         // Extract wind speed and convert from m/s to km/h
 //         final windSpeedMps = weatherData['wind']['speed'];
 //         windSpeed = '${(windSpeedMps * 3.6).round()} km/h';
-        
+
 //         // Set rain chance - not directly available in current weather API
 //         // Could be extracted from forecast data if needed
 //         rainChance = weatherData['rain'] != null ? 'Likely' : 'Low';
-        
+
 //         // Set appropriate weather icon based on condition
 //         _setWeatherIcon(weatherData['weather'][0]['id']);
 //       });
@@ -385,7 +385,7 @@
 //       });
 //     }
 //   }
-  
+
 //   // Helper method to set the appropriate weather icon
 //   void _setWeatherIcon(int weatherId) {
 //     // Weather condition codes: https://openweathermap.org/weather-conditions
@@ -669,12 +669,13 @@
 //   }
 // }
 
-
 import 'package:flutter/material.dart';
 import 'package:kisaansetu/main.dart';
+import 'package:kisaansetu/screens/agristore_screen.dart';
 import 'package:kisaansetu/screens/chatbot_screen.dart';
 import 'package:kisaansetu/screens/disease_screen.dart';
 import 'package:kisaansetu/screens/government_schemes.dart';
+import 'package:kisaansetu/screens/soil_moisture_screen.dart';
 import 'package:kisaansetu/screens/weather_screen.dart';
 import 'package:kisaansetu/screens/market_prices.dart';
 import 'package:kisaansetu/widgets/custom_button.dart';
@@ -1062,11 +1063,41 @@ class _HomeScreenState extends State<HomeScreen> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const GovernmentSchemesScreen(),
+                            builder:
+                                (context) => const GovernmentSchemesScreen(),
                           ),
                         );
                       },
                     ),
+                    _buildFeatureCard(
+                      context,
+                      'AgriStore', // Direct text instead of localized string
+                      Icons.store,
+                      Colors.orange.shade700,
+                      () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const AgriStoreScreen(),
+                          ),
+                        );
+                      },
+                    ),
+                    // _buildFeatureCard(
+                    //   context,
+                    //   'Soil Tracker',
+                    //   Icons
+                    //       .grass, // Best option - directly represents soil/plants
+                    //   Colors.orange.shade700,
+                    //   () {
+                    //     Navigator.push(
+                    //       context,
+                    //       MaterialPageRoute(
+                    //         builder: (context) => const SoilMoistureScreen(),
+                    //       ),
+                    //     );
+                    //   },
+                    // ),
                   ],
                 ),
               ),

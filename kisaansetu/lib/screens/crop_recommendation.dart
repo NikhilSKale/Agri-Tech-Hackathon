@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:kisaansetu/services/api_service.dart';
-import 'package:kisaansetu/services/prompt_template_crop.dart';
 import 'package:kisaansetu/widgets/custom_button.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -9,34 +8,15 @@ class CropRecommendationScreen extends StatefulWidget {
   const CropRecommendationScreen({Key? key}) : super(key: key);
 
   @override
-  State<CropRecommendationScreen> createState() =>
-      _CropRecommendationScreenState();
+  State<CropRecommendationScreen> createState() => _CropRecommendationScreenState();
 }
 
 class _CropRecommendationScreenState extends State<CropRecommendationScreen> {
   bool _isLoading = false;
-  String _selectedSoilType = 'Loamy';
-  String _selectedTimeframe = 'Short-term (1-3 months)';
   Map<String, dynamic>? _weatherData;
   List<Map<String, dynamic>>? _recommendations;
   String? _errorMessage;
   Position? _currentPosition;
-  String _selectedLanguage = 'English'; // Match with your HomeScreen
-
-  final List<String> _soilTypes = [
-    'Loamy',
-    'Clay',
-    'Sandy',
-    'Silt',
-    'Chalky',
-    'Peaty',
-  ];
-
-  final List<String> _timeframeOptions = [
-    'Short-term (1-3 months)',
-    'Medium-term (3-6 months)',
-    'Long-term (6+ months)',
-  ];
 
   @override
   void initState() {
@@ -47,72 +27,48 @@ class _CropRecommendationScreenState extends State<CropRecommendationScreen> {
   Future<void> _checkLocationPermission() async {
     final status = await Permission.location.request();
     if (status.isGranted) {
-      setState(() {
-        _isLoading = true;
-      });
+      setState(() => _isLoading = true);
       try {
         final position = await Geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.high,
         );
-        setState(() {
-          _currentPosition = position;
-        });
+        setState(() => _currentPosition = position);
         await _fetchWeatherData();
       } catch (e) {
         setState(() {
-          _errorMessage = 'Failed to get location: $e';
+          _errorMessage = 'Location access needed for best recommendations';
           _isLoading = false;
         });
       }
     } else {
       setState(() {
-        _errorMessage =
-            'Location permission is required for accurate crop recommendations';
+        _errorMessage = 'Please enable location for crop suggestions';
       });
     }
   }
 
   Future<void> _fetchWeatherData() async {
-    if (_currentPosition == null) {
-      setState(() {
-        _errorMessage = 'Location information is not available';
-        _isLoading = false;
-      });
-      return;
-    }
+    if (_currentPosition == null) return;
 
     try {
       final weatherData = await ApiService().getCurrentWeather(
         latitude: _currentPosition!.latitude,
         longitude: _currentPosition!.longitude,
       );
-
       setState(() {
         _weatherData = weatherData;
         _isLoading = false;
       });
     } catch (e) {
       setState(() {
-        _errorMessage = 'Failed to get weather data: $e';
+        _errorMessage = 'Weather data unavailable';
         _isLoading = false;
       });
     }
   }
 
   Future<void> _generateRecommendations() async {
-    if (_currentPosition == null) {
-      setState(() {
-        _errorMessage = 'Location information is not available';
-      });
-      return;
-    }
-
-    if (_weatherData == null) {
-      await _fetchWeatherData();
-      if (_weatherData == null) {
-        return; // _fetchWeatherData will set the error message
-      }
-    }
+    if (_currentPosition == null || _weatherData == null) return;
 
     setState(() {
       _isLoading = true;
@@ -121,191 +77,239 @@ class _CropRecommendationScreenState extends State<CropRecommendationScreen> {
     });
 
     try {
-      // Create a prompt for Gemini API based on weather, soil type, and timeframe
-      final weatherCondition = _weatherData!['weather'][0]['main'];
-      final temperature = _weatherData!['main']['temp'];
-      final humidity = _weatherData!['main']['humidity'];
-      final windSpeed = _weatherData!['wind']['speed'];
-      final location = _weatherData!['name'];
-
       final prompt = '''
-Based on the following conditions, recommend suitable crops to grow:
-- Location: $location
-- Current weather: $weatherCondition
-- Temperature: ${temperature.toStringAsFixed(1)}°C
-- Humidity: $humidity%
-- Wind speed: $windSpeed m/s
-- Soil type: $_selectedSoilType
-- Planting timeframe: $_selectedTimeframe
+Suggest 5 best crops to grow in ${_weatherData!['name']} right now considering:
+- Weather: ${_weatherData!['weather'][0]['main']}
+- Temperature: ${_weatherData!['main']['temp']}°C 
+- Humidity: ${_weatherData!['main']['humidity']}%
+- Local market demand
 
-Please provide 3-5 crop recommendations with the following details for each:
-1. Crop name
-2. Why it's suitable for these conditions
-3. Care instructions
-4. Expected time to harvest
+For each crop provide:
+1. Name (clean format, no special chars)
+2. One-line suitability reason
+3. Detailed growing method
+4. Financial benefits (market price, demand, profit margin)
+5. Additional advantages
 ''';
 
-      // Use the chatbot API for crop recommendations
       final response = await ApiService().getChatbotResponse(
         prompt,
         latitude: _currentPosition!.latitude,
         longitude: _currentPosition!.longitude,
         weatherData: _weatherData,
-        language: _selectedLanguage.toLowerCase(),
       );
 
-      // Parse the AI response into structured recommendations
-      // Since this is free-text from AI, we need to extract meaningful data
-      _parseRecommendationsFromResponse(response);
+      _parseRecommendations(response);
     } catch (e) {
       setState(() {
-        _errorMessage = 'Failed to generate recommendations: $e';
+        _errorMessage = 'Failed to get recommendations';
         _isLoading = false;
       });
     }
   }
 
-  void _parseRecommendationsFromResponse(String response) {
-    // Simple parsing logic - this could be improved with more sophisticated parsing
-    List<Map<String, dynamic>> parsedRecommendations = [];
+  void _parseRecommendations(String response) {
+    final recommendations = <Map<String, dynamic>>[];
+    final cropSections = response.split(RegExp(r'\n\d+\.'));
 
-    // Split response by numbered sections or crop names
-    final sections = response.split(
-      RegExp(r'\n\s*\d+\.\s+|\n\s*Crop\s+\d+:\s+'),
-    );
-
-    for (var section in sections) {
+    for (var section in cropSections) {
       if (section.trim().isEmpty) continue;
+      
+      final lines = section.trim().split('\n');
+      if (lines.isEmpty) continue;
 
-      try {
-        // Extract the first line as the crop name
-        final lines = section.trim().split('\n');
-        String cropName =
-            lines[0].replaceAll(RegExp(r'^[^a-zA-Z]*'), '').trim();
+      // Clean crop name - remove special chars and extra spaces
+      final cropName = lines[0].trim().replaceAll(RegExp(r'[^\w\s]+'), '');
 
-        // The rest is description
-        String description =
-            lines.length > 1 ? lines.sublist(1).join('\n').trim() : '';
+      String reason = '';
+      String instructions = '';
+      String financial = '';
+      String benefits = '';
 
-        // Try to extract care instructions and harvest time if they're clearly marked
-        String careInstructions = '';
-        String harvestTime = '';
+      for (var line in lines.skip(1)) {
+        line = line.trim();
+        if (line.startsWith('Why:')) reason = line.replaceAll('Why:', '').trim();
+        else if (line.startsWith('How:')) instructions = line.replaceAll('How:', '').trim();
+        else if (line.startsWith('Financial:')) financial = line.replaceAll('Financial:', '').trim();
+        else if (line.startsWith('Benefits:')) benefits = line.replaceAll('Benefits:', '').trim();
+        else if (reason.isEmpty) reason = line;
+        else if (instructions.isEmpty) instructions += '\n$line';
+        else if (financial.isEmpty) financial += '\n$line';
+        else benefits += '\n$line';
+      }
 
-        if (description.contains('Care instructions:') ||
-            description.contains('Care:')) {
-          final careMatch = RegExp(
-            r'Care instructions:|Care:(.+?)(?=Expected time|Harvest time|$)',
-            dotAll: true,
-          ).firstMatch(description);
-          if (careMatch != null && careMatch.groupCount >= 1) {
-            careInstructions = careMatch.group(1)?.trim() ?? '';
-          }
-        }
-
-        if (description.contains('Expected time to harvest:') ||
-            description.contains('Harvest time:')) {
-          final harvestMatch = RegExp(
-            r'Expected time to harvest:|Harvest time:(.+?)(?=\n\n|$)',
-            dotAll: true,
-          ).firstMatch(description);
-          if (harvestMatch != null && harvestMatch.groupCount >= 1) {
-            harvestTime = harvestMatch.group(1)?.trim() ?? '';
-          }
-        }
-
-        // Only add valid crops
-        if (cropName.isNotEmpty) {
-          parsedRecommendations.add({
-            'crop': cropName,
-            'description': description,
-            'care_instructions': careInstructions,
-            'harvest_time': harvestTime,
-          });
-        }
-      } catch (e) {
-        print('Error parsing section: $e');
-        // Continue to the next section
+      if (cropName.isNotEmpty) {
+        recommendations.add({
+          'name': cropName,
+          'reason': reason,
+          'instructions': instructions,
+          'financial': financial,
+          'benefits': benefits,
+        });
       }
     }
 
     setState(() {
-      if (parsedRecommendations.isNotEmpty) {
-        _recommendations = parsedRecommendations;
-      } else {
-        // Fallback to simple recommendation if parsing fails
-        _recommendations = [
-          {
-            'crop': 'AI Recommendation',
-            'description': response,
-            'care_instructions': '',
-            'harvest_time': '',
-          },
-        ];
-      }
+      _recommendations = recommendations.take(5).toList();
       _isLoading = false;
     });
+  }
+
+  void _showCropDetails(Map<String, dynamic> crop) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => Scaffold(
+          appBar: AppBar(
+            title: Text(crop['name']),
+            backgroundColor: Colors.green.shade700,
+          ),
+          body: SingleChildScrollView(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  crop['name'],
+                  style: const TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.green,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  crop['reason'],
+                  style: const TextStyle(fontSize: 16, color: Colors.grey),
+                ),
+                const SizedBox(height: 24),
+                _buildDetailCard('Growing Method', crop['instructions']),
+                _buildDetailCard('Financial Benefits', crop['financial']),
+                _buildDetailCard('Additional Advantages', crop['benefits']),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDetailCard(String title, String content) {
+    return Card(
+      margin: const EdgeInsets.only(bottom: 16),
+      elevation: 2,
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title,
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.green.shade800,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              content,
+              style: const TextStyle(fontSize: 15),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Crop Recommendations',
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        backgroundColor: Colors.green.shade600,
+        title: const Text('Best Crops For You'),
+        backgroundColor: Colors.green.shade700,
       ),
       body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/farm_background.jpg'),
-            fit: BoxFit.cover,
-            colorFilter: ColorFilter.mode(
-              Colors.white.withOpacity(0.85),
-              BlendMode.lighten,
-            ),
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [Colors.white, Color(0xFFE8F5E9)],
           ),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // Weather Information Card
-              if (_weatherData != null) _buildWeatherCard(),
-
-              // Input Section
-              _buildInputSection(),
-
-              // Generate Button
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16.0),
-                child: CustomButton(
-                  text: 'Generate Recommendations',
-                  onPressed:
-                      _isLoading ? () {} : () => _generateRecommendations(),
-                  color: Colors.teal.shade700,
-                ),
-              ),
-
-              // Loading or Error
-              if (_isLoading) const Center(child: CircularProgressIndicator()),
-              if (_errorMessage != null && !_isLoading)
+              if (_weatherData != null) ...[
                 Card(
-                  color: Colors.red.shade100,
+                  elevation: 1,
                   child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      _errorMessage!,
-                      style: const TextStyle(color: Colors.red),
+                    padding: const EdgeInsets.all(12),
+                    child: Row(
+                      children: [
+                        _getWeatherIcon(_weatherData!['weather'][0]['main']),
+                        const SizedBox(width: 12),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              '${_weatherData!['name']}',
+                              style: const TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            Text('${_weatherData!['main']['temp'].round()}°C | ${_weatherData!['weather'][0]['main']}'),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
                 ),
-
-              // Recommendations
-              if (_recommendations != null && !_isLoading)
-                Expanded(child: _buildRecommendationsList()),
+                const SizedBox(height: 12),
+              ],
+              CustomButton(
+                text: 'Find Best Crops',
+                onPressed: _isLoading ? () {} : _generateRecommendations,
+                color: Colors.green.shade700,
+              ),
+              const SizedBox(height: 16),
+              if (_isLoading) const CircularProgressIndicator(),
+              if (_errorMessage != null)
+                Text(
+                  _errorMessage!,
+                  style: const TextStyle(color: Colors.red),
+                ),
+              if (_recommendations != null) ...[
+                const SizedBox(height: 16),
+                const Text(
+                  'Recommended Crops:',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 8),
+                Expanded(
+                  child: ListView.separated(
+                    itemCount: _recommendations!.length,
+                    separatorBuilder: (_, __) => const SizedBox(height: 8),
+                    itemBuilder: (context, index) {
+                      final crop = _recommendations![index];
+                      return Card(
+                        elevation: 2,
+                        child: ListTile(
+                          title: Text(
+                            crop['name'],
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                            ),
+                          ),
+                          subtitle: Text(crop['reason']),
+                          trailing: const Icon(Icons.info_outline, color: Colors.green),
+                          onTap: () => _showCropDetails(crop),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ],
             ],
           ),
         ),
@@ -313,213 +317,28 @@ Please provide 3-5 crop recommendations with the following details for each:
     );
   }
 
-  Widget _buildWeatherCard() {
-    return Card(
-      elevation: 4,
-      margin: const EdgeInsets.only(bottom: 16.0),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Current Weather in ${_weatherData!['name']}',
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 8),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    _getWeatherIcon(_weatherData!['weather'][0]['main']),
-                    const SizedBox(width: 8),
-                    Text(
-                      '${_weatherData!['main']['temp'].toStringAsFixed(1)}°C',
-                      style: const TextStyle(fontSize: 20),
-                    ),
-                  ],
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Text('Humidity: ${_weatherData!['main']['humidity']}%'),
-                    Text('Wind: ${_weatherData!['wind']['speed']} m/s'),
-                  ],
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildInputSection() {
-    return Card(
-      elevation: 4,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Customize Recommendations',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 16),
-
-            // Soil Type Dropdown
-            DropdownButtonFormField<String>(
-              decoration: const InputDecoration(
-                labelText: 'Soil Type',
-                border: OutlineInputBorder(),
-              ),
-              value: _selectedSoilType,
-              onChanged: (String? newValue) {
-                if (newValue != null) {
-                  setState(() {
-                    _selectedSoilType = newValue;
-                  });
-                }
-              },
-              items:
-                  _soilTypes.map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-            ),
-
-            const SizedBox(height: 16),
-
-            // Timeframe Dropdown
-            DropdownButtonFormField<String>(
-              decoration: const InputDecoration(
-                labelText: 'Growing Timeframe',
-                border: OutlineInputBorder(),
-              ),
-              value: _selectedTimeframe,
-              onChanged: (String? newValue) {
-                if (newValue != null) {
-                  setState(() {
-                    _selectedTimeframe = newValue;
-                  });
-                }
-              },
-              items:
-                  _timeframeOptions.map<DropdownMenuItem<String>>((
-                    String value,
-                  ) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildRecommendationsList() {
-    return ListView.builder(
-      itemCount: _recommendations!.length,
-      itemBuilder: (context, index) {
-        final recommendation = _recommendations![index];
-        return Card(
-          elevation: 4,
-          margin: const EdgeInsets.only(bottom: 12.0),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    CircleAvatar(
-                      backgroundColor: Colors.green.shade100,
-                      child: Text(
-                        '${index + 1}',
-                        style: TextStyle(
-                          color: Colors.green.shade800,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Text(
-                        recommendation['crop'],
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 12),
-                Text(
-                  recommendation['description'],
-                  style: const TextStyle(fontSize: 14),
-                ),
-                if (recommendation['care_instructions'].isNotEmpty) ...[
-                  const SizedBox(height: 8),
-                  Text(
-                    'Care Instructions:',
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.teal.shade800,
-                    ),
-                  ),
-                  Text(recommendation['care_instructions']),
-                ],
-                if (recommendation['harvest_time'].isNotEmpty) ...[
-                  const SizedBox(height: 8),
-                  Text(
-                    'Harvest Time:',
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.orange.shade800,
-                    ),
-                  ),
-                  Text(recommendation['harvest_time']),
-                ],
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  Widget _getWeatherIcon(String weatherCondition) {
-    switch (weatherCondition.toLowerCase()) {
-      case 'clear':
-        return Icon(Icons.wb_sunny, color: Colors.amber, size: 32);
-      case 'clouds':
-        return Icon(Icons.cloud, color: Colors.grey, size: 32);
+  Widget _getWeatherIcon(String condition) {
+    IconData icon;
+    Color color;
+    
+    switch (condition.toLowerCase()) {
       case 'rain':
-        return Icon(Icons.grain, color: Colors.blue, size: 32);
-      case 'thunderstorm':
-        return Icon(Icons.flash_on, color: Colors.amber, size: 32);
-      case 'snow':
-        return Icon(Icons.ac_unit, color: Colors.lightBlue, size: 32);
-      case 'mist':
-      case 'fog':
-        return Icon(Icons.blur_on, color: Colors.grey, size: 32);
+        icon = Icons.umbrella;
+        color = Colors.blue.shade700;
+        break;
+      case 'clouds':
+        icon = Icons.cloud;
+        color = Colors.blueGrey;
+        break;
+      case 'clear':
+        icon = Icons.wb_sunny;
+        color = Colors.amber;
+        break;
       default:
-        return Icon(Icons.wb_sunny, color: Colors.amber, size: 32);
+        icon = Icons.device_thermostat;
+        color = Colors.grey;
     }
+    
+    return Icon(icon, color: color, size: 36);
   }
 }

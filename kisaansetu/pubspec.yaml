@@ -165,6 +165,7 @@ dependencies:
   flutter_map: ^8.1.1
   flutter_gen: ^5.10.0
   flutter_native_splash: ^2.4.5
+  url_launcher: ^6.3.1
 
 dev_dependencies:
   flutter_test:
