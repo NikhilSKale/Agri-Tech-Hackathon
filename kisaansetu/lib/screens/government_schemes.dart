@@ -1,0 +1,4707 @@
+// import 'package:flutter/material.dart';
+// class GovernmentScheme {
+//   final String id;
+//   final String title;
+//   final String description;
+//   final String imageUrl;
+//   final DateTime expiryDate;
+//   final String department;
+//   final List<String> farmingTypes;
+//   final List<String> cropTypes;
+//   final double minLandSize;
+//   final double maxLandSize;
+//   final bool requiresAadhar;
+//   final String eligibilityCriteria;
+//   final String applicationProcess;
+//   final String benefits;
+//   final String contactInfo;
+
+//   GovernmentScheme({
+//     required this.id,
+//     required this.title,
+//     required this.description,
+//     required this.imageUrl,
+//     required this.expiryDate,
+//     required this.department,
+//     required this.farmingTypes,
+//     required this.cropTypes,
+//     this.minLandSize = 0.0,
+//     this.maxLandSize = double.infinity,
+//     this.requiresAadhar = true,
+//     required this.eligibilityCriteria,
+//     required this.applicationProcess,
+//     required this.benefits,
+//     required this.contactInfo,
+//   });
+// }
+
+// class GovernmentSchemesScreen extends StatefulWidget {
+//   const GovernmentSchemesScreen({Key? key}) : super(key: key);
+
+//   @override
+//   _GovernmentSchemesScreenState createState() => _GovernmentSchemesScreenState();
+// }
+
+// class _GovernmentSchemesScreenState extends State<GovernmentSchemesScreen> {
+//   // Sample data - replace with your actual data source
+// // Add this data to your GovernmentSchemesScreen class
+// final List<GovernmentScheme> allSchemes = [
+//   GovernmentScheme(
+//     id: '1',
+//     title: 'PM Kisan Samman Nidhi',
+//     description: 'Direct income support of ₹6,000 per year for all landholding farmer families in the country in three equal installments of ₹2,000 each every four months.',
+//     imageUrl: 'assets/pmkisan.png',
+//     expiryDate: DateTime(2025, 12, 31),
+//     department: 'Agriculture Department',
+//     farmingTypes: ['All'],
+//     cropTypes: ['All'],
+//     minLandSize: 0.0,
+//     maxLandSize: double.infinity,
+//     requiresAadhar: true,
+//     eligibilityCriteria: 'All landholding farmer families with cultivable land. Institutional landholders are not eligible.',
+//     applicationProcess: 'Register online through the PM-KISAN portal (pmkisan.gov.in) or visit nearest Agriculture Office/Common Service Center. Documents required: Aadhaar card, land records, bank account details.',
+//     benefits: '₹6,000 per year in three equal installments of ₹2,000 each, transferred directly to farmers\' bank accounts.',
+//     contactInfo: 'PM-KISAN Helpline: 155261 or 1800-115-526',
+//   ),
+
+//   GovernmentScheme(
+//     id: '2',
+//     title: 'Pradhan Mantri Fasal Bima Yojana (PMFBY)',
+//     description: 'Crop insurance scheme providing financial support to farmers suffering crop loss/damage due to unforeseen events and stabilizing farmers\' income.',
+//     imageUrl: 'assets/pmfby.png',
+//     expiryDate: DateTime(2025, 3, 31),
+//     department: 'Agriculture Department',
+//     farmingTypes: ['All'],
+//     cropTypes: ['Rice', 'Wheat', 'Pulses', 'Cotton', 'Sugarcane', 'Fruits', 'Vegetables'],
+//     minLandSize: 0.0,
+//     maxLandSize: double.infinity,
+//     requiresAadhar: true,
+//     eligibilityCriteria: 'All farmers including sharecroppers and tenant farmers growing notified crops in notified areas. Both loanee and non-loanee farmers are eligible.',
+//     applicationProcess: 'Loanee farmers covered automatically by banks. Non-loanee farmers can apply online through PMFBY portal or nearest agriculture/insurance company office/bank/CSC center before the cut-off date for the specific season.',
+//     benefits: 'Coverage against crop loss due to natural calamities, pests & diseases. Low premium rates: 2% for Kharif, 1.5% for Rabi, and 5% for commercial/horticultural crops. Remaining premium subsidized by government.',
+//     contactInfo: 'PMFBY Toll Free: 1800-180-1551',
+//   ),
+
+//   GovernmentScheme(
+//     id: '3',
+//     title: 'Pradhan Mantri Krishi Sinchayee Yojana (PMKSY)',
+//     description: 'Aims to ensure access to means of irrigation to all agricultural farms to produce optimal utilization of water resources and improve water use efficiency.',
+//     imageUrl: 'assets/pmksy.png',
+//     expiryDate: DateTime(2026, 3, 31),
+//     department: 'Agriculture Department',
+//     farmingTypes: ['All'],
+//     cropTypes: ['All'],
+//     minLandSize: 0.0,
+//     maxLandSize: double.infinity,
+//     requiresAadhar: true,
+//     eligibilityCriteria: 'All farmers with focus on small and marginal farmers. Special provisions for SC/ST farmers and women farmers.',
+//     applicationProcess: 'Apply through Agriculture Department office, Gram Panchayat or District Rural Development Agency (DRDA). Documents required: Land ownership papers, Aadhaar card, bank account details, soil health card.',
+//     benefits: 'Subsidy on micro-irrigation systems (drip/sprinkler): 55% for small & marginal farmers and 45% for other farmers. Financial assistance for creating water sources, distribution networks, and improving water use efficiency.',
+//     contactInfo: 'Ministry of Agriculture & Farmers Welfare: 1800-180-1551',
+//   ),
+
+//   GovernmentScheme(
+//     id: '4',
+//     title: 'Kisan Credit Card (KCC)',
+//     description: 'Provides farmers with affordable credit for cultivation expenses, post-harvest expenses, maintenance of farm assets, and other needs.',
+//     imageUrl: 'assets/kcc.png',
+//     expiryDate: DateTime(2025, 12, 31),
+//     department: 'Agriculture Department',
+//     farmingTypes: ['All'],
+//     cropTypes: ['All'],
+//     minLandSize: 0.0,
+//     maxLandSize: double.infinity,
+//     requiresAadhar: true,
+//     eligibilityCriteria: 'All farmers, tenant farmers, oral lessees, SHGs and JLGs of farmers. Now extended to animal husbandry and fisheries farmers.',
+//     applicationProcess: 'Apply at any agricultural rural or commercial bank branch with land documents, ID proof, passport size photos, and details of crops grown/to be grown.',
+//     benefits: 'Credit up to ₹3 lakh at 7% interest rate (effective 4% with prompt repayment). Additional credit for post-harvest/household/consumption needs. Credit limit revised annually. Crop loans up to ₹3 lakh for tenure of one year. Term loans up to 5 years.',
+//     contactInfo: 'Local NABARD office or bank branch',
+//   ),
+
+//   GovernmentScheme(
+//     id: '5',
+//     title: 'Paramparagat Krishi Vikas Yojana (PKVY)',
+//     description: 'Promotes organic farming through adoption of organic village approach in a cluster mode to ensure chemical-free farming and produce.',
+//     imageUrl: 'assets/pkvy.png',
+//     expiryDate: DateTime(2025, 3, 31),
+//     department: 'Agriculture Department',
+//     farmingTypes: ['Organic'],
+//     cropTypes: ['All'],
+//     minLandSize: 0.0,
+//     maxLandSize: 2.0,
+//     requiresAadhar: true,
+//     eligibilityCriteria: 'All farmers with preference to small and marginal farmers. Farmers should be willing to adopt organic farming practices.',
+//     applicationProcess: 'Apply through local Agriculture Department or through Farmer Producer Organizations. Form clusters of 50 acres each with 50 or more farmers.',
+//     benefits: 'Financial assistance of ₹50,000 per hectare for 3 years for cluster formation, capacity building, organic inputs, certification, etc. Support for marketing of organic produce.',
+//     contactInfo: 'State Agriculture Department or Toll Free: 1800-180-1551',
+//   ),
+
+//   GovernmentScheme(
+//     id: '6',
+//     title: 'National Mission for Sustainable Agriculture (NMSA)',
+//     description: 'Promotes sustainable agriculture through adaptation strategies related to climate change and enhancing agriculture productivity in rainfed areas.',
+//     imageUrl: 'assets/nmsa.png',
+//     expiryDate: DateTime(2026, 3, 31),
+//     department: 'Agriculture Department',
+//     farmingTypes: ['All', 'Organic'],
+//     cropTypes: ['All'],
+//     minLandSize: 0.0,
+//     maxLandSize: double.infinity,
+//     requiresAadhar: true,
+//     eligibilityCriteria: 'All farmers with special focus on rainfed agriculture areas and small/marginal farmers.',
+//     applicationProcess: 'Apply through District Agriculture Officer or Krishi Vigyan Kendra with land documents, bank account details, and Aadhaar card.',
+//     benefits: 'Financial assistance for soil health management, rainwater harvesting, climate-smart agriculture practices. 50% subsidy on soil ameliorants, micronutrients, organic inputs. Support for establishing custom hiring centers for farm equipment.',
+//     contactInfo: 'District Agriculture Office or Toll Free: 1800-180-1551',
+//   ),
+
+//   GovernmentScheme(
+//     id: '7',
+//     title: 'National Livestock Mission (NLM)',
+//     description: 'Aims to ensure quantitative and qualitative improvement in livestock production systems and capacity building of all stakeholders.',
+//     imageUrl: 'assets/nlm.png',
+//     expiryDate: DateTime(2026, 3, 31),
+//     department: 'Animal Husbandry Department',
+//     farmingTypes: ['Dairy', 'Poultry'],
+//     cropTypes: ['All'],
+//     minLandSize: 0.0,
+//     maxLandSize: double.infinity,
+//     requiresAadhar: true,
+//     eligibilityCriteria: 'All farmers, landless laborers, SHGs involved in animal husbandry. Special provisions for SC/ST/women beneficiaries.',
+//     applicationProcess: 'Apply through local Veterinary Hospital, District Animal Husbandry Department or Krishi Vigyan Kendra with ID proof, bank details, and project proposal if applicable.',
+//     benefits: 'Up to 50% subsidy for establishing small ruminant units, poultry units, piggery units. Financial assistance for feed and fodder development. Support for entrepreneurship development and technology transfer.',
+//     contactInfo: 'District Animal Husbandry Department or Toll Free: 1800-180-8791',
+//   ),
+
+//   GovernmentScheme(
+//     id: '8',
+//     title: 'Pradhan Mantri Kisan Maan Dhan Yojana (PM-KMY)',
+//     description: 'Voluntary and contributory pension scheme for small and marginal farmers to provide them social security in old age.',
+//     imageUrl: 'assets/pmkmy.png',
+//     expiryDate: DateTime(2025, 12, 31),
+//     department: 'Agriculture Department',
+//     farmingTypes: ['All'],
+//     cropTypes: ['All'],
+//     minLandSize: 0.0,
+//     maxLandSize: 2.0,
+//     requiresAadhar: true,
+//     eligibilityCriteria: 'Small and marginal farmers between 18-40 years of age with landholding up to 2 hectares.',
+//     applicationProcess: 'Register at nearest Common Service Center (CSC) with Aadhaar card, bank account details, and land records. Can also register online through PM-KMY portal.',
+//     benefits: 'Monthly pension of ₹3,000 after attaining the age of 60. Family pension applicable in case of death of the farmer. Central Government matches the farmer contribution. Exit option available with appropriate returns.',
+//     contactInfo: 'PM-KMY Helpline: 1800-180-1551',
+//   ),
+
+//   GovernmentScheme(
+//     id: '9',
+//     title: 'Micro Irrigation Fund (MIF)',
+//     description: 'Special fund created under NABARD to expand coverage of micro irrigation systems across the country for water conservation.',
+//     imageUrl: 'assets/mif.png',
+//     expiryDate: DateTime(2026, 3, 31),
+//     department: 'Agriculture Department',
+//     farmingTypes: ['All', 'Horticulture'],
+//     cropTypes: ['Vegetables', 'Fruits', 'Sugarcane', 'Cotton'],
+//     minLandSize: 0.0,
+//     maxLandSize: double.infinity,
+//     requiresAadhar: true,
+//     eligibilityCriteria: 'All farmers. Special focus on water-stressed/dark zone areas and farmers installing community-based irrigation systems.',
+//     applicationProcess: 'Apply through State Agriculture Department or Horticulture Department with land documents, bank account, and proposed irrigation plan.',
+//     benefits: 'Subsidies up to 55% for small and marginal farmers and 45% for other farmers for installation of drip and sprinkler irrigation systems. Additional support for integrating solar pumps with micro-irrigation systems.',
+//     contactInfo: 'State Agriculture Department or NABARD regional office',
+//   ),
+
+//   GovernmentScheme(
+//     id: '10',
+//     title: 'Mission for Integrated Development of Horticulture (MIDH)',
+//     description: 'Aims to promote holistic growth of the horticulture sector including fruits, vegetables, root & tuber crops, mushrooms, spices, flowers, and medicinal & aromatic plants.',
+//     imageUrl: 'assets/midh.png',
+//     expiryDate: DateTime(2025, 3, 31),
+//     department: 'Horticulture Department',
+//     farmingTypes: ['Horticulture'],
+//     cropTypes: ['Fruits', 'Vegetables'],
+//     minLandSize: 0.0,
+//     maxLandSize: double.infinity,
+//     requiresAadhar: true,
+//     eligibilityCriteria: 'All farmers engaged in horticulture production or willing to start. Special provisions for SC/ST farmers, women farmers, and small & marginal farmers.',
+//     applicationProcess: 'Apply through State Horticulture Department with land documents, bank details, and project proposal for the specific component.',
+//     benefits: 'Up to 40-50% subsidy on cost of planting material, cultivation costs. Assistance for protected cultivation, integrated farming. Support for post-harvest management, cold chains, marketing infrastructure. Technology transfer through demonstrations and training.',
+//     contactInfo: 'State Horticulture Department or Toll Free: 1800-180-1551',
+//   ),
+
+//   GovernmentScheme(
+//     id: '11',
+//     title: 'Rashtriya Krishi Vikas Yojana (RKVY)',
+//     description: 'State Plan Scheme that provides flexibility and autonomy to states in planning and executing agricultural development programs.',
+//     imageUrl: 'assets/rkvy.png',
+//     expiryDate: DateTime(2025, 3, 31),
+//     department: 'Agriculture Department',
+//     farmingTypes: ['All'],
+//     cropTypes: ['All'],
+//     minLandSize: 0.0,
+//     maxLandSize: double.infinity,
+//     requiresAadhar: true,
+//     eligibilityCriteria: 'All farmers and agricultural entrepreneurs.',
+//     applicationProcess: 'Apply through State Agriculture Department or District Agriculture Office with relevant project proposals, land documents, and bank account details.',
+//     benefits: 'Financial assistance for infrastructure development, capacity building, farm mechanization. Support for value addition, marketing infrastructure, natural resource management. Special focus on seed production, livestock development, and extension activities.',
+//     contactInfo: 'District Agriculture Office or State Agriculture Department',
+//   ),
+
+//   GovernmentScheme(
+//     id: '12',
+//     title: 'Pradhan Mantri Matsya Sampada Yojana (PMMSY)',
+//     description: 'Aims to bring about Blue Revolution through sustainable and responsible development of the fisheries sector in India.',
+//     imageUrl: 'assets/pmmsy.png',
+//     expiryDate: DateTime(2026, 3, 31),
+//     department: 'Animal Husbandry Department',
+//     farmingTypes: ['Fishery'],
+//     cropTypes: ['All'],
+//     minLandSize: 0.0,
+//     maxLandSize: double.infinity,
+//     requiresAadhar: true,
+//     eligibilityCriteria: 'Fishers, fish farmers, fish workers, SHGs, cooperatives, entrepreneurs, and other entities in fisheries sector.',
+//     applicationProcess: 'Apply through State Fisheries Department or District Fisheries Office with project proposal, land/water body lease documents, and bank account details.',
+//     benefits: 'Up to 40% subsidy for general category and 60% for SC/ST/women for various fisheries activities. Support for enhancement of fish production, infrastructure development, post-harvest management. Insurance coverage for fishermen.',
+//     contactInfo: 'State Fisheries Department or Toll Free: 1800-425-1662',
+//   ),
+
+//   GovernmentScheme(
+//     id: '13',
+//     title: 'Agriculture Infrastructure Fund (AIF)',
+//     description: 'Financing facility for investment in agricultural projects, post-harvest management infrastructure, and community farming assets.',
+//     imageUrl: 'assets/aif.png',
+//     expiryDate: DateTime(2029, 3, 31),
+//     department: 'Agriculture Department',
+//     farmingTypes: ['All'],
+//     cropTypes: ['All'],
+//     minLandSize: 0.0,
+//     maxLandSize: double.infinity,
+//     requiresAadhar: true,
+//     eligibilityCriteria: 'Farmers, FPOs, PACS, Marketing Cooperative Societies, SHGs, Joint Liability Groups, Multipurpose Cooperative Societies, Agri-entrepreneurs, Start-ups, and Central/State agency or Local Body sponsored Public-Private Partnership Projects.',
+//     applicationProcess: 'Apply through banks/financial institutions participating in AIF. Submit project proposal, land documents, and other required documents. Also possible to apply online through AIF portal.',
+//     benefits: 'Loans with 3% interest subvention and credit guarantee coverage for loans up to ₹2 crore. Funding for creation of post-harvest management infrastructure, community farming assets. Convergence with other government schemes.',
+//     contactInfo: 'AIF Helpline: 1800-114-515',
+//   ),
+
+//   GovernmentScheme(
+//     id: '14',
+//     title: 'Sub-Mission on Agricultural Mechanization (SMAM)',
+//     description: 'Aims to increase the reach of farm mechanization to small and marginal farmers and to regions where availability of farm power is low.',
+//     imageUrl: 'assets/smam.png',
+//     expiryDate: DateTime(2025, 3, 31),
+//     department: 'Agriculture Department',
+//     farmingTypes: ['All'],
+//     cropTypes: ['All'],
+//     minLandSize: 0.0,
+//     maxLandSize: double.infinity,
+//     requiresAadhar: true,
+//     eligibilityCriteria: 'All farmers with special focus on small and marginal farmers. Higher subsidy rates for SC/ST farmers and women farmers.',
+//     applicationProcess: 'Apply through State Agriculture Department or District Agriculture Office with land documents and bank account details.',
+//     benefits: 'Financial assistance for purchase of agricultural machinery and equipment. Subsidy of 40-50% for individual farmers depending on the machinery. Higher subsidy for SC/ST/small/marginal/women farmers. Support for establishing Custom Hiring Centers.',
+//     contactInfo: 'District Agriculture Office or Toll Free: 1800-180-1551',
+//   ),
+
+//   GovernmentScheme(
+//     id: '15',
+//     title: 'National Beekeeping & Honey Mission (NBHM)',
+//     description: 'Aims to promote holistic growth of beekeeping industry for income and employment generation, and to enhance agricultural/horticultural productivity.',
+//     imageUrl: 'assets/nbhm.png',
+//     expiryDate: DateTime(2025, 3, 31),
+//     department: 'Agriculture Department',
+//     farmingTypes: ['All'],
+//     cropTypes: ['All'],
+//     minLandSize: 0.0,
+//     maxLandSize: double.infinity,
+//     requiresAadhar: true,
+//     eligibilityCriteria: 'All farmers, beekeepers, SHGs, FPOs, and entrepreneurs interested in beekeeping.',
+//     applicationProcess: 'Apply through National Bee Board, State Agriculture Department, or Khadi and Village Industries Commission with relevant documents and project proposal if applicable.',
+//     benefits: 'Financial assistance for setting up of beekeeping units, honey processing units. Support for creation of infrastructure for honey and other bee products. Training and capacity building for beekeepers. Distribution of bee colonies and hives.',
+//     contactInfo: 'National Bee Board or State Agriculture Department',
+//   ),
+
+//   GovernmentScheme(
+//     id: '16',
+//     title: 'Formation and Promotion of 10,000 Farmer Producer Organizations (FPOs)',
+//     description: 'Scheme for creation of 10,000 FPOs to form and promote collectives of farmers for enhanced production, productivity, and better access to inputs, technology, and markets.',
+//     imageUrl: 'assets/fpo.png',
+//     expiryDate: DateTime(2027, 3, 31),
+//     department: 'Agriculture Department',
+//     farmingTypes: ['All'],
+//     cropTypes: ['All'],
+//     minLandSize: 0.0,
+//     maxLandSize: double.infinity,
+//     requiresAadhar: true,
+//     eligibilityCriteria: 'Group of farmers willing to form FPO. Minimum 300 farmers in plain areas and 100 farmers in North-East and hilly areas required to form an FPO.',
+//     applicationProcess: 'Apply through NABARD, NCDC, or other implementing agencies with list of farmer members, proposed business plan, and relevant documents.',
+//     benefits: 'Financial support up to ₹25 lakh per FPO for five years. Management cost of ₹18 lakh over three years. Matching equity grant up to ₹15 lakh. Credit guarantee facility. Business development services and training.',
+//     contactInfo: 'NABARD or State Agriculture Department',
+//   ),
+
+//   GovernmentScheme(
+//     id: '17',
+//     title: 'PM Formalization of Micro Food Processing Enterprises (PMFME)',
+//     description: 'Scheme to provide financial, technical, and business support for upgradation of existing micro food processing enterprises.',
+//     imageUrl: 'assets/pmfme.png',
+//     expiryDate: DateTime(2025, 3, 31),
+//     department: 'Rural Development',
+//     farmingTypes: ['All'],
+//     cropTypes: ['All'],
+//     minLandSize: 0.0,
+//     maxLandSize: double.infinity,
+//     requiresAadhar: true,
+//     eligibilityCriteria: 'Existing micro food processing enterprises, FPOs, SHGs, and producer cooperatives.',
+//     applicationProcess: 'Apply through State Food Processing Department or District Industries Center with project proposal, existing business details, and bank account information.',
+//     benefits: 'Credit-linked capital subsidy of 35% of eligible project cost with maximum ceiling of ₹10 lakh. Handholding support for DPR preparation, obtaining bank loan, technical upgradation, etc. Support to FPOs, SHGs, producer cooperatives for marketing, branding, and capacity building.',
+//     contactInfo: 'District Industries Center or State Food Processing Department',
+//   ),
+
+//   GovernmentScheme(
+//     id: '18',
+//     title: 'Soil Health Card Scheme',
+//     description: 'Issues soil health cards to farmers containing crop-wise recommendations for nutrients and fertilizers to help farmers improve productivity through judicious use of inputs.',
+//     imageUrl: 'assets/shc.png',
+//     expiryDate: DateTime(2025, 3, 31),
+//     department: 'Agriculture Department',
+//     farmingTypes: ['All'],
+//     cropTypes: ['All'],
+//     minLandSize: 0.0,
+//     maxLandSize: double.infinity,
+//     requiresAadhar: true,
+//     eligibilityCriteria: 'All farmers with agricultural land holdings.',
+//     applicationProcess: 'Register with local Agriculture Department or Krishi Vigyan Kendra. Officials will collect soil samples from farmers\' fields for testing.',
+//     benefits: 'Free soil testing. Crop-wise fertilizer recommendations based on soil nutrient status. Information on soil health parameters. Helps reduce input costs through optimal use of fertilizers.',
+//     contactInfo: 'Local Agriculture Department or Krishi Vigyan Kendra',
+//   ),
+
+//   GovernmentScheme(
+//     id: '19',
+//     title: 'Mission Organic Value Chain Development for North Eastern Region (MOVCDNER)',
+//     description: 'Supports development of certified organic production in a value chain mode to link growers with consumers in North Eastern states.',
+//     imageUrl: 'assets/movcdner.png',
+//     expiryDate: DateTime(2025, 3, 31),
+//     department: 'Agriculture Department',
+//     farmingTypes: ['Organic'],
+//     cropTypes: ['All'],
+//     minLandSize: 0.0,
+//     maxLandSize: 2.0,
+//     requiresAadhar: true,
+//     eligibilityCriteria: 'Farmers in North Eastern states interested in organic farming. Focus on small and marginal farmers.',
+//     applicationProcess: 'Apply through State Agriculture Department or designated Organic Mission office with land details and willingness to participate in organic clusters.',
+//     benefits: 'Financial assistance for conversion to organic farming, organic inputs, certification. Support for post-harvest infrastructure, processing, marketing of organic products. Formation of FPOs and training on organic farming practices.',
+//     contactInfo: 'State Agriculture Department in North Eastern states',
+//   ),
+
+//   GovernmentScheme(
+//     id: '20',
+//     title: 'Dairy Entrepreneurship Development Scheme (DEDS)',
+//     description: 'Scheme to promote setting up of modern dairy farms for production of clean milk and generate self-employment opportunities.',
+//     imageUrl: 'assets/deds.png',
+//     expiryDate: DateTime(2025, 3, 31),
+//     department: 'Animal Husbandry Department',
+//     farmingTypes: ['Dairy'],
+//     cropTypes: ['All'],
+//     minLandSize: 0.0,
+//     maxLandSize: double.infinity,
+//     requiresAadhar: true,
+//     eligibilityCriteria: 'Farmers, individual entrepreneurs, SHGs, dairy cooperatives, and companies interested in dairy sector.',
+//     applicationProcess: 'Apply through NABARD regional offices or local bank branches with project proposal and required documents.',
+//     benefits: '25% back-ended capital subsidy (33.33% for SC/ST) on eligible project costs. Support for purchase of dairy animals, construction of sheds, dairy equipment, cold chain facilities, transportation, etc. Maximum subsidy ranges from ₹20,000 to ₹30 lakh depending on activity.',
+//     contactInfo: 'NABARD regional office or bank branches',
+//   ),
+// ];
+
+//   List<GovernmentScheme> filteredSchemes = [];
+
+//   // Filter states
+//   String? selectedDepartment;
+//   String? selectedFarmingType;
+//   String? selectedCropType;
+//   RangeValues landSizeRange = const RangeValues(0.0, 10.0);
+//   bool? aadharFilter;
+//   String searchQuery = '';
+
+//   // Filter options
+//   final List<String> departments = ['All', 'Agriculture Department', 'Horticulture Department', 'Animal Husbandry Department', 'Rural Development'];
+//   final List<String> farmingTypes = ['All', 'Organic', 'Traditional', 'Dairy', 'Poultry', 'Fishery', 'Horticulture'];
+//   final List<String> cropTypes = ['All', 'Rice', 'Wheat', 'Pulses', 'Vegetables', 'Fruits', 'Cotton', 'Sugarcane'];
+
+//   @override
+//   void initState() {
+//     super.initState();
+//     filteredSchemes = List.from(allSchemes);
+//   }
+
+//   void applyFilters() {
+//     setState(() {
+//       filteredSchemes = allSchemes.where((scheme) {
+//         // Apply department filter
+//         if (selectedDepartment != null && selectedDepartment != 'All' && scheme.department != selectedDepartment) {
+//           return false;
+//         }
+
+//         // Apply farming type filter
+//         if (selectedFarmingType != null && selectedFarmingType != 'All' &&
+//             !scheme.farmingTypes.contains(selectedFarmingType) &&
+//             !scheme.farmingTypes.contains('All')) {
+//           return false;
+//         }
+
+//         // Apply crop type filter
+//         if (selectedCropType != null && selectedCropType != 'All' &&
+//             !scheme.cropTypes.contains(selectedCropType) &&
+//             !scheme.cropTypes.contains('All')) {
+//           return false;
+//         }
+
+//         // Apply land size filter
+//         if (scheme.minLandSize > landSizeRange.end || scheme.maxLandSize < landSizeRange.start) {
+//           return false;
+//         }
+
+//         // Apply Aadhar filter
+//         if (aadharFilter != null && scheme.requiresAadhar != aadharFilter) {
+//           return false;
+//         }
+
+//         // Apply search query
+//         if (searchQuery.isNotEmpty &&
+//             !scheme.title.toLowerCase().contains(searchQuery.toLowerCase()) &&
+//             !scheme.description.toLowerCase().contains(searchQuery.toLowerCase())) {
+//           return false;
+//         }
+
+//         return true;
+//       }).toList();
+//     });
+//   }
+
+//   void clearFilters() {
+//     setState(() {
+//       selectedDepartment = null;
+//       selectedFarmingType = null;
+//       selectedCropType = null;
+//       landSizeRange = const RangeValues(0.0, 10.0);
+//       aadharFilter = null;
+//       searchQuery = '';
+//       filteredSchemes = List.from(allSchemes);
+//     });
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: const Text('किसान सेतु - सरकारी योजनाएँ', style: TextStyle(fontWeight: FontWeight.bold)),
+//         backgroundColor: Colors.green,
+//         actions: [
+//           IconButton(
+//             icon: const Icon(Icons.refresh),
+//             onPressed: clearFilters,
+//             tooltip: 'सभी फिल्टर हटाएं',
+//           ),
+//         ],
+//       ),
+//       body: Column(
+//         children: [
+//           // Search bar
+//           Padding(
+//             padding: const EdgeInsets.all(16.0),
+//             child: TextField(
+//               decoration: InputDecoration(
+//                 hintText: 'योजना ढूंढें...',
+//                 prefixIcon: const Icon(Icons.search),
+//                 border: OutlineInputBorder(
+//                   borderRadius: BorderRadius.circular(12),
+//                 ),
+//                 filled: true,
+//                 fillColor: Colors.grey[100],
+//               ),
+//               onChanged: (value) {
+//                 searchQuery = value;
+//                 applyFilters();
+//               },
+//             ),
+//           ),
+
+//           // Filter button
+//           Padding(
+//             padding: const EdgeInsets.symmetric(horizontal: 16.0),
+//             child: Row(
+//               children: [
+//                 Expanded(
+//                   child: ElevatedButton.icon(
+//                     icon: const Icon(Icons.filter_list),
+//                     label: const Text('फिल्टर'),
+//                     style: ElevatedButton.styleFrom(
+//                       backgroundColor: Colors.green[700],
+//                       foregroundColor: Colors.white,
+//                       padding: const EdgeInsets.symmetric(vertical: 12),
+//                       shape: RoundedRectangleBorder(
+//                         borderRadius: BorderRadius.circular(8),
+//                       ),
+//                     ),
+//                     onPressed: () {
+//                       _showFilterSheet(context);
+//                     },
+//                   ),
+//                 ),
+//               ],
+//             ),
+//           ),
+
+//           const SizedBox(height: 10),
+
+//           // Results count
+//           Padding(
+//             padding: const EdgeInsets.symmetric(horizontal: 16.0),
+//             child: Row(
+//               children: [
+//                 Text(
+//                   '${filteredSchemes.length} योजनाएँ उपलब्ध',
+//                   style: const TextStyle(
+//                     fontWeight: FontWeight.bold,
+//                     fontSize: 16,
+//                   ),
+//                 ),
+//               ],
+//             ),
+//           ),
+
+//           const SizedBox(height: 10),
+
+//           // Schemes list
+//           Expanded(
+//             child: filteredSchemes.isEmpty
+//                 ? const Center(
+//                     child: Text(
+//                       'कोई योजना नहीं मिली!\nफिल्टर बदलकर पुनः प्रयास करें।',
+//                       textAlign: TextAlign.center,
+//                       style: TextStyle(
+//                         fontSize: 16,
+//                         color: Colors.grey,
+//                       ),
+//                     ),
+//                   )
+//                 : ListView.builder(
+//                     padding: const EdgeInsets.all(8),
+//                     itemCount: filteredSchemes.length,
+//                     itemBuilder: (context, index) {
+//                       final scheme = filteredSchemes[index];
+//                       return Card(
+//                         elevation: 3,
+//                         margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+//                         shape: RoundedRectangleBorder(
+//                           borderRadius: BorderRadius.circular(12),
+//                         ),
+//                         child: InkWell(
+//                           onTap: () {
+//                             _showSchemeDetails(context, scheme);
+//                           },
+//                           child: Column(
+//                             crossAxisAlignment: CrossAxisAlignment.start,
+//                             children: [
+//                               // Scheme image with expiry badge
+//                               Stack(
+//                                 children: [
+//                                   ClipRRect(
+//                                     borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
+//                                     child: Image.asset(
+//                                       scheme.imageUrl,
+//                                       height: 150,
+//                                       width: double.infinity,
+//                                       fit: BoxFit.cover,
+//                                       errorBuilder: (context, error, stackTrace) {
+//                                         return Container(
+//                                           height: 150,
+//                                           color: Colors.green[100],
+//                                           child: Center(
+//                                             child: Icon(
+//                                               Icons.eco,
+//                                               color: Colors.green[800],
+//                                               size: 50,
+//                                             ),
+//                                           ),
+//                                         );
+//                                       },
+//                                     ),
+//                                   ),
+//                                   Positioned(
+//                                     top: 10,
+//                                     right: 10,
+//                                     child: Container(
+//                                       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+//                                       decoration: BoxDecoration(
+//                                         color: scheme.expiryDate.isAfter(DateTime.now().add(const Duration(days: 30)))
+//                                             ? Colors.green
+//                                             : Colors.orange,
+//                                         borderRadius: BorderRadius.circular(20),
+//                                       ),
+//                                       child: Text(
+//                                         'समाप्ति: ${scheme.expiryDate.day}/${scheme.expiryDate.month}/${scheme.expiryDate.year}',
+//                                         style: const TextStyle(
+//                                           color: Colors.white,
+//                                           fontSize: 12,
+//                                           fontWeight: FontWeight.bold,
+//                                         ),
+//                                       ),
+//                                     ),
+//                                   ),
+//                                 ],
+//                               ),
+//                               // Scheme information
+//                               Padding(
+//                                 padding: const EdgeInsets.all(12),
+//                                 child: Column(
+//                                   crossAxisAlignment: CrossAxisAlignment.start,
+//                                   children: [
+//                                     Text(
+//                                       scheme.title,
+//                                       style: const TextStyle(
+//                                         fontSize: 18,
+//                                         fontWeight: FontWeight.bold,
+//                                       ),
+//                                     ),
+//                                     const SizedBox(height: 8),
+//                                     Text(
+//                                       scheme.description,
+//                                       style: TextStyle(
+//                                         fontSize: 14,
+//                                         color: Colors.grey[700],
+//                                       ),
+//                                       maxLines: 2,
+//                                       overflow: TextOverflow.ellipsis,
+//                                     ),
+//                                     const SizedBox(height: 12),
+//                                     Row(
+//                                       children: [
+//                                         Chip(
+//                                           label: Text(scheme.department),
+//                                           backgroundColor: Colors.green[100],
+//                                           labelStyle: TextStyle(
+//                                             color: Colors.green[800],
+//                                             fontSize: 12,
+//                                           ),
+//                                         ),
+//                                         const SizedBox(width: 8),
+//                                         if (scheme.maxLandSize != double.infinity)
+//                                           Chip(
+//                                             label: Text('${scheme.minLandSize}-${scheme.maxLandSize} हेक्टेयर'),
+//                                             backgroundColor: Colors.blue[100],
+//                                             labelStyle: TextStyle(
+//                                               color: Colors.blue[800],
+//                                               fontSize: 12,
+//                                             ),
+//                                           ),
+//                                       ],
+//                                     ),
+//                                     const SizedBox(height: 8),
+//                                     Row(
+//                                       mainAxisAlignment: MainAxisAlignment.end,
+//                                       children: [
+//                                         TextButton.icon(
+//                                           icon: const Icon(Icons.info_outline),
+//                                           label: const Text('अधिक जानकारी'),
+//                                           onPressed: () {
+//                                             _showSchemeDetails(context, scheme);
+//                                           },
+//                                         ),
+//                                       ],
+//                                     ),
+//                                   ],
+//                                 ),
+//                               ),
+//                             ],
+//                           ),
+//                         ),
+//                       );
+//                     },
+//                   ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+
+//   void _showFilterSheet(BuildContext context) {
+//     showModalBottomSheet(
+//       context: context,
+//       isScrollControlled: true,
+//       shape: const RoundedRectangleBorder(
+//         borderRadius: BorderRadius.vertical(
+//           top: Radius.circular(20),
+//         ),
+//       ),
+//       builder: (context) {
+//         return StatefulBuilder(
+//           builder: (context, setModalState) {
+//             return DraggableScrollableSheet(
+//               initialChildSize: 0.7,
+//               minChildSize: 0.5,
+//               maxChildSize: 0.9,
+//               expand: false,
+//               builder: (context, scrollController) {
+//                 return Container(
+//                   padding: const EdgeInsets.all(16),
+//                   child: ListView(
+//                     controller: scrollController,
+//                     children: [
+//                       // Header
+//                       const Row(
+//                         children: [
+//                           Icon(Icons.filter_list, size: 24),
+//                           SizedBox(width: 8),
+//                           Text(
+//                             'योजनाएँ फ़िल्टर करें',
+//                             style: TextStyle(
+//                               fontSize: 20,
+//                               fontWeight: FontWeight.bold,
+//                             ),
+//                           ),
+//                         ],
+//                       ),
+//                       const Divider(thickness: 1),
+//                       const SizedBox(height: 16),
+
+//                       // Department filter
+//                       const Text(
+//                         'विभाग',
+//                         style: TextStyle(
+//                           fontSize: 16,
+//                           fontWeight: FontWeight.bold,
+//                         ),
+//                       ),
+//                       const SizedBox(height: 8),
+//                       Wrap(
+//                         spacing: 8,
+//                         children: departments.map((department) {
+//                           return ChoiceChip(
+//                             label: Text(department),
+//                             selected: selectedDepartment == department,
+//                             onSelected: (selected) {
+//                               setModalState(() {
+//                                 selectedDepartment = selected ? department : null;
+//                               });
+//                             },
+//                             backgroundColor: Colors.grey[100],
+//                             selectedColor: Colors.green[100],
+//                             labelStyle: TextStyle(
+//                               color: selectedDepartment == department ? Colors.green[800] : Colors.black,
+//                             ),
+//                           );
+//                         }).toList(),
+//                       ),
+//                       const SizedBox(height: 16),
+
+//                       // Farming type filter
+//                       const Text(
+//                         'खेती का प्रकार',
+//                         style: TextStyle(
+//                           fontSize: 16,
+//                           fontWeight: FontWeight.bold,
+//                         ),
+//                       ),
+//                       const SizedBox(height: 8),
+//                       Wrap(
+//                         spacing: 8,
+//                         children: farmingTypes.map((type) {
+//                           return ChoiceChip(
+//                             label: Text(type),
+//                             selected: selectedFarmingType == type,
+//                             onSelected: (selected) {
+//                               setModalState(() {
+//                                 selectedFarmingType = selected ? type : null;
+//                               });
+//                             },
+//                             backgroundColor: Colors.grey[100],
+//                             selectedColor: Colors.green[100],
+//                             labelStyle: TextStyle(
+//                               color: selectedFarmingType == type ? Colors.green[800] : Colors.black,
+//                             ),
+//                           );
+//                         }).toList(),
+//                       ),
+//                       const SizedBox(height: 16),
+
+//                       // Crop type filter
+//                       const Text(
+//                         'फसल का प्रकार',
+//                         style: TextStyle(
+//                           fontSize: 16,
+//                           fontWeight: FontWeight.bold,
+//                         ),
+//                       ),
+//                       const SizedBox(height: 8),
+//                       Wrap(
+//                         spacing: 8,
+//                         children: cropTypes.map((crop) {
+//                           return ChoiceChip(
+//                             label: Text(crop),
+//                             selected: selectedCropType == crop,
+//                             onSelected: (selected) {
+//                               setModalState(() {
+//                                 selectedCropType = selected ? crop : null;
+//                               });
+//                             },
+//                             backgroundColor: Colors.grey[100],
+//                             selectedColor: Colors.green[100],
+//                             labelStyle: TextStyle(
+//                               color: selectedCropType == crop ? Colors.green[800] : Colors.black,
+//                             ),
+//                           );
+//                         }).toList(),
+//                       ),
+//                       const SizedBox(height: 16),
+
+//                       // Land size filter
+//                       Row(
+//                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                         children: [
+//                           const Text(
+//                             'भूमि का आकार (हेक्टेयर)',
+//                             style: TextStyle(
+//                               fontSize: 16,
+//                               fontWeight: FontWeight.bold,
+//                             ),
+//                           ),
+//                           Text(
+//                             '${landSizeRange.start.toStringAsFixed(1)} - ${landSizeRange.end.toStringAsFixed(1)} हे.',
+//                             style: const TextStyle(
+//                               fontWeight: FontWeight.bold,
+//                             ),
+//                           ),
+//                         ],
+//                       ),
+//                       const SizedBox(height: 8),
+//                       RangeSlider(
+//                         values: landSizeRange,
+//                         min: 0.0,
+//                         max: 10.0,
+//                         divisions: 20,
+//                         labels: RangeLabels(
+//                           landSizeRange.start.toStringAsFixed(1),
+//                           landSizeRange.end.toStringAsFixed(1),
+//                         ),
+//                         onChanged: (RangeValues values) {
+//                           setModalState(() {
+//                             landSizeRange = values;
+//                           });
+//                         },
+//                         activeColor: Colors.green,
+//                         inactiveColor: Colors.green[100],
+//                       ),
+//                       const SizedBox(height: 16),
+
+//                       // Aadhar requirement filter
+//                       const Text(
+//                         'आधार आवश्यकता',
+//                         style: TextStyle(
+//                           fontSize: 16,
+//                           fontWeight: FontWeight.bold,
+//                         ),
+//                       ),
+//                       const SizedBox(height: 8),
+//                       Row(
+//                         children: [
+//                           ChoiceChip(
+//                             label: const Text('आधार जरूरी'),
+//                             selected: aadharFilter == true,
+//                             onSelected: (selected) {
+//                               setModalState(() {
+//                                 aadharFilter = selected ? true : null;
+//                               });
+//                             },
+//                             backgroundColor: Colors.grey[100],
+//                             selectedColor: Colors.green[100],
+//                             labelStyle: TextStyle(
+//                               color: aadharFilter == true ? Colors.green[800] : Colors.black,
+//                             ),
+//                           ),
+//                           const SizedBox(width: 8),
+//                           ChoiceChip(
+//                             label: const Text('आधार जरूरी नहीं'),
+//                             selected: aadharFilter == false,
+//                             onSelected: (selected) {
+//                               setModalState(() {
+//                                 aadharFilter = selected ? false : null;
+//                               });
+//                             },
+//                             backgroundColor: Colors.grey[100],
+//                             selectedColor: Colors.green[100],
+//                             labelStyle: TextStyle(
+//                               color: aadharFilter == false ? Colors.green[800] : Colors.black,
+//                             ),
+//                           ),
+//                         ],
+//                       ),
+//                       const SizedBox(height: 24),
+
+//                       // Apply and Clear buttons
+//                       Row(
+//                         children: [
+//                           Expanded(
+//                             child: OutlinedButton(
+//                               onPressed: () {
+//                                 setModalState(() {
+//                                   selectedDepartment = null;
+//                                   selectedFarmingType = null;
+//                                   selectedCropType = null;
+//                                   landSizeRange = const RangeValues(0.0, 10.0);
+//                                   aadharFilter = null;
+//                                 });
+//                               },
+//                               style: OutlinedButton.styleFrom(
+//                                 padding: const EdgeInsets.symmetric(vertical: 12),
+//                                 side: BorderSide(color: Colors.green[700]!),
+//                                 shape: RoundedRectangleBorder(
+//                                   borderRadius: BorderRadius.circular(8),
+//                                 ),
+//                               ),
+//                               child: Text(
+//                                 'रीसेट',
+//                                 style: TextStyle(color: Colors.green[700]),
+//                               ),
+//                             ),
+//                           ),
+//                           const SizedBox(width: 16),
+//                           Expanded(
+//                             child: ElevatedButton(
+//                               onPressed: () {
+//                                 applyFilters();
+//                                 Navigator.pop(context);
+//                               },
+//                               style: ElevatedButton.styleFrom(
+//                                 backgroundColor: Colors.green[700],
+//                                 foregroundColor: Colors.white,
+//                                 padding: const EdgeInsets.symmetric(vertical: 12),
+//                                 shape: RoundedRectangleBorder(
+//                                   borderRadius: BorderRadius.circular(8),
+//                                 ),
+//                               ),
+//                               child: const Text('लागू करें'),
+//                             ),
+//                           ),
+//                         ],
+//                       ),
+//                     ],
+//                   ),
+//                 );
+//               },
+//             );
+//           },
+//         );
+//       },
+//     );
+//   }
+
+//   void _showSchemeDetails(BuildContext context, GovernmentScheme scheme) {
+//     showModalBottomSheet(
+//       context: context,
+//       isScrollControlled: true,
+//       shape: const RoundedRectangleBorder(
+//         borderRadius: BorderRadius.vertical(
+//           top: Radius.circular(20),
+//         ),
+//       ),
+//       builder: (context) {
+//         return DraggableScrollableSheet(
+//           initialChildSize: 0.8,
+//           minChildSize: 0.5,
+//           maxChildSize: 0.95,
+//           expand: false,
+//           builder: (context, scrollController) {
+//             return Container(
+//               padding: const EdgeInsets.all(16),
+//               child: ListView(
+//                 controller: scrollController,
+//                 children: [
+//                   // Scheme title
+//                   Text(
+//                     scheme.title,
+//                     style: const TextStyle(
+//                       fontSize: 24,
+//                       fontWeight: FontWeight.bold,
+//                     ),
+//                   ),
+//                   const SizedBox(height: 16),
+
+//                   // Scheme image
+//                   ClipRRect(
+//                     borderRadius: BorderRadius.circular(12),
+//                     child: Image.asset(
+//                       scheme.imageUrl,
+//                       height: 200,
+//                       width: double.infinity,
+//                       fit: BoxFit.cover,
+//                       errorBuilder: (context, error, stackTrace) {
+//                         return Container(
+//                           height: 200,
+//                           decoration: BoxDecoration(
+//                             color: Colors.green[100],
+//                             borderRadius: BorderRadius.circular(12),
+//                           ),
+//                           child: Center(
+//                             child: Icon(
+//                               Icons.eco,
+//                               color: Colors.green[800],
+//                               size: 64,
+//                             ),
+//                           ),
+//                         );
+//                       },
+//                     ),
+//                   ),
+//                   const SizedBox(height: 16),
+
+//                   // Department and expiry date
+//                   Row(
+//                     children: [
+//                       Chip(
+//                         label: Text(scheme.department),
+//                         backgroundColor: Colors.green[100],
+//                         labelStyle: TextStyle(
+//                           color: Colors.green[800],
+//                         ),
+//                       ),
+//                       const SizedBox(width: 8),
+//                       Chip(
+//                         label: Text('समाप्ति: ${scheme.expiryDate.day}/${scheme.expiryDate.month}/${scheme.expiryDate.year}'),
+//                         backgroundColor: scheme.expiryDate.isAfter(DateTime.now().add(const Duration(days: 30)))
+//                             ? Colors.green[100]
+//                             : Colors.orange[100],
+//                         labelStyle: TextStyle(
+//                           color: scheme.expiryDate.isAfter(DateTime.now().add(const Duration(days: 30)))
+//                               ? Colors.green[800]
+//                               : Colors.orange[800],
+//                         ),
+//                       ),
+//                     ],
+//                   ),
+//                   const SizedBox(height: 16),
+
+//                   // Description
+//                   const Text(
+//                     'विवरण',
+//                     style: TextStyle(
+//                       fontSize: 18,
+//                       fontWeight: FontWeight.bold,
+//                     ),
+//                   ),
+//                   const SizedBox(height: 8),
+//                   Text(
+//                     scheme.description,
+//                     style: const TextStyle(
+//                       fontSize: 16,
+//                     ),
+//                   ),
+//                   const Divider(height: 32),
+
+//                   // Benefits
+//                   const Text(
+//                     'लाभ',
+//                     style: TextStyle(
+//                       fontSize: 18,
+//                       fontWeight: FontWeight.bold,
+//                     ),
+//                   ),
+//                   const SizedBox(height: 8),
+//                   Text(
+//                     scheme.benefits,
+//                     style: const TextStyle(
+//                       fontSize: 16,
+//                     ),
+//                   ),
+//                   const Divider(height: 32),
+
+//                   // Eligibility criteria
+//                   const Text(
+//                     'पात्रता मानदंड',
+//                     style: TextStyle(
+//                       fontSize: 18,
+//                       fontWeight: FontWeight.bold,
+//                     ),
+//                   ),
+//                   const SizedBox(height: 8),
+//                   Text(
+//                     scheme.eligibilityCriteria,
+//                     style: const TextStyle(
+//                       fontSize: 16,
+//                     ),
+//                   ),
+//                   const SizedBox(height: 8),
+//                   if (scheme.minLandSize > 0 || scheme.maxLandSize < double.infinity)
+//                     ListTile(
+//                       leading: const Icon(Icons.landscape, color: Colors.green),
+//                       title: const Text('भूमि का आकार'),
+//                       subtitle: Text(
+//                         '${scheme.minLandSize} से ${scheme.maxLandSize == double.infinity ? "अधिकतम सीमा नहीं" : "${scheme.maxLandSize} हेक्टेयर"}',
+//                       ),
+//                       dense: true,
+//                     ),
+//                   ListTile(
+//                     leading: const Icon(Icons.badge, color: Colors.green),
+//                     title: const Text('आधार आवश्यकता'),
+//                     subtitle: Text(
+//                       scheme.requiresAadhar ? 'आधार कार्ड आवश्यक है' : 'आधार कार्ड आवश्यक नहीं है',
+//                     ),
+//                     dense: true,
+//                   ),
+//                   const Divider(height: 32),
+
+//                   // Application process
+//                   const Text(
+//                     'आवेदन प्रक्रिया',
+//                     style: TextStyle(
+//                       fontSize: 18,
+//                       fontWeight: FontWeight.bold,
+//                     ),
+//                   ),
+//                   const SizedBox(height: 8),
+//                   Text(
+//                     scheme.applicationProcess,
+//                     style: const TextStyle(
+//                       fontSize: 16,
+//                     ),
+//                   ),
+//                   const Divider(height: 32),
+
+//                   // Contact information
+//                   const Text(
+//                     'संपर्क जानकारी',
+//                     style: TextStyle(
+//                       fontSize: 18,
+//                       fontWeight: FontWeight.bold,
+//                     ),
+//                   ),
+//                   const SizedBox(height: 8),
+//                   ListTile(
+//                     leading: const Icon(Icons.phone, color: Colors.green),
+//                     title: Text(scheme.contactInfo),
+//                     onTap: () {
+//                       // Implement phone call functionality
+//                     },
+//                   ),
+//                   const SizedBox(height: 24),
+
+//                   // Apply button
+//                   ElevatedButton(
+//                     onPressed: () {
+//                       // Implement apply functionality
+//                       Navigator.pop(context);
+//                       ScaffoldMessenger.of(context).showSnackBar(
+//                         const SnackBar(
+//                           content: Text('आवेदन प्रक्रिया शुरू की गई'),
+//                           backgroundColor: Colors.green,
+//                         ),
+//                       );
+//                     },
+//                     style: ElevatedButton.styleFrom(
+//                       backgroundColor: Colors.green[700],
+//                       foregroundColor: Colors.white,
+//                       padding: const EdgeInsets.symmetric(vertical: 16),
+//                       shape: RoundedRectangleBorder(
+//                         borderRadius: BorderRadius.circular(8),
+//                       ),
+//                     ),
+//                     child: const Text(
+//                       'अभी आवेदन करें',
+//                       style: TextStyle(
+//                         fontSize: 16,
+//                         fontWeight: FontWeight.bold,
+//                       ),
+//                     ),
+//                   ),
+//                 ],
+//               ),
+//             );
+//           },
+//         );
+//       },
+//     );
+//   }
+// }
+
+import 'package:flutter/material.dart';
+import 'package:kisaansetu/l10n/app_localizations.dart';
+import 'dart:core';
+
+class GovernmentScheme {
+  final String id;
+  final Map<String, String> title; // Language code to title
+  final Map<String, String> description;
+  final String imageUrl;
+  final DateTime expiryDate;
+  final Map<String, String>
+  department; // Department name in different languages
+  final List<String>
+  farmingTypes; // These could also be made multilingual if needed
+  final List<String> cropTypes;
+  final double minLandSize;
+  final double maxLandSize;
+  final bool requiresAadhar;
+  final Map<String, String> eligibilityCriteria;
+  final Map<String, String> applicationProcess;
+  final Map<String, String> benefits;
+  final Map<String, String> contactInfo;
+
+  GovernmentScheme({
+    required this.id,
+    required this.title,
+    required this.description,
+    required this.imageUrl,
+    required this.expiryDate,
+    required this.department,
+    required this.farmingTypes,
+    required this.cropTypes,
+    this.minLandSize = 0.0,
+    this.maxLandSize = double.infinity,
+    this.requiresAadhar = true,
+    required this.eligibilityCriteria,
+    required this.applicationProcess,
+    required this.benefits,
+    required this.contactInfo,
+  });
+
+  Map<String, String> createLocalizedText(String englishText) {
+    return {'en': englishText};
+  }
+
+  // Helper methods to get localized strings
+  String getLocalizedTitle(BuildContext context) {
+    final locale = AppLocalizations.of(context).locale.languageCode;
+    return title[locale] ?? title['en'] ?? '';
+  }
+
+  String getLocalizedDescription(BuildContext context) {
+    final locale = AppLocalizations.of(context).locale.languageCode;
+    return description[locale] ?? description['en'] ?? '';
+  }
+
+  String getLocalizedDepartment(BuildContext context) {
+    final locale = AppLocalizations.of(context).locale.languageCode;
+    return department[locale] ?? department['en'] ?? '';
+  }
+
+  String getLocalizedEligibility(BuildContext context) {
+    final locale = AppLocalizations.of(context).locale.languageCode;
+    return eligibilityCriteria[locale] ?? eligibilityCriteria['en'] ?? '';
+  }
+
+  String getLocalizedApplicationProcess(BuildContext context) {
+    final locale = AppLocalizations.of(context).locale.languageCode;
+    return applicationProcess[locale] ?? applicationProcess['en'] ?? '';
+  }
+
+  String getLocalizedBenefits(BuildContext context) {
+    final locale = AppLocalizations.of(context).locale.languageCode;
+    return benefits[locale] ?? benefits['en'] ?? '';
+  }
+
+  String getLocalizedContactInfo(BuildContext context) {
+    final locale = AppLocalizations.of(context).locale.languageCode;
+    return contactInfo[locale] ?? contactInfo['en'] ?? '';
+  }
+}
+
+class GovernmentSchemesScreen extends StatefulWidget {
+  const GovernmentSchemesScreen({Key? key}) : super(key: key);
+
+  @override
+  _GovernmentSchemesScreenState createState() =>
+      _GovernmentSchemesScreenState();
+}
+
+class _GovernmentSchemesScreenState extends State<GovernmentSchemesScreen> {
+  // Sample data - replace with your actual data source
+  // Add this data to your GovernmentSchemesScreen class
+  final List<GovernmentScheme> allSchemes = [
+    GovernmentScheme(
+      id: '1',
+      title: {
+        'en': 'PM Kisan Samman Nidhi',
+        'hi': 'पीएम किसान सम्मान निधि',
+        'pa': 'ਪੀਐਮ ਕਿਸਾਨ ਸਮਮਾਨ ਨਿਧੀ',
+        'bn': 'পিএম কিসান সম্মান নিধি',
+        'ta': 'பிஎம் கிசான் சம்மான் நிதி',
+        'te': 'పీఎం కిసాన్ సమ్మాన్ నిధి',
+        'mr': 'पीएम किसान सम्मान निधी',
+        'gu': 'પીએમ કિસાન સમ્માન નિધિ',
+      },
+      description: {
+        'en':
+            'Direct income support of ₹6,000 per year for all landholding farmer families in the country in three equal installments of ₹2,000 each every four months.',
+        'hi':
+            'देश के सभी भूमिधारक किसान परिवारों को प्रति वर्ष ₹6,000 की प्रत्यक्ष आय सहायता, हर चार महीने में ₹2,000 की तीन समान किस्तों में।',
+        'pa':
+            'ਦੇਸ਼ ਦੇ ਸਾਰੇ ਜ਼ਮੀਨਦਾਰ ਕਿਸਾਨ ਪਰਿਵਾਰਾਂ ਲਈ ਸਾਲਾਨਾ ₹6,000 ਦੀ ਸਿੱਧੀ ਆਮਦਨੀ ਸਹਾਇਤਾ, ਹਰ ਚਾਰ ਮਹੀਨਿਆਂ ਵਿੱਚ ₹2,000 ਦੀਆਂ ਤਿੰਨ ਬਰਾਬਰ ਕਿਸਤਾਂ ਵਿੱਚ।',
+        'bn':
+            'দেশের সমস্ত ভূমিধারী কৃষক পরিবারকে বছরে ₹৬,০০০ এর প্রত্যক্ষ আয় সহায়তা, প্রতি চার মাসে ₹২,০০০ করে তিনটি সমান কিস্তিতে।',
+        'ta':
+            'நாட்டின் அனைத்து நில உரிமை விவசாயிகளுக்கும் ஆண்டுக்கு ₹6,000 நேரடி வருமான உதவி, ஒவ்வொரு நான்கு மாதங்களுக்கும் ₹2,000 வீதம் மூன்று சம தவணைகளில்.',
+        'te':
+            'దేశంలోని అన్ని భూస్వామికి కుటుంబాలకు సంవత్సరానికి ₹6,000 ప్రత్యక్ష ఆదాయ మద్దతు, ప్రతి నాలుగు నెలలకు ₹2,000 చొప్పున మూడు సమాన భాగాల్లో.',
+        'mr':
+            'देशातील सर्व जमीनधारक शेतकरी कुटुंबांना दरवर्षी ₹६,००० ची थेट उत्पन्न आधार, दर चार महिन्यांनी ₹२,००० च्या तीन समान हप्त्यांमध्ये.',
+        'gu':
+            'દેશના તમામ જમીનધારક ખેડૂત પરિવારો માટે વાર્ષિક ₹6,000 ની સીધી આવક ટેકો, દર ચાર મહિને ₹2,000 ની ત્રણ સમાન હપ્તામાં.',
+      },
+      imageUrl: 'assets/pmkisan.png',
+      expiryDate: DateTime(2025, 12, 31),
+      department: {
+        'en': 'Agriculture Department',
+        'hi': 'कृषि विभाग',
+        'pa': 'ਖੇਤੀਬਾੜੀ ਵਿਭਾਗ',
+        'bn': 'কৃষি বিভাগ',
+        'ta': 'விவசாயத் துறை',
+        'te': 'వ్యవసాయ శాఖ',
+        'mr': 'कृषी विभाग',
+        'gu': 'કૃષિ વિભાગ',
+      },
+      farmingTypes: ['All'],
+      cropTypes: ['All'],
+      minLandSize: 0.0,
+      maxLandSize: double.infinity,
+      requiresAadhar: true,
+      eligibilityCriteria: {
+        'en':
+            'All landholding farmer families with cultivable land. Institutional landholders are not eligible.',
+        'hi':
+            'कृषि योग्य भूमि वाले सभी भूमिधारक किसान परिवार। संस्थागत भूमिधारक पात्र नहीं हैं।',
+        'pa':
+            'ਖੇਤੀਯੋਗ ਜ਼ਮੀਨ ਵਾਲੇ ਸਾਰੇ ਜ਼ਮੀਨਦਾਰ ਕਿਸਾਨ ਪਰਿਵਾਰ। ਸੰਸਥਾਗਤ ਜ਼ਮੀਨਦਾਰ ਪਾਤਰ ਨਹੀਂ ਹਨ।',
+        'bn':
+            'চাষযোগ্য জমি সহ সমস্ত ভূমিধারী কৃষক পরিবার। প্রাতিষ্ঠানিক জমির মালিকেরা যোগ্য নন।',
+        'ta':
+            'விளைநிலம் கொண்ட அனைத்து நில உரிமையாளர் விவசாயிக் குடும்பங்கள். நிறுவன நில உரிமையாளர்கள் தகுதியற்றவர்கள்.',
+        'te':
+            'సాగు భూమి ఉన్న అన్ని భూస్వామికి కుటుంబాలు. సంస్థాగత భూస్వామికి అర్హులు కాదు.',
+        'mr':
+            'लागवडीची जमीन असलेले सर्व जमीनधारक शेतकरी कुटुंब. संस्थात्मक जमीनधारक पात्र नाहीत.',
+        'gu':
+            'ખેડાયોગ જમીન ધરાવતા તમામ જમીનધારક ખેડૂત પરિવારો. સંસ્થાગત જમીનધારકો પાત્ર નથી.',
+      },
+      applicationProcess: {
+        'en':
+            'Register online through the PM-KISAN portal (pmkisan.gov.in) or visit nearest Agriculture Office/Common Service Center. Documents required: Aadhaar card, land records, bank account details.',
+        'hi':
+            'PM-KISAN पोर्टल (pmkisan.gov.in) के माध्यम से ऑनलाइन पंजीकरण करें या नजदीकी कृषि कार्यालय/सामान्य सेवा केंद्र पर जाएं। आवश्यक दस्तावेज: आधार कार्ड, भूमि रिकॉर्ड, बैंक खाता विवरण।',
+        'pa':
+            'PM-KISAN ਪੋਰਟਲ (pmkisan.gov.in) ਰਾਹੀਂ ਔਨਲਾਈਨ ਰਜਿਸਟਰ ਕਰੋ ਜਾਂ ਨਜ਼ਦੀਕੀ ਖੇਤੀਬਾੜੀ ਦਫਤਰ/ਕਾਮਨ ਸਰਵਿਸ ਸੈਂਟਰ \'ਤੇ ਜਾਓ। ਲੋੜੀਂਦੇ ਦਸਤਾਵੇਜ਼: ਆਧਾਰ ਕਾਰਡ, ਜ਼ਮੀਨ ਦੇ ਰਿਕਾਰਡ, ਬੈਂਕ ਖਾਤੇ ਦੇ ਵੇਰਵੇ।',
+        'bn':
+            'PM-KISAN পোর্টাল (pmkisan.gov.in) এর মাধ্যমে অনলাইনে নিবন্ধন করুন অথবা নিকটস্থ কৃষি অফিস/কমন সার্ভিস সেন্টারে যান। প্রয়োজনীয় নথি: আধার কার্ড, জমির রেকর্ড, ব্যাংক অ্যাকাউন্টের বিবরণ।',
+        'ta':
+            'PM-KISAN போர்ட்டல் (pmkisan.gov.in) மூலம் ஆன்லைனில் பதிவு செய்யவும் அல்லது அருகிலுள்ள வேளாண்மை அலுவலகம்/பொது சேவை மையத்தைப் பார்வையிடவும். தேவையான ஆவணங்கள்: ஆதார் அட்டை, நில பதிவேடுகள், வங்கி கணக்கு விவரங்கள்.',
+        'te':
+            'PM-KISAN పోర్టల్ (pmkisan.gov.in) ద్వారా ఆన్లైన్‌లో నమోదు చేసుకోండి లేదా దగ్గర్లోని వ్యవసాయ కార్యాలయం/కామన్ సర్వీస్ సెంటర్‌కు సంప్రదించండి. అవసరమైన పత్రాలు: ఆధార్ కార్డ్, భూమి రికార్డులు, బ్యాంక్ ఖాతా వివరాలు.',
+        'mr':
+            'PM-KISAN पोर्टल (pmkisan.gov.in) मार्गे ऑनलाइन नोंदणी करा किंवा जवळच्या कृषी कार्यालय/सामान्य सेवा केंद्रावर जा. आवश्यक कागदपत्रे: आधार कार्ड, जमीन नोंदी, बँक खात्याची माहिती.',
+        'gu':
+            'PM-KISAN પોર્ટલ (pmkisan.gov.in) દ્વારા ઑનલાઇન નોંધણી કરો અથવા નજીકના એગ્રિકલ્ચર ઑફિસ/કોમન સર્વિસ સેન્ટરની મુલાકાત લો. જરૂરી દસ્તાવેજો: આધાર કાર્ડ, જમીન રેકોર્ડ્સ, બેંક એકાઉન્ટ વિગતો.',
+      },
+      benefits: {
+        'en':
+            '₹6,000 per year in three equal installments of ₹2,000 each, transferred directly to farmers\' bank accounts.',
+        'hi':
+            'प्रत्येक ₹2,000 की तीन समान किस्तों में प्रति वर्ष ₹6,000, सीधे किसानों के बैंक खातों में हस्तांतरित।',
+        'pa':
+            'ਹਰੇਕ ₹2,000 ਦੀਆਂ ਤਿੰਨ ਬਰਾਬਰ ਕਿਸਤਾਂ ਵਿੱਚ ਸਾਲਾਨਾ ₹6,000, ਸਿੱਧਾ ਕਿਸਾਨਾਂ ਦੇ ਬੈਂਕ ਖਾਤਿਆਂ ਵਿੱਚ ਟ੍ਰਾਂਸਫਰ ਕੀਤਾ ਜਾਂਦਾ ਹੈ।',
+        'bn':
+            'প্রতি বছর ₹৬,০০০, প্রতিটি ₹২,০০০ করে তিনটি সমান কিস্তিতে, সরাসরি কৃষকদের ব্যাংক অ্যাকাউন্টে স্থানান্তরিত।',
+        'ta':
+            'ஆண்டுக்கு ₹6,000, ஒவ்வொன்றும் ₹2,000 என்று மூன்று சம தவணைகளில், நேரடியாக விவசாயிகளின் வங்கி கணக்குகளுக்கு மாற்றப்படும்.',
+        'te':
+            'సంవత్సరానికి ₹6,000, ప్రతి ₹2,000 చొప్పున మూడు సమాన భాగాల్లో, నేరుగా రైతుల బ్యాంక్ ఖాతాలకు బదిలీ చేయబడుతుంది.',
+        'mr':
+            'दरवर्षी ₹६,०००, प्रत्येकी ₹२,००० अशा तीन समान हप्त्यांमध्ये, थेट शेतकऱ्यांच्या बँक खात्यात हस्तांतरित.',
+        'gu':
+            'વાર્ષિક ₹6,000, દરેક ₹2,000 ની ત્રણ સમાન હપ્તામાં, સીધા ખેડૂતોના બેંક ખાતામાં ટ્રાન્સફર થાય છે.',
+      },
+      contactInfo: {
+        'en': 'PM-KISAN Helpline: 155261 or 1800-115-526',
+        'hi': 'पीएम-किसान हेल्पलाइन: 155261 या 1800-115-526',
+        'pa': 'PM-KISAN ਹੈਲਪਲਾਈਨ: 155261 ਜਾਂ 1800-115-526',
+        'bn': 'পিএম-কিসান হেল্পলাইন: 155261 বা 1800-115-526',
+        'ta': 'பிஎம்-கிசான் உதவி மையம்: 155261 அல்லது 1800-115-526',
+        'te': 'PM-KISAN హెల్ప్‌లైన్: 155261 లేదా 1800-115-526',
+        'mr': 'पीएम-किसान हेल्पलाइन: 155261 किंवा 1800-115-526',
+        'gu': 'PM-KISAN હેલ્પલાઇન: 155261 અથવા 1800-115-526',
+      },
+    ),
+
+    GovernmentScheme(
+      id: '2',
+      title: {
+        'en': 'Pradhan Mantri Fasal Bima Yojana (PMFBY)',
+        'hi': 'प्रधानमंत्री फसल बीमा योजना',
+        'pa': 'ਪ੍ਰਧਾਨ ਮੰਤਰੀ ਫਸਲ ਬੀਮਾ ਯੋਜਨਾ',
+        'bn': 'প্রধানমন্ত্রী ফসল বীমা যোজনা',
+        'ta': 'பிரதமர் பயிர் காப்பீட்டுத் திட்டம்',
+        'te': 'ప్రధాన మంత్రి పంట బీమా యోజన',
+        'mr': 'प्रधानमंत्री फसल विमा योजना',
+        'gu': 'પ્રધાનમંત્રી ફસલ બીમા યોજના',
+      },
+      description: {
+        'en':
+            'Crop insurance scheme providing financial support for crop loss/damage',
+        'hi': 'फसल हानि/क्षति के लिए वित्तीय सहायता प्रदान करने वाली योजना',
+        'pa': 'ਫਸਲ ਦੇ ਨੁਕਸਾਨ/ਨੁਕਸਾਨ ਲਈ ਵਿੱਤੀ ਸਹਾਇਤਾ ਪ੍ਰਦਾਨ ਕਰਨ ਵਾਲੀ ਯੋਜਨਾ',
+        'bn': 'ফসলের ক্ষতির জন্য আর্থিক সহায়তা প্রদানের প্রকল্প',
+        'ta': 'பயிர் இழப்புக்கான நிதி உதவி திட்டம்',
+        'te': 'పంట నష్టానికి ఆర్థిక సహాయం అందించే పథకం',
+        'mr': 'पिकाच्या नुकसानीसाठी आर्थिक मदत देणारी योजना',
+        'gu': 'પાકના નુકસાન માટે આર્થિક સહાય આપતી યોજના',
+      },
+      imageUrl: 'assets/pmfby.png',
+      expiryDate: DateTime(2025, 3, 31),
+      department: {
+        'en': 'Agriculture Department',
+        'hi': 'कृषि विभाग',
+        'pa': 'ਖੇਤੀਬਾੜੀ ਵਿਭਾਗ',
+        'bn': 'কৃষি বিভাগ',
+        'ta': 'விவசாயத் துறை',
+        'te': 'వ్యవసాయ శాఖ',
+        'mr': 'कृषी विभाग',
+        'gu': 'કૃષિ વિભાગ',
+      },
+      farmingTypes: ['All'],
+      cropTypes: [
+        'Rice',
+        'Wheat',
+        'Pulses',
+        'Cotton',
+        'Sugarcane',
+        'Fruits',
+        'Vegetables',
+      ],
+      minLandSize: 0.0,
+      maxLandSize: double.infinity,
+      requiresAadhar: true,
+      eligibilityCriteria: {
+        'en': 'All farmers growing notified crops in notified areas',
+        'hi': 'अधिसूचित क्षेत्रों में अधिसूचित फसलें उगाने वाले सभी किसान',
+        'pa': 'ਅਧਿਸੂਚਿਤ ਖੇਤਰਾਂ ਵਿੱਚ ਅਧਿਸੂਚਿਤ ਫਸਲਾਂ ਉਗਾਉਣ ਵਾਲੇ ਸਾਰੇ ਕਿਸਾਨ',
+        'bn': 'ঘোষিত এলাকায় ঘোষিত ফসল চাষকারী সকল কৃষক',
+        'ta':
+            'அறிவிக்கப்பட்ட பகுதிகளில் அறிவிக்கப்பட்ட பயிர்களை வளர்க்கும் அனைத்து விவசாயிகளும்',
+        'te': 'ప్రకటించిన ప్రాంతాలలో ప్రకటించిన పంటలు పండించే అన్ని రైతులు',
+        'mr': 'जाहीर केलेल्या भागात जाहीर केलेली पिके घेणारे सर्व शेतकरी',
+        'gu': 'જાહેર કરેલ વિસ્તારોમાં જાહેર કરેલ પાક ઉગાડતા તમામ ખેડૂતો',
+      },
+      applicationProcess: {
+        'en': 'Apply online through PMFBY portal or nearest agriculture office',
+        'hi':
+            'PMFBY पोर्टल या नजदीकी कृषि कार्यालय के माध्यम से ऑनलाइन आवेदन करें',
+        'pa': 'PMFBY ਪੋਰਟਲ ਜਾਂ ਨਜ਼ਦੀਕੀ ਖੇਤੀਬਾੜੀ ਦਫਤਰ ਰਾਹੀਂ ਔਨਲਾਈਨ ਅਰਜ਼ੀ ਦਿਓ',
+        'bn': 'PMFBY পোর্টাল বা নিকটতম কৃষি অফিসের মাধ্যমে অনলাইনে আবেদন করুন',
+        'ta':
+            'PMFBY போர்டல் அல்லது அருகிலுள்ள விவசாய அலுவலகம் மூலம் ஆன்லைனில் விண்ணப்பிக்கவும்',
+        'te':
+            'PMFBY పోర్టల్ లేదా దగ్గర్లోని వ్యవసాయ కార్యాలయం ద్వారా ఆన్లైన్‌లో దరఖాస్తు చేసుకోండి',
+        'mr': 'PMFBY पोर्टल किंवा जवळच्या कृषी कार्यालयाद्वारे ऑनलाइन अर्ज करा',
+        'gu': 'PMFBY પોર્ટલ અથવા નજીકના કૃષિ કાર્યાલય દ્વારા ઑનલાઇન અરજી કરો',
+      },
+      benefits: {
+        'en': 'Low premium rates with government subsidy',
+        'hi': 'सरकारी सब्सिडी के साथ कम प्रीमियम दरें',
+        'pa': 'ਸਰਕਾਰੀ ਸਬਸਿਡੀ ਨਾਲ ਘੱਟ ਪ੍ਰੀਮੀਅਮ ਦਰਾਂ',
+        'bn': 'সরকারি ভর্তুকি সহ কম প্রিমিয়াম হার',
+        'ta': 'அரசு உதவித்தொகையுடன் குறைந்த பிரீமியம் விகிதங்கள்',
+        'te': 'ప్రభుత్వ సబ్సిడీతో తక్కువ ప్రీమియం రేట్లు',
+        'mr': 'सरकारी अनुदानासह कमी प्रीमियम दर',
+        'gu': 'સરકારી સબસિડી સાથે ઓછા પ્રીમિયમ દરો',
+      },
+      contactInfo: {
+        'en': 'PMFBY Toll Free: 1800-180-1551',
+        'hi': 'PMFBY टोल फ्री: 1800-180-1551',
+        'pa': 'PMFBY ਟੋਲ ਫ੍ਰੀ: 1800-180-1551',
+        'bn': 'PMFBY টোল ফ্রি: 1800-180-1551',
+        'ta': 'PMFBY தொலைபேசி எண்: 1800-180-1551',
+        'te': 'PMFBY టోల్ ఫ్రీ: 1800-180-1551',
+        'mr': 'PMFBY टोल फ्री: 1800-180-1551',
+        'gu': 'PMFBY ટોલ ફ્રી: 1800-180-1551',
+      },
+    ),
+
+    GovernmentScheme(
+      id: '3',
+      title: {
+        'en': 'Pradhan Mantri Krishi Sinchayee Yojana (PMKSY)',
+        'hi': 'प्रधानमंत्री कृषि सिंचाई योजना (पीएमकेएसवाई)',
+        'pa': 'ਪ੍ਰਧਾਨ ਮੰਤਰੀ ਕਿਰਸਾਨ ਸਿੰਚਾਈ ਯੋਜਨਾ (ਪੀਐਮਕੇਐਸਵਾਈ)',
+        'bn': 'প্রধানমন্ত্রী কৃষি সিঞ্চাই যোজনা (পিএমকেএসওয়াই)',
+        'ta': 'பிரதான் மந்திரி கிருஷி சிஞ்சாய் யோஜனா (பிஎம்கேஏஸ்வாய்)',
+        'te': 'ప్రధాన్ మంత్రి కృషి సించాయి యోజన (పీఎంకేఎస్వై)',
+        'mr': 'प्रधानमंत्री कृषी सिंचाई योजना (पीएमकेएसवाई)',
+        'gu': 'પ્રધાનમંત્રી કૃષિ સિંચાઈ યોજના (પીએમકેએસવાઈ)',
+      },
+      description: {
+        'en':
+            'Aims to ensure access to means of irrigation to all agricultural farms to produce optimal utilization of water resources and improve water use efficiency.',
+        'hi':
+            'सभी कृषि फार्मों में सिंचाई के साधनों तक पहुंच सुनिश्चित करने, जल संसाधनों के इष्टतम उपयोग और जल उपयोग दक्षता में सुधार के लिए लक्षित।',
+        'pa':
+            'ਸਾਰੇ ਖੇਤੀ ਫਾਰਮਾਂ ਵਿੱਚ ਸਿੰਚਾਈ ਦੇ ਸਾਧਨਾਂ ਤੱਕ ਪਹੁੰਚ ਨੂੰ ਯਕੀਨੀ ਬਣਾਉਣ, ਪਾਣੀ ਦੇ ਸਰੋਤਾਂ ਦੇ ਅਨੁਕੂਲ ਉਪਯੋਗ ਅਤੇ ਪਾਣੀ ਦੀ ਵਰਤੋਂ ਦੀ ਦਕਤਾ ਵਿੱਚ ਸੁਧਾਰ ਲਈ ਟੀਚਾ।',
+        'bn':
+            'সমস্ত কৃষি খামারে সেচের মাধ্যমের অ্যাক্সেস নিশ্চিত করা, জল সম্পদের অনুকূল ব্যবহার এবং জল ব্যবহার দক্ষতা উন্নত করা।',
+        'ta':
+            'அனைத்து விவசாய நிலங்களிலும் நீர்ப்பாசன வழிகளை அணுகுவதற்கு உறுதி செய்தல், நீர் வளங்களின் மிகச் சிறந்த பயன்பாடு மற்றும் நீர் பயன்பாட்டு திறனை மேம்படுத்துதல்.',
+        'te':
+            'అన్ని వres ప్రాంత ఫార్మాలకు సింకాయి సాధనాలకు access ను నిర్ధారించడం, నీటి వనరుల optimizeల ఉపయోగం & నీటి వాడకం యొక్క efficiency ను మెరుగుపరచడం.',
+        'mr':
+            'सर्व शेती शेतांमध्ये सिंचनाच्या साधनांपर्यंत पोहोच सुनिश्चित करणे, पाणी संसाधनांचा किमान वापर आणि पाणी वापर क्षमतेत सुधारणा करणे.',
+        'gu':
+            'બધી કૃષિ ફાર્મોમાં સિંચાઈના સાધનોની પહોંચ સુનિશ્ચિત કરવા, પાણી સંસાધનોનો મહત્તમ ઉપયોગ અને પાણી ઉપયોગ કાર્યક્ષમતામાં સુધારો.',
+      },
+      imageUrl: 'assets/pmksy.png',
+      expiryDate: DateTime(2026, 3, 31),
+      department: {
+        'en': 'Agriculture Department',
+        'hi': 'कृषि विभाग',
+        'pa': 'ਖੇਤੀਬਾੜੀ ਵਿਭਾਗ',
+        'bn': 'কৃষি বিভাগ',
+        'ta': 'விவசாயத் துறை',
+        'te': 'వ్యవసాయ శాఖ',
+        'mr': 'कृषी विभाग',
+        'gu': 'કૃષિ વિભાગ',
+      },
+      farmingTypes: ['All'],
+      cropTypes: ['All'],
+      minLandSize: 0.0,
+      maxLandSize: double.infinity,
+      requiresAadhar: true,
+      eligibilityCriteria: {
+        'en':
+            'All farmers with focus on small and marginal farmers. Special provisions for SC/ST farmers and women farmers.',
+        'hi':
+            'सभी किसान, विशेष रूप से लघु और सीमांत किसानों पर ध्यान। अनुसूचित जाति/अनुसूचित जनजाति के किसानों और महिला किसानों के लिए विशेष प्रावधान।',
+        'pa':
+            'ਸਾਰੇ ਕਿਸਾਨ, ਛੋਟੇ ਅਤੇ ਸੀਮਾਂਤ ਕਿਸਾਨਾਂ ਤੇ ਵਿਸ਼ੇਸ਼ ਧਿਆਨ। ਐਸਸੀ/ਐਸਟੀ ਕਿਸਾਨਾਂ ਅਤੇ ਔਰਤ ਕਿਸਾਨਾਂ ਲਈ ਵਿਸ਼ੇਸ਼ ਪ੍ਰਬੰਧ।',
+        'bn':
+            'সমস্ত কৃষক, ক্ষুদ্র ও প্রান্তিক কৃষকদের ওপর বিশেষ দৃষ্টি। অনুসূচিত জাতি/জনজাতি কৃষক এবং নারী কৃষকদের জন্য বিশেষ বিধান।',
+        'ta':
+            'சிறிய மற்றும் எல்லைப்பட்ட விவசாயிகளுக்கு கவனம் கொடுத்த அனைத்து விவசாயிகள். எஸ்சி/எஸ்டி விவசாயிகள் மற்றும் பெண் விவசாயிகளுக்கான சிறப்பு ஏற்பாடுகள்.',
+        'te':
+            'చిన్న & సीमాంత రైతులకు ఫోకస్ చేసిన అన్ని రైతులు. SC/ST రైతులు & మహిళా రైతులకు ప్రత్యేక నిబంధనలు.',
+        'mr':
+            'सर्व शेतकरी, लहान आणि सीमांत शेतकऱ्यांवर विशेष लक्ष. अनुसूचित जाती/जमातीच्या शेतकऱ्यांसाठी आणि महिला शेतकऱ्यांसाठी विशेष तरतुदी.',
+        'gu':
+            'બધા ખેડૂતો, નાના અને સીમાંત ખેડૂતો પર ભાર. અનુસૂચિત જાતિ/અનુસૂચિત જનજાતિના ખેડૂતો અને મહિલા ખેડૂતો માટે વિશેષ જોગવાઈઓ.',
+      },
+      applicationProcess: {
+        'en':
+            'Apply through Agriculture Department office, Gram Panchayat or District Rural Development Agency (DRDA). Documents required: Land ownership papers, Aadhaar card, bank account details, soil health card.',
+        'hi':
+            'कृषि विभाग कार्यालय, ग्राम पंचायत या जिला ग्रामीण विकास एजेंसी (डीआरडीए) के माध्यम से आवेदन करें। आवश्यक दस्तावेज: भूमि स्वामित्व के कागज, आधार कार्ड, बैंक खाता विवरण, मृदा स्वास्थ्य कार्ड।',
+        'pa':
+            'ਖੇਤੀਬਾੜੀ ਵਿਭਾਗ ਦਫਤਰ, ਗਰਾਮ ਪੰਚਾਇਤ ਜਾਂ ਜ਼ਿਲ੍ਹਾ ਗਰਾਮੀਣ ਵਿਕਾਸ ਏਜੰਸੀ (ਡੀਆਰਡੀਏ) ਰਾਹੀਂ ਅਰਜ਼ੀ ਦਿਓ। ਲੋੜੀਂਦੇ ਦਸਤਾਵੇਜ਼: ਜ਼ਮੀਨ ਦੇ ਮਲਕੀਅਤ ਦੇ ਕਾਗਜ਼, ਆਧਾਰ ਕਾਰਡ, ਬੈਂਕ ਖਾਤੇ ਦੇ ਵੇਰਵੇ, ਮਿੱਟੀ ਦੀ ਸਿਹਤ ਕਾਰਡ।',
+        'bn':
+            'কৃষি বিভাগ অফিস, গ্রাম পঞ্চায়েত বা জেলা গ্রামীণ উন্নয়ন এজেন্সি (ডিআরডিএ) এর মাধ্যমে আবেদন করুন। প্রয়োজনীয় নথি: জমির মালিকানার কাগজপত্র, আধার কার্ড, ব্যাংক অ্যাকাউন্ট বিবরণ, মৃত্তিকা স্বাস্থ্য কার্ড।',
+        'ta':
+            'வேளாண்மை துறை அலுவலகம், கிராம பஞ்சாயத் அல்லது மாவட்ட கிராமிய மேம்பாட்டு நிறுவனம் (டிஆர்டிஏ) மூலம் விண்ணப்பிக்கவும்.  தேவையான ஆவணங்கள்: நிலச் சொந்த ஆவணங்கள், ஆதார் அட்டை, வங்கிக் கணக்கு விவரங்கள், மண் சுகாதார அட்டை.',
+        'te':
+            'వ్యవసాయ శాఖ కార్యాలయం, గ్రామ పంచాయతీ లేదా జిల్లా గ్రామీణ అభివృద్ధి సంస్థ (DRDA) ద్వారా దరఖాస్తు చేయండి. అవసరమైన పత్రాలు: భూసొంతం సాక్ష్యపత్రాలు, ఆధార్ కార్డ్, బ్యాంక్ ఖాతా వివరాలు, మంటి ఆరోగ్య కార్డ్.',
+        'mr':
+            'कृषी विभाग कार्यालय, ग्राम पंचायत किंवा जिल्हा ग्रामीण विकास यंत्रणा (डीआरडीए) मार्फत अर्ज करा. आवश्यक कागदपत्रे: जमीन मालकीच्या कागदपत्रे, आधार कार्ड, बँक खात्याची माहिती, माती आरोग्य कार्ड.',
+        'gu':
+            'કૃષિ વિભાગ કચેરી, ગ્રામ પંચાયત અથવા જિલ્લા ગ્રામીણ વિકાસ એજન્સી (DRDA) મારફત અરજી કરો. જરૂરી દસ્તાવેજો: જમીન માલિકીના કાગળો, આધાર કાર્ડ, બેંક ખાતાના વિગતો, મૃદા આરોગ્ય કાર્ડ.',
+      },
+      benefits: {
+        'en':
+            'Subsidy on micro-irrigation systems (drip/sprinkler): 55% for small & marginal farmers and 45% for other farmers. Financial assistance for creating water sources, distribution networks, and improving water use efficiency.',
+        'hi':
+            'सूक्ष्म सिंचाई प्रणालियों (ड्रिप/स्प्रिंकलर) पर सब्सिडी: लघु और सीमांत किसानों के लिए 55% और अन्य किसानों के लिए 45%। जल स्रोतों, वितरण नेटवर्क बनाने और जल उपयोग दक्षता में सुधार के लिए वित्तीय सहायता।',
+        'pa':
+            'ਸੂਖਮ ਸਿੰਚਾਈ ਪ੍ਰਣਾਲੀਆਂ (ਡਰਿੱਪ/ਸਪ੍ਰਿੰਕਲਰ) ਤੇ ਸਬਸਿਡੀ: ਛੋਟੇ ਅਤੇ ਸੀਮਾਂਤ ਕਿਸਾਨਾਂ ਲਈ 55% ਅਤੇ ਹੋਰ ਕਿਸਾਨਾਂ ਲਈ 45%। ਪਾਣੀ ਦੇ ਸਰੋਤਾਂ, ਵਿਤਰਣ ਨੈੱਟਵਰਕ ਬਣਾਉਣ ਅਤੇ ਪਾਣੀ ਦੀ ਵਰਤੋਂ ਦੀ ਦਕਤਾ ਵਿੱਚ ਸੁਧਾਰ ਲਈ ਆਰਥਿਕ ਸਹਾਇਤਾ।',
+        'bn':
+            'সুক্ষ্ম সেচ ব্যবস্থায় (ড্রিপ/স্প্রিংকলার) সাবসিডি: ক্ষুদ্র ও প্রান্তিক কৃষকদের জন্য 55% এবং অন্যান্য কৃষকদের জন্য 45%। জল সংস্থান, বিতরণ নেটওয়ার্ক তৈরি এবং জল ব্যবহার দক্ষতা বাড়ানোর জন্য আর্থিক সাহায্য।',
+        'ta':
+            'நுண்ணீர் பாசன முறைகளுக்கு (துளி/தெளிப்பான்) மானியம்: சிறிய & எல்லைப்பட்ட விவசாயிகளுக்கு 55% மற்றும் மற்ற விவசாயிகளுக்கு 45%. நீர் மூலங்கள், விநியோக வலைப்பின்னல் உருவாக்கம் மற்றும் நீர் பயன்பாட்டு திறன் மேம்பாட்டிற்கான நிதி உதவி.',
+        'te':
+            'సూక్ష్మ నీటి సింకాయి వ్యవస్థలకు (డ్రిప్/స్ప్రింక్లర్) సబ్సిడీ: చిన్న & సీమాంత రైతులకు 55% & ఇతర రైతులకు 45%. నీటి వనరులు, పంపిణీ నెట్ వర్క్ తయారు & నీటి వాడకం యొక్క efficiency ను మెరుగుపరచడం కొరకు ఆర్ధిక సాయం.',
+        'mr':
+            'सूक्ष्म सिंचन प्रणालींवर (ड्रिप/स्प्रिंकलर) अनुदान: लहान आणि सीमांत शेतकऱ्यांसाठी 55% आणि इतर शेतकऱ्यांसाठी 45%. पाणी स्रोत, वितरण नेटवर्क तयार करणे आणि पाणी वापर क्षमतेत सुधारणा करण्यासाठी आर्थिक मदत.',
+        'gu':
+            'સૂક્ષ્મ સિંચાઈ પ્રણાલીઓ (ટીપ/સ્પ્રિંકલર) પર સબસિડી: નાના અને સીમાંત ખેડૂતો માટે 55% અને અન્ય ખેડૂતો માટે 45%. પાણી સ્રોતો, વિતરણ નેટવર્ક બનાવવા અને પાણી ઉપયોગ કાર્યક્ષમતા સુધારવા માટે નાણાકીય સહાય.',
+      },
+      contactInfo: {
+        'en': 'Ministry of Agriculture & Farmers Welfare: 1800-180-1551',
+        'hi': 'कृषि और किसान कल्याण मंत्रालय: 1800-180-1551',
+        'pa': 'ਖੇਤੀਬਾੜੀ ਅਤੇ ਕਿਸਾਨ ਭਲਾਈ ਮੰਤਰਾਲਾ: 1800-180-1551',
+        'bn': 'কৃষি ও কৃষক কল্যাণ মন্ত্রক: 1800-180-1551',
+        'ta': 'வேளாண்மை மற்றும் விவசாயி நலன் அமைச்சகம்: 1800-180-1551',
+        'te': 'వ్యవసాయ & రైతు సంక్షేమ మంత్రిత్వ శాఖ: 1800-180-1551',
+        'mr': 'कृषी आणि शेतकरी कल्याण मंत्रालय: 1800-180-1551',
+        'gu': 'કૃષિ અને ખેડૂત કલ્યાણ મંત્રાલય: 1800-180-1551',
+      },
+    ),
+
+    GovernmentScheme(
+      id: '4',
+      title: {
+        'en': 'Kisan Credit Card (KCC)',
+        'hi': 'किसान क्रेडिट कार्ड (केसीसी)',
+        'pa': 'ਕਿਸਾਨ ਕ੍ਰੈਡਿਟ ਕਾਰਡ (ਕੇਸੀਸੀ)',
+        'bn': 'কিসান ক্রেডিট কার্ড (কেসিসি)',
+        'ta': 'கிசான் கிரெடிட் கார்டு (கேசிசி)',
+        'te': 'కిసాన్ క్రెడిట్ కార్డ్ (కెసిసి)',
+        'mr': 'किसान क्रेडिट कार्ड (केसीसी)',
+        'gu': 'કિસાન ક્રેડિટ કાર્ડ (કેસીસી)',
+      },
+      description: {
+        'en':
+            'Provides farmers with affordable credit for cultivation expenses, post-harvest expenses, maintenance of farm assets, and other needs.',
+        'hi':
+            'किसानों को खेती के खर्च, फसल कटाई के बाद के खर्च, खेत के उपकरणों के रखरखाव और अन्य जरूरतों के लिए सस्ता कर्ज प्रदान करता है।',
+        'pa':
+            'ਖੇਤੀਬਾੜੀ ਦੇ ਖਰਚਿਆਂ, ਫਸਲ ਕਟਾਈ ਤੋਂ ਬਾਅਦ ਦੇ ਖਰਚਿਆਂ, ਖੇਤ ਦੀਆਂ ਸੰਪਤੀਆਂ ਦੀ ਦੇਖਭਾਲ ਅਤੇ ਹੋਰ ਲੋੜਾਂ ਲਈ ਕਿਸਾਨਾਂ ਨੂੰ ਕਿਫਾਇਤੀ ਕ੍ਰੈਡਿਟ ਪ੍ਰਦਾਨ ਕਰਦਾ ਹੈ।',
+        'bn':
+            'চাষাবাদের খরচ, ফসল কাটার পরের খরচ, খামারের সম্পত্তি রক্ষণাবেক্ষণ এবং অন্যান্য প্রয়োজনে কৃষকদের সাশ্রয়ী মূল্যে ঋণ প্রদান করে।',
+        'ta':
+            'விவசாய செலவுகள், அறுவடைக்குப் பிந்தைய செலவுகள், பண்ணை சொத்துகளின் பராமரிப்பு மற்றும் பிற தேவைகளுக்கு விவசாயிகளுக்கு மலிவு கடனை வழங்குகிறது.',
+        'te':
+            'సాగు ఖర్చులు, పంట తర్వాత ఖర్చులు, పొలం సామగ్రి నిర్వహణ మరియు ఇతర అవసరాల కోసం రైతులకు సరసమైన క్రెడిట్‌ను అందిస్తుంది.',
+        'mr':
+            'शेतीच्या खर्चासाठी, पिककटाईनंतरच्या खर्चासाठी, शेताच्या साधनांच्या देखभालीसाठी आणि इतर गरजांसाठी शेतकऱ्यांना स्वस्त कर्ज पुरवते.',
+        'gu':
+            'ખેડૂતોને ખેતીના ખર્ચ, પોસ્ટ-હાર્વેસ્ટ ખર્ચ, ફાર્મ સંપત્તિની જાળવણી અને અન્ય જરૂરિયાતો માટે સસ્તો ક્રેડિટ પ્રદાન કરે છે.',
+      },
+      imageUrl: 'assets/kcc.png',
+      expiryDate: DateTime(2025, 12, 31),
+      department: {
+        'en': 'Agriculture Department',
+        'hi': 'कृषि विभाग',
+        'pa': 'ਖੇਤੀਬਾੜੀ ਵਿਭਾਗ',
+        'bn': 'কৃষি বিভাগ',
+        'ta': 'விவசாயத் துறை',
+        'te': 'వ్యవసాయ శాఖ',
+        'mr': 'कृषी विभाग',
+        'gu': 'કૃષિ વિભાગ',
+      },
+      farmingTypes: ['All'],
+      cropTypes: ['All'],
+      minLandSize: 0.0,
+      maxLandSize: double.infinity,
+      requiresAadhar: true,
+      eligibilityCriteria: {
+        'en':
+            'All farmers, tenant farmers, oral lessees, SHGs and JLGs of farmers. Now extended to animal husbandry and fisheries farmers.',
+        'hi':
+            'सभी किसान, किरायेदार किसान, मौखिक पट्टेदार, किसानों के स्वयं सहायता समूह और संयुक्त देयता समूह। अब पशुपालन और मत्स्य पालन किसानों तक विस्तारित।',
+        'pa':
+            'ਸਾਰੇ ਕਿਸਾਨ, ਕਿਰਾਏਦਾਰ ਕਿਸਾਨ, ਮੌਖਿਕ ਪਟੜੇਦਾਰ, ਕਿਸਾਨਾਂ ਦੇ ਸਵੈ ਸਹਾਇਤਾ ਸਮੂਹ ਅਤੇ ਸੰਯੁਕਤ ਦੇਣਦਾਰੀ ਸਮੂਹ। ਹੁਣ ਪਸ਼ੂ ਪਾਲਣ ਅਤੇ ਮੱਛੀ ਪਾਲਣ ਕਿਸਾਨਾਂ ਤੱਕ ਵਧਾਇਆ ਗਿਆ ਹੈ।',
+        'bn':
+            'সমস্ত কৃষক, ভাগচাষী কৃষক, মৌখিক ইজারাদার, কৃষকদের স্ব-সহায়ক গোষ্ঠী এবং যৌথ দায়বদ্ধতা গোষ্ঠী। এখন প্রাণিসম্পদ ও মৎস্য চাষ কৃষকদের জন্য প্রসারিত।',
+        'ta':
+            'அனைத்து விவசாயிகள், குத்தகைதாரர்கள், வாய்மொழி குத்தகைதாரர்கள், விவசாயிகளின் சுயஉதவிக் குழுக்கள் மற்றும் கூட்டுப் பொறுப்புக் குழுக்கள். இப்போது கால்நடை பராமரிப்பு மற்றும் மீன்வளம் விவசாயிகளுக்கு விரிவாக்கப்பட்டது.',
+        'te':
+            'అన్ని రైతులు, టెనెంట్ రైతులు, ఓరల్ లీసీలు, రైతుల SHGs మరియు JLGs. ఇప్పుడు పశుపాలన మరియు మత్స్యకార రైతులకు విస్తరించబడింది.',
+        'mr':
+            'सर्व शेतकरी, भाडेतत्त्वावर शेतकरी, तोंडी भाडेकरू, शेतकऱ्यांचे स्वयंसहाय्य गट आणि संयुक्त जबाबदारी गट. आता पशुपालन आणि मत्स्यपालन शेतकऱ्यांपर्यंत वाढवले.',
+        'gu':
+            'બધા ખેડૂતો, ભાડૂતી ખેડૂતો, મૌખિક લીઝદારો, ખેડૂતોના SHGs અને JLGs. હવે પશુપાલન અને મત્સ્યપાલન ખેડૂતો સુધી વિસ્તરેલ છે.',
+      },
+      applicationProcess: {
+        'en':
+            'Apply at any agricultural rural or commercial bank branch with land documents, ID proof, passport size photos, and details of crops grown/to be grown.',
+        'hi':
+            'किसी भी कृषि ग्रामीण या वाणिज्यिक बैंक शाखा में जमीन के दस्तावेज, पहचान प्रमाण, पासपोर्ट आकार के फोटो और उगाई जाने वाली/उगाई जाने वाली फसलों का विवरण के साथ आवेदन करें।',
+        'pa':
+            'ਜ਼ਮੀਨ ਦੇ ਦਸਤਾਵੇਜ਼ਾਂ, ID ਪ੍ਰਮਾਣ, ਪਾਸਪੋਰਟ ਆਕਾਰ ਦੀਆਂ ਫੋਟੋਆਂ ਅਤੇ ਉਗਾਈਆਂ ਜਾਣ ਵਾਲੀਆਂ ਫਸਲਾਂ ਦੇ ਵੇਰਵਿਆਂ ਨਾਲ ਕਿਸੇ ਵੀ ਖੇਤੀਬਾੜੀ ਪੇਂਡੂ ਜਾਂ ਵਪਾਰਕ ਬੈਂਕ ਸ਼ਾਖਾ ਵਿੱਚ ਅਰਜ਼ੀ ਦਿਓ।',
+        'bn':
+            'জমির নথি, পরিচয় প্রমাণ, পাসপোর্ট সাইজের ফটো এবং চাষ করা/চাষ করা হবে এমন ফসলের বিবরণ সহ যে কোনো কৃষি গ্রামীণ বা বাণিজ্যিক ব্যাংক শাখায় আবেদন করুন।',
+        'ta':
+            'நில ஆவணங்கள், அடையாள ஆதாரம், பாஸ்போர்ட் அளவு புகைப்படங்கள் மற்றும் வளர்க்கப்படும்/வளர்க்கப்படும் பயிர்களின் விவரங்களுடன் எந்தவொரு விவசாய கிராமப்புற அல்லது வணிக வங்கி கிளையிலும் விண்ணப்பிக்கவும்.',
+        'te':
+            'భూమి డాక్యుమెంట్స్, ID ప్రూఫ్, పాస్పోర్ట్ సైజు ఫోటోలు మరియు పండించే/పండించబోయే పంటల వివరాలతో ఏదైనా వ్యవసాయ గ్రామీణ లేదా వాణిజ్య బ్యాంక్ శాఖలో దరఖాస్తు చేసుకోండి.',
+        'mr':
+            'जमीन दस्तऐवज, ओळखपत्र, पासपोर्ट आकाराच्या फोटो आणि घेतलेल्या/घेण्यात येणाऱ्या पिकांच्या तपशिलासह कोणत्याही कृषी ग्रामीण किंवा वाणिज्य बँक शाखेत अर्ज करा.',
+        'gu':
+            'જમીનના દસ્તાવેજો, ID પ્રૂફ, પાસપોર્ટ કદના ફોટા અને ઉગાડવામાં આવતી/ઉગાડવાની પાકની વિગતો સાથે કોઈપણ કૃષિ ગ્રામીણ અથવા વ્યાપારી બેંક શાખામાં અરજી કરો.',
+      },
+      benefits: {
+        'en':
+            'Credit up to ₹3 lakh at 7% interest rate (effective 4% with prompt repayment). Additional credit for post-harvest/household/consumption needs. Credit limit revised annually. Crop loans up to ₹3 lakh for tenure of one year. Term loans up to 5 years.',
+        'hi':
+            '7% ब्याज दर पर ₹3 लाख तक का क्रेडिट (समय पर चुकौती के साथ प्रभावी 4%)। फसल कटाई के बाद/घरेलू/उपभोग की जरूरतों के लिए अतिरिक्त क्रेडिट। क्रेडिट सीमा सालाना संशोधित। एक साल की अवधि के लिए ₹3 लाख तक का फसल ऋण। 5 साल तक की अवधि के लिए टर्म लोन।',
+        'pa':
+            '7% ਵਿਆਜ ਦਰ ਤੇ ₹3 ਲੱਖ ਤੱਕ ਕ੍ਰੈਡਿਟ (ਸਮੇਂ ਸਿਰ ਭੁਗਤਾਨ ਨਾਲ ਪ੍ਰਭਾਵਸ਼ਾਲੀ 4%)। ਫਸਲ ਕਟਾਈ ਤੋਂ ਬਾਅਦ/ਘਰੇਲੂ/ਖਪਤ ਦੀਆਂ ਲੋੜਾਂ ਲਈ ਵਾਧੂ ਕ੍ਰੈਡਿਟ। ਕ੍ਰੈਡਿਟ ਲਿਮਿਟ ਸਾਲਾਨਾ ਸੋਧੀ ਗਈ। ਇੱਕ ਸਾਲ ਦੀ ਮਿਆਦ ਲਈ ₹3 ਲੱਖ ਤੱਕ ਦੀਆਂ ਫਸਲ ਲੋਣਾਂ। 5 ਸਾਲ ਤੱਕ ਦੀਆਂ ਮਿਆਦ ਦੀਆਂ ਲੋਣਾਂ।',
+        'bn':
+            '7% সুদের হারে ₹3 লক্ষ পর্যন্ত ক্রেডিট (সময়মতো পরিশোধের সাথে কার্যকর 4%)। ফসল কাটার পরের/গৃহস্থালি/খরচের প্রয়োজনে অতিরিক্ত ক্রেডিট। ক্রেডিট লিমিট বার্ষিক সংশোধিত। এক বছরের মেয়াদে ₹3 লক্ষ পর্যন্ত ফসল ঋণ। 5 বছর পর্যন্ত মেয়াদী ঋণ।',
+        'ta':
+            '7% வட்டி விகிதத்தில் ₹3 லட்சம் வரை கடன் (சரியான நேரத்தில் திருப்பிச் செலுத்தினால் பயனுள்ள 4%). அறுவடைக்குப் பிந்தைய/வீட்டு/நுகர்வு தேவைகளுக்கான கூடுதல் கடன். கடன் வரம்பு ஆண்டுதோறும் மதிப்பாய்வு செய்யப்படுகிறது. ஒரு வருட காலத்திற்கு ₹3 லட்சம் வரை பயிர் கடன். 5 ஆண்டுகள் வரையான கால கடன்.',
+        'te':
+            '7% వడ్డీ రేటుతో ₹3 లక్షల వరకు క్రెడిట్ (సకాలంలో తిరిగి చెల్లించినట్లయితే ప్రభావవంతమైన 4%). పంట తర్వాత/గృహ/వినియోగ అవసరాల కోసం అదనపు క్రెడిట్. క్రెడిట్ లిమిట్ సంవత్సరానికి సవరించబడుతుంది. ఒక సంవత్సరం కాలానికి ₹3 లక్షల వరకు పంట రుణాలు. 5 సంవత్సరాల వరకు టర్మ్ లోన్లు.',
+        'mr':
+            '7% व्याजदराने ₹3 लाख पर्यंत कर्ज (वेळेवर परतफेड केल्यास प्रभावी 4%). पिककटाईनंतरच्या/घरगुती/वापराच्या गरजांसाठी अतिरिक्त कर्ज. कर्ज मर्यादा दरवर्षी सुधारली जाते. एका वर्षाच्या कालावधीसाठी ₹3 लाख पर्यंत पिककर्ज. 5 वर्षांपर्यंतच्या कालावधीची टर्म लोन.',
+        'gu':
+            '7% વ્યાજ દરે ₹3 લાખ સુધીનો ક્રેડિટ (સમયસર ચુકવણી સાથે અસરકારક 4%). પોસ્ટ-હાર્વેસ્ટ/ઘરેલુ/ઉપભોગ જરૂરિયાતો માટે વધારાનો ક્રેડિટ. ક્રેડિટ લિમિટ વાર્ષિક સુધારવામાં આવે છે. એક વર્ષની મુદત માટે ₹3 લાખ સુધીના પાક લોન. 5 વર્ષ સુધીની મુદતના લોન.',
+      },
+      contactInfo: {
+        'en': 'Local NABARD office or bank branch',
+        'hi': 'स्थानीय नाबार्ड कार्यालय या बैंक शाखा',
+        'pa': 'ਸਥਾਨਕ ਨਾਬਾਰਡ ਦਫ਼ਤਰ ਜਾਂ ਬੈਂਕ ਸ਼ਾਖਾ',
+        'bn': 'স্থানীয় নাবার্ড অফিস বা ব্যাংক শাখা',
+        'ta': 'உள்ளூர் நாபார்ட் அலுவலகம் அல்லது வங்கி கிளை',
+        'te': 'స్థానిక నాబార్డ్ కార్యాలయం లేదా బ్యాంక్ శాఖ',
+        'mr': 'स्थानिक नाबार्ड कार्यालय किंवा बँक शाखा',
+        'gu': 'સ્થાનિક નાબાર્ડ ઓફિસ અથવા બેંક શાખા',
+      },
+    ),
+
+    GovernmentScheme(
+      id: '5',
+      title: {
+        'en': 'Paramparagat Krishi Vikas Yojana (PKVY)',
+        'hi': 'परंपरागत कृषि विकास योजना (पीकेवीवाई)',
+        'pa': 'ਪਰੰਪਰਾਗਤ ਕ੍ਰਿਸ਼ੀ ਵਿਕਾਸ ਯੋਜਨਾ (ਪੀਕੇਵੀਵਾਈ)',
+        'bn': 'পরম্পরাগত কৃষি বিকাশ যোজন (পিকেভিভাই)',
+        'ta': 'பாரம்பரிய வேளாண் வளர்ச்சித் திட்டம் (பிகேவிவை)',
+        'te': 'పరంపరాగత కృషి వికాస్ యోజన (పికెవివై)',
+        'mr': 'पारंपरिक कृषी विकास योजना (पीकेव्हीवाय)',
+        'gu': 'પરંપરાગત કૃષિ વિકાસ યોજના (પીકેવીવાય)',
+      },
+      description: {
+        'en':
+            'Promotes organic farming through adoption of organic village approach in a cluster mode to ensure chemical-free farming and produce.',
+        'hi':
+            'रसायन-मुक्त खेती और उत्पादन सुनिश्चित करने के लिए क्लस्टर मोड में जैविक गांव दृष्टिकोण को अपनाकर जैविक खेती को बढ़ावा देता है।',
+        'pa':
+            'ਕਲਸਟਰ ਮੋਡ ਵਿੱਚ ਜੈਵਿਕ ਪਿੰਡ ਦੇਣ ਦੀ ਪਹੁੰਚ ਨੂੰ ਅਪਣਾਉਣ ਦੁਆਰਾ ਰਸਾਇਣ-ਮੁਕਤ ਖੇਤੀ ਅਤੇ ਉਤਪਾਦਨ ਨੂੰ ਯਕੀਨੀ ਬਣਾਉਂਦਾ ਹੈ।',
+        'bn':
+            'ক্লাস্টার মোডে জৈব গ্রাম পদ্ধতি গ্রহণের মাধ্যমে রাসায়নিক-মুক্ত চাষাবাদ এবং উৎপাদন নিশ্চিত করে জৈব চাষকে প্রচার করে।',
+        'ta':
+            'வேதியியல்-இல்லாத விவசாயம் மற்றும் உற்பத்தியை உறுதி செய்ய கிளஸ்டர் முறையில் கரிம கிராம அணுகுமுறையை ஏற்பதன் மூலம் கரிம விவசாயத்தை ஊக்குவிக்கிறது.',
+        'te':
+            'రసాయనం-రహిత వ్యవసాయం మరియు ఉత్పత్తిని నిర్ధారించడానికి క్లస్టర్ మోడ్‌లో సేంద్రీయ గ్రామ విధానాన్ని అనుసరించడం ద్వారా సేంద్రీయ వ్యవసాయాన్ని ప్రోత్సహిస్తుంది.',
+        'mr':
+            'क्लस्टर मोडमध्ये सेंद्रिय गाव दृष्टिकोन स्वीकारून रसायनमुक्त शेती आणि उत्पादन सुनिश्चित करते.',
+        'gu':
+            'કેમિકલ-મુક્ત ખેતી અને ઉત્પાદન સુનિશ્ચિત કરવા માટે ક્લસ્ટર મોડમાં ઓર્ગેનિક ગામ અભિગમને અપનાવીને ઓર્ગેનિક ખેતીને પ્રોત્સાહન આપે છે.',
+      },
+      imageUrl: 'assets/pkvy.png',
+      expiryDate: DateTime(2025, 3, 31),
+      department: {
+        'en': 'Agriculture Department',
+        'hi': 'कृषि विभाग',
+        'pa': 'ਖੇਤੀਬਾੜੀ ਵਿਭਾਗ',
+        'bn': 'কৃষি বিভাগ',
+        'ta': 'விவசாயத் துறை',
+        'te': 'వ్యవసాయ శాఖ',
+        'mr': 'कृषी विभाग',
+        'gu': 'કૃષિ વિભાગ',
+      },
+      farmingTypes: ['Organic'],
+      cropTypes: ['All'],
+      minLandSize: 0.0,
+      maxLandSize: 2.0,
+      requiresAadhar: true,
+      eligibilityCriteria: {
+        'en':
+            'All farmers with preference to small and marginal farmers. Farmers should be willing to adopt organic farming practices.',
+        'hi':
+            'छोटे और सीमांत किसानों को प्राथमिकता देते हुए सभी किसान। किसानों को जैविक खेती के तरीके अपनाने के लिए तैयार होना चाहिए।',
+        'pa':
+            'ਛੋਟੇ ਅਤੇ ਸੀਮਾਂਤ ਕਿਸਾਨਾਂ ਨੂੰ ਤਰਜੀਹ ਦੇਣ ਵਾਲੇ ਸਾਰੇ ਕਿਸਾਨ। ਕਿਸਾਨਾਂ ਨੂੰ ਜੈਵਿਕ ਖੇਤੀ ਦੀਆਂ ਪ੍ਰਥਾਵਾਂ ਨੂੰ ਅਪਣਾਉਣ ਲਈ ਤਿਆਰ ਹੋਣਾ ਚਾਹੀਦਾ ਹੈ।',
+        'bn':
+            'ছোট এবং প্রান্তিক কৃষকদের অগ্রাধিকার দিয়ে সমস্ত কৃষক। কৃষকদের জৈব চাষ পদ্ধতি গ্রহণ করতে ইচ্ছুক হতে হবে।',
+        'ta':
+            'சிறிய மற்றும் குறு விவசாயிகளுக்கு முன்னுரிமை அளிக்கும் அனைத்து விவசாயிகளும். விவசாயிகள் கரிம விவசாய நடைமுறைகளை ஏற்க தயாராக இருக்க வேண்டும்.',
+        'te':
+            'చిన్న మరియు అల్పం రైతులకు ప్రాధాన్యత ఇచ్చే అన్ని రైతులు. రైతులు సేంద్రీయ వ్యవసాయ పద్ధతులను అనుసరించడానికి సిద్ధంగా ఉండాలి.',
+        'mr':
+            'लहान व सीमांत शेतकऱ्यांना प्राधान्य देऊन सर्व शेतकरी. शेतकऱ्यांनी सेंद्रिय शेती पद्धती स्वीकारायला तयार असले पाहिजे.',
+        'gu':
+            'નાના અને સીમાંત ખેડૂતોને પ્રાધાન્ય આપતા તમામ ખેડૂતો. ખેડૂતોએ ઓર્ગેનિક ખેતી પદ્ધતિઓ અપનાવવા માટે તૈયાર હોવું જોઈએ.',
+      },
+      applicationProcess: {
+        'en':
+            'Apply through local Agriculture Department or through Farmer Producer Organizations. Form clusters of 50 acres each with 50 or more farmers.',
+        'hi':
+            'स्थानीय कृषि विभाग या किसान उत्पादक संगठनों के माध्यम से आवेदन करें। 50 या अधिक किसानों के साथ प्रत्येक 50 एकड़ के समूह बनाएं।',
+        'pa':
+            'ਸਥਾਨਿਕ ਖੇਤੀਬਾੜੀ ਵਿਭਾਗ ਜਾਂ ਕਿਸਾਨ ਉਤਪਾਦਕ ਸੰਗਠਨਾਂ ਦੁਆਰਾ ਅਰਜ਼ੀ ਦਿਓ। 50 ਜਾਂ ਵੱਧ ਕਿਸਾਨਾਂ ਨਾਲ 50 ਏਕੜ ਦੇ ਕਲਸਟਰ ਬਣਾਓ।',
+        'bn':
+            'স্থানীয় কৃষি বিভাগ বা কৃষক উৎপাদক সংস্থার মাধ্যমে আবেদন করুন। 50 বা তার বেশি কৃষকদের সাথে প্রতিটি 50 একরের ক্লাস্টার গঠন করুন।',
+        'ta':
+            'உள்ளூர் விவசாயத் துறை அல்லது விவசாயி உற்பத்தியாளர் நிறுவனங்கள் மூலம் விண்ணப்பிக்கவும். 50 அல்லது அதற்கு மேற்பட்ட விவசாயிகளுடன் ஒவ்வொன்றும் 50 ஏக்கர் கொண்ட கிளஸ்டர்களை உருவாக்கவும்.',
+        'te':
+            'స్థానిక వ్యవసాయ శాఖ లేదా రైతు ఉత్పత్తిదారు సంస్థల ద్వారా దరఖాస్తు చేసుకోండి. 50 లేదా అంతకంటే ఎక్కువ రైతులతో ప్రతి 50 ఎకరాల క్లస్టర్లను ఏర్పాటు చేయండి.',
+        'mr':
+            'स्थानिक कृषी विभाग किंवा शेतकरी उत्पादक संघटनांमार्फत अर्ज करा. 50 किंवा अधिक शेतकऱ्यांसह प्रत्येकी 50 एकरांचे क्लस्टर तयार करा.',
+        'gu':
+            'સ્થાનિક કૃષિ વિભાગ અથવા ખેડૂત ઉત્પાદક સંસ્થાઓ દ્વારા અરજી કરો. 50 અથવા વધુ ખેડૂતો સાથે 50 એકરના ક્લસ્ટર બનાવો.',
+      },
+      benefits: {
+        'en':
+            'Financial assistance of ₹50,000 per hectare for 3 years for cluster formation, capacity building, organic inputs, certification, etc. Support for marketing of organic produce.',
+        'hi':
+            'क्लस्टर गठन, क्षमता निर्माण, जैविक आदानों, प्रमाणन आदि के लिए 3 साल के लिए प्रति हेक्टेयर ₹50,000 की वित्तीय सहायता। जैविक उत्पादों के विपणन के लिए समर्थन।',
+        'pa':
+            'ਕਲਸਟਰ ਗਠਨ, ਸਮਰੱਥਾ ਨਿਰਮਾਣ, ਜੈਵਿਕ ਇਨਪੁੱਟਸ, ਸਰਟੀਫਿਕੇਸ਼ਨ ਆਦਿ ਲਈ 3 ਸਾਲਾਂ ਲਈ ਪ੍ਰਤੀ ਹੈਕਟੇਅਰ ₹50,000 ਦੀ ਵਿੱਤੀ ਸਹਾਇਤਾ। ਜੈਵਿਕ ਉਤਪਾਦਾਂ ਦੇ ਮਾਰਕੀਟਿੰਗ ਲਈ ਸਹਾਇਤਾ।',
+        'bn':
+            'ক্লাস্টার গঠন, সক্ষমতা বৃদ্ধি, জৈব উপকরণ, সার্টিফিকেশন ইত্যাদির জন্য 3 বছরের জন্য প্রতি হেক্টরে ₹50,000 আর্থিক সহায়তা। জৈব উৎপাদনের বিপণনের জন্য সহায়তা।',
+        'ta':
+            'கிளஸ்டர் உருவாக்கம், திறன் வளர்ச்சி, கரிம உள்ளீடுகள், சான்றிதழ் போன்றவற்றிற்காக 3 ஆண்டுகளுக்கு ஹெக்டேருக்கு ₹50,000 நிதி உதவி. கரிம உற்பத்தியை விற்பனை செய்வதற்கான ஆதரவு.',
+        'te':
+            'క్లస్టర్ ఏర్పాటు, సామర్థ్య నిర్మాణం, సేంద్రీయ ఇన్పుట్లు, సర్టిఫికేషన్ మొదలైన వాటి కోసం 3 సంవత్సరాలకు హెక్టారుకు ₹50,000 ఆర్థిక సహాయం. సేంద్రీయ ఉత్పత్తుల మార్కెటింగ్‌కు మద్దతు.',
+        'mr':
+            'क्लस्टर निर्मिती, क्षमता वाढ, सेंद्रिय आदाने, प्रमाणपत्रे इत्यादीसाठी 3 वर्षांसाठी प्रति हेक्टर ₹50,000 आर्थिक मदत. सेंद्रिय उत्पादनाच्या विपणनासाठी समर्थन.',
+        'gu':
+            'ક્લસ્ટર રચના, ક્ષમતા નિર્માણ, ઓર્ગેનિક ઇનપુટ્સ, પ્રમાણીકરણ વગેરે માટે 3 વર્ષ માટે પ્રતિ હેક્ટર ₹50,000 ની નાણાકીય સહાય. ઓર્ગેનિક ઉત્પાદનોનું માર્કેટિંગ માટે ટેકો.',
+      },
+      contactInfo: {
+        'en': 'State Agriculture Department or Toll Free: 1800-180-1551',
+        'hi': 'राज्य कृषि विभाग या टोल फ्री: 1800-180-1551',
+        'pa': 'ਰਾਜ ਖੇਤੀਬਾੜੀ ਵਿਭਾਗ ਜਾਂ ਟੋਲ ਫ੍ਰੀ: 1800-180-1551',
+        'bn': 'রাজ্য কৃষি বিভাগ বা টোল ফ্রি: 1800-180-1551',
+        'ta': 'மாநில விவசாயத் துறை அல்லது டோல் ஃப்ரீ: 1800-180-1551',
+        'te': 'రాష్ట్ర వ్యవసాయ శాఖ లేదా టోల్ ఫ్రీ: 1800-180-1551',
+        'mr': 'राज्य कृषी विभाग किंवा टोल फ्री: 1800-180-1551',
+        'gu': 'રાજ્ય કૃષિ વિભાગ અથવા ટોલ ફ્રી: 1800-180-1551',
+      },
+    ),
+
+    GovernmentScheme(
+      id: '6',
+      title: {
+        'en': 'National Mission for Sustainable Agriculture (NMSA)',
+        'hi': 'राष्ट्रीय सतत कृषि मिशन (एनएमएसए)',
+        'pa': 'ਨੈਸ਼ਨਲ ਮਿਸ਼ਨ ਫਾਰ ਸਸਟੇਨੇਬਲ ਐਗਰੀਕਲਚਰ (ਐਨਐਮਐਸਏ)',
+        'bn': 'জাতীয় টেকসই কৃষি মিশন (এনএমএসএ)',
+        'ta': 'தேசிய நிலைத்தன்மை வாய்ந்த வேளாண் திட்டம் (என்எம்எஸ்ஏ)',
+        'te': 'నేషనల్ మిషన్ ఫర్ సస్టైనబుల్ అగ్రికల్చర్ (ఎన్ఎమ్ఎస్ఏ)',
+        'mr': 'राष्ट्रीय शाश्वत कृषी मिशन (एनएमएसए)',
+        'gu': 'નેશનલ મિશન ફોર સસ્ટેનેબલ એગ્રિકલ્ચર (એનએમએસએ)',
+      },
+      description: {
+        'en':
+            'Promotes sustainable agriculture through adaptation strategies related to climate change and enhancing agriculture productivity in rainfed areas.',
+        'hi':
+            'जलवायु परिवर्तन से संबंधित अनुकूलन रणनीतियों और वर्षा आधारित क्षेत्रों में कृषि उत्पादकता बढ़ाने के माध्यम से सतत कृषि को बढ़ावा देता है।',
+        'pa':
+            'ਜਲਵਾਯੂ ਤਬਦੀਲੀ ਨਾਲ ਸਬੰਧਤ ਅਨੁਕੂਲਨ ਰਣਨੀਤੀਆਂ ਅਤੇ ਬਾਰਸ਼-ਖੁਰਾਕ ਵਾਲੇ ਖੇਤਰਾਂ ਵਿੱਚ ਖੇਤੀਬਾੜੀ ਉਤਪਾਦਕਤਾ ਨੂੰ ਵਧਾਉਣ ਦੁਆਰਾ ਟਿਕਾਊ ਖੇਤੀਬਾੜੀ ਨੂੰ ਉਤਸ਼ਾਹਿਤ ਕਰਦਾ ਹੈ।',
+        'bn':
+            'জলবায়ু পরিবর্তন সম্পর্কিত অভিযোজন কৌশল এবং বৃষ্টিনির্ভর অঞ্চলে কৃষি উৎপাদনশীলতা বৃদ্ধির মাধ্যমে টেকসই কৃষিকে উন্নীত করে।',
+        'ta':
+            'காலநிலை மாற்றம் தொடர்பான தழுவல் உத்திகள் மற்றும் மழைநீர் சார்ந்த பகுதிகளில் விவசாய உற்பத்தித்திறனை அதிகரிப்பதன் மூலம் நிலையான விவசாயத்தை ஊக்குவிக்கிறது.',
+        'te':
+            'వాతావరణ మార్పుతో సంబంధం ఉన్న అనుకూలీకరణ వ్యూహాలు మరియు వర్షాధారిత ప్రాంతాలలో వ్యవసాయ ఉత్పాదకతను పెంచడం ద్వారా స్థిరమైన వ్యవసాయాన్ని ప్రోత్సహిస్తుంది.',
+        'mr':
+            'हवामान बदलाशी संबंधित जुळवून घेण्याच्या धोरणांद्वारे आणि पावसावर अवलंबून असलेल्या भागात शेतीची उत्पादकता वाढवून शाश्वत शेतीला प्रोत्साहन देते.',
+        'gu':
+            'જલવાયુ ફેરફાર સાથે સંબંધિત અનુકૂલન વ્યૂહરચનાઓ અને વરસાદ આધારિત વિસ્તારોમાં ખેતીની ઉત્પાદકતા વધારવા દ્વારા ટકાઉ ખેતીને પ્રોત્સાહન આપે છે.',
+      },
+      imageUrl: 'assets/nmsa.png',
+      expiryDate: DateTime(2026, 3, 31),
+      department: {
+        'en': 'Agriculture Department',
+        'hi': 'कृषि विभाग',
+        'pa': 'ਖੇਤੀਬਾੜੀ ਵਿਭਾਗ',
+        'bn': 'কৃষি বিভাগ',
+        'ta': 'விவசாயத் துறை',
+        'te': 'వ్యవసాయ శాఖ',
+        'mr': 'कृषी विभाग',
+        'gu': 'કૃષિ વિભાગ',
+      },
+      farmingTypes: ['All', 'Organic'],
+      cropTypes: ['All'],
+      minLandSize: 0.0,
+      maxLandSize: double.infinity,
+      requiresAadhar: true,
+      eligibilityCriteria: {
+        'en':
+            'All farmers with special focus on rainfed agriculture areas and small/marginal farmers.',
+        'hi':
+            'वर्षा आधारित कृषि क्षेत्रों और छोटे/सीमांत किसानों पर विशेष ध्यान देने वाले सभी किसान।',
+        'pa':
+            'ਬਾਰਸ਼-ਖੁਰਾਕ ਵਾਲੇ ਖੇਤੀਬਾੜੀ ਖੇਤਰਾਂ ਅਤੇ ਛੋਟੇ/ਸੀਮਾਂਤ ਕਿਸਾਨਾਂ ਤੇ ਖਾਸ ਧਿਆਨ ਦੇਣ ਵਾਲੇ ਸਾਰੇ ਕਿਸਾਨ।',
+        'bn':
+            'বৃষ্টিনির্ভর কৃষি অঞ্চল এবং ছোট/প্রান্তিক কৃষকদের উপর বিশেষ জোর দিয়ে সমস্ত কৃষক।',
+        'ta':
+            'மழைநீர் சார்ந்த விவசாய பகுதிகள் மற்றும் சிறிய/குறு விவசாயிகளுக்கு சிறப்பு கவனம் செலுத்தும் அனைத்து விவசாயிகளும்.',
+        'te':
+            'వర్షాధారిత వ్యవసాయ ప్రాంతాలు మరియు చిన్న/సీమాంత రైతులపై ప్రత్యేక దృష్టి పెట్టే అన్ని రైతులు.',
+        'mr':
+            'पावसावर अवलंबून असलेल्या शेती क्षेत्रांवर आणि लहान/सीमांत शेतकऱ्यांवर विशेष लक्ष केंद्रित करणारे सर्व शेतकरी.',
+        'gu':
+            'વરસાદ આધારિત ખેતી વિસ્તારો અને નાના/સીમાંત ખેડૂતો પર ખાસ ધ્યાન આપતા તમામ ખેડૂતો.',
+      },
+      applicationProcess: {
+        'en':
+            'Apply through District Agriculture Officer or Krishi Vigyan Kendra with land documents, bank account details, and Aadhaar card.',
+        'hi':
+            'जिला कृषि अधिकारी या कृषि विज्ञान केंद्र के माध्यम से जमीन के दस्तावेज, बैंक खाता विवरण और आधार कार्ड के साथ आवेदन करें।',
+        'pa':
+            'ਜ਼ਮੀਨ ਦੇ ਦਸਤਾਵੇਜ਼ਾਂ, ਬੈਂਕ ਖਾਤੇ ਦੇ ਵੇਰਵੇ ਅਤੇ ਆਧਾਰ ਕਾਰਡ ਨਾਲ ਜ਼ਿਲ੍ਹਾ ਖੇਤੀਬਾੜੀ ਅਧਿਕਾਰੀ ਜਾਂ ਕ੍ਰਿਸ਼ੀ ਵਿਗਿਆਨ ਕੇਂਦਰ ਰਾਹੀਂ ਅਰਜ਼ੀ ਦਿਓ।',
+        'bn':
+            'জমির নথি, ব্যাংক অ্যাকাউন্টের বিবরণ এবং আধার কার্ড সহ জেলা কৃষি কর্মকর্তা বা কৃষি বিজ্ঞান কেন্দ্রের মাধ্যমে আবেদন করুন।',
+        'ta':
+            'நில ஆவணங்கள், வங்கி கணக்கு விவரங்கள் மற்றும் ஆதார் அட்டையுடன் மாவட்ட வேளாண் அலுவலர் அல்லது கிரிஷி விக்யான் கேந்திரா மூலம் விண்ணப்பிக்கவும்.',
+        'te':
+            'జిల్లా వ్యవసాయ అధికారి లేదా కృషి విజ్ఞాన కేంద్రం ద్వారా భూమి డాక్యుమెంట్స్, బ్యాంక్ ఖాతా వివరాలు మరియు ఆధార్ కార్డ్‌తో దరఖాస్తు చేసుకోండి.',
+        'mr':
+            'जमीन दस्तऐवज, बँक खात्याची माहिती आणि आधार कार्डसह जिल्हा कृषी अधिकाऱ्याकडे किंवा कृषी विज्ञान केंद्रात अर्ज करा.',
+        'gu':
+            'જમીનના દસ્તાવેજો, બેંક એકાઉન્ટની વિગતો અને આધાર કાર્ડ સાથે જિલ્લા કૃષિ અધિકારી અથવા કૃષિ વિજ્ઞાન કેન્દ્ર દ્વારા અરજી કરો.',
+      },
+      benefits: {
+        'en':
+            'Financial assistance for soil health management, rainwater harvesting, climate-smart agriculture practices. 50% subsidy on soil ameliorants, micronutrients, organic inputs. Support for establishing custom hiring centers for farm equipment.',
+        'hi':
+            'मृदा स्वास्थ्य प्रबंधन, वर्षा जल संचयन, जलवायु-स्मार्ट कृषि प्रथाओं के लिए वित्तीय सहायता। मृदा सुधारकों, सूक्ष्म पोषक तत्वों, जैविक आदानों पर 50% सब्सिडी। कृषि उपकरणों के लिए कस्टम हायरिंग केंद्र स्थापित करने के लिए समर्थन।',
+        'pa':
+            'ਮਿੱਟੀ ਦੀ ਸਿਹਤ ਪ੍ਰਬੰਧਨ, ਬਾਰਸ਼ ਦੇ ਪਾਣੀ ਦੀ ਕਟਾਈ, ਜਲਵਾਯੂ-ਸਮਾਰਟ ਖੇਤੀਬਾੜੀ ਅਭਿਆਸਾਂ ਲਈ ਵਿੱਤੀ ਸਹਾਇਤਾ। ਮਿੱਟੀ ਦੇ ਸੁਧਾਰਕਾਂ, ਮਾਈਕ੍ਰੋਨਿਊਟ੍ਰੀਐਂਟਸ, ਜੈਵਿਕ ਇਨਪੁੱਟਸ ਤੇ 50% ਸਬਸਿਡੀ। ਖੇਤੀ ਉਪਕਰਣਾਂ ਲਈ ਕਸਟਮ ਹਾਇਰਿੰਗ ਸੈਂਟਰ ਸਥਾਪਤ ਕਰਨ ਲਈ ਸਹਾਇਤਾ।',
+        'bn':
+            'মাটির স্বাস্থ্য ব্যবস্থাপনা, বৃষ্টির জল সংগ্রহের জন্য আর্থিক সহায়তা, জলবায়ু-স্মার্ট কৃষি অনুশীলন। মাটি সংশোধনকারী, মাইক্রোনিউট্রিয়েন্টস, জৈব উপকরণে 50% ভর্তুকি। খামারের সরঞ্জামের জন্য কাস্টম ভাড়া কেন্দ্র স্থাপনের জন্য সহায়তা।',
+        'ta':
+            'மண் ஆரோக்கிய மேலாண்மை, மழைநீர் சேகரிப்பு, காலநிலை-ஸ்மார்ட் விவசாய நடைமுறைகளுக்கான நிதி உதவி. மண் மேம்பாட்டாளர்கள், நுண்ணூட்டச்சத்துக்கள், கரிம உள்ளீடுகளில் 50% மானியம். விவசாய உபகரணங்களுக்கான தனிப்பயன் நியமன மையங்களை நிறுவுவதற்கான ஆதரவு.',
+        'te':
+            'నేల ఆరోగ్య నిర్వహణ, వర్షపు నీటి సేకరణ, వాతావరణ-స్మార్ట్ వ్యవసాయ పద్ధతులకు ఆర్థిక సహాయం. నేల మెరుగుపరిచే పదార్థాలు, సూక్ష్మపోషకాలు, సేంద్రీయ ఇన్పుట్లపై 50% సబ్సిడీ. వ్యవసాయ పరికరాల కోసం కస్టమ్ నియామక కేంద్రాలను ఏర్పాటు చేయడానికి మద్దతు.',
+        'mr':
+            'मातीच्या आरोग्य व्यवस्थापनासाठी, पावसाच्या पाण्याच्या साठवणुकीसाठी, हवामान-स्मार्ट शेती पद्धतींसाठी आर्थिक मदत. माती सुधारक, सूक्ष्म पोषकतत्वे, सेंद्रिय आदानावर 50% सब्सिडी. शेतीच्या साधनांसाठी कस्टम भाडेतत्त्व केंद्र स्थापन करण्यासाठी समर्थन.',
+        'gu':
+            'માટીના આરોગ્ય વ્યવસ્થાપન, વરસાદનું પાણી સંઘરવા, હવામાન-સ્માર્ટ ખેતી પદ્ધતિઓ માટે નાણાકીય સહાય. માટીના સુધારકો, સૂક્ષ્મ પોષક તત્વો, સેંદ્રિય ઇનપુટ્સ પર 50% સબસિડી. ખેતી સાધનો માટે કસ્ટમ હાયરિંગ સેન્ટર સ્થાપવા માટે ટેકો.',
+      },
+      contactInfo: {
+        'en': 'District Agriculture Office or Toll Free: 1800-180-1551',
+        'hi': 'जिला कृषि कार्यालय या टोल फ्री: 1800-180-1551',
+        'pa': 'ਜ਼ਿਲ੍ਹਾ ਖੇਤੀਬਾੜੀ ਦਫ਼ਤਰ ਜਾਂ ਟੋਲ ਫ੍ਰੀ: 1800-180-1551',
+        'bn': 'জেলা কৃষি অফিস বা টোল ফ্রি: 1800-180-1551',
+        'ta': 'மாவட்ட வேளாண் அலுவலகம் அல்லது டோல் ஃப்ரீ: 1800-180-1551',
+        'te': 'జిల్లా వ్యవసాయ కార్యాలయం లేదా టోల్ ఫ్రీ: 1800-180-1551',
+        'mr': 'जिल्हा कृषी कार्यालय किंवा टोल फ्री: 1800-180-1551',
+        'gu': 'જિલ્લા કૃષિ કાર્યાલય અથવા ટોલ ફ્રી: 1800-180-1551',
+      },
+    ),
+
+    GovernmentScheme(
+      id: '7',
+      title: {
+        'en': 'National Livestock Mission (NLM)',
+        'hi': 'राष्ट्रीय पशुधन मिशन (एनएलएम)',
+        'pa': 'ਨੈਸ਼ਨਲ ਲਾਇਵਸਟਾਕ ਮਿਸ਼ਨ (ਐਨਐਲਐਮ)',
+        'bn': 'জাতীয় পশুসম্পদ মিশন (এনএলএম)',
+        'ta': 'தேசிய கால்நடை மிஷன் (என்எல்எம்)',
+        'te': 'నేషనల్ లివ్‌స్టాక్ మిషన్ (ఎన్ఎల్ఎమ్)',
+        'mr': 'राष्ट्रीय पशुधन मिशन (एनएलएम)',
+        'gu': 'નેશનલ લાઇવસ્ટોક મિશન (એનએલએમ)',
+      },
+      description: {
+        'en':
+            'Aims to ensure quantitative and qualitative improvement in livestock production systems and capacity building of all stakeholders.',
+        'hi':
+            'पशुधन उत्पादन प्रणालियों में मात्रात्मक और गुणात्मक सुधार और सभी हितधारकों की क्षमता निर्माण सुनिश्चित करना है।',
+        'pa':
+            'ਪਸ਼ੂਧਨ ਉਤਪਾਦਨ ਪ੍ਰਣਾਲੀਆਂ ਵਿੱਚ ਮਾਤਰਾਤਮਕ ਅਤੇ ਗੁਣਾਤਮਕ ਸੁਧਾਰ ਅਤੇ ਸਾਰੇ ਹਿੱਤਧਾਰਕਾਂ ਦੀ ਸਮਰੱਥਾ ਨਿਰਮਾਣ ਨੂੰ ਯਕੀਨੀ ਬਣਾਉਣ ਦਾ ਟੀਚਾ ਹੈ।',
+        'bn':
+            'পশুসম্পদ উৎপাদন ব্যবস্থায় পরিমাণগত এবং গুণগত উন্নতি এবং সমস্ত অংশীদারদের সক্ষমতা বৃদ্ধি নিশ্চিত করার লক্ষ্য।',
+        'ta':
+            'கால்நடை உற்பத்தி முறைகளில் அளவு மற்றும் தரமான முன்னேற்றம் மற்றும் அனைத்து தரப்பினரின் திறன் வளர்ச்சியை உறுதி செய்வதே இலக்கு.',
+        'te':
+            'పశుసంపద ఉత్పత్తి వ్యవస్థలలో పరిమాణాత్మక మరియు గుణాత్మక మెరుగుదల మరియు అన్ని వాటాదారుల సామర్థ్య నిర్మాణాన్ని నిర్ధారించడం లక్ష్యం.',
+        'mr':
+            'पशुधन उत्पादन प्रणालींमध्ये परिमाणात्मक आणि गुणात्मक सुधारणा आणि सर्व भागधारकांच्या क्षमता निर्मितीची खात्री करणे हे उद्दिष्ट आहे.',
+        'gu':
+            'પશુધન ઉત્પાદન સિસ્ટમોમાં માત્રાત્મક અને ગુણાત્મક સુધારો અને તમામ હિતધારકોની ક્ષમતા નિર્માણ સુનિશ્ચિત કરવાનો ધ્યેય છે.',
+      },
+      imageUrl: 'assets/nlm.png',
+      expiryDate: DateTime(2026, 3, 31),
+      department: {
+        'en': 'Animal Husbandry Department',
+        'hi': 'पशुपालन विभाग',
+        'pa': 'ਪਸ਼ੂ ਪਾਲਣ ਵਿਭਾਗ',
+        'bn': 'পশুপালন বিভাগ',
+        'ta': 'கால்நடை பராமரிப்பு துறை',
+        'te': 'పశుపాలన శాఖ',
+        'mr': 'पशुपालन विभाग',
+        'gu': 'પશુપાલન વિભાગ',
+      },
+      farmingTypes: ['Dairy', 'Poultry'],
+      cropTypes: ['All'],
+      minLandSize: 0.0,
+      maxLandSize: double.infinity,
+      requiresAadhar: true,
+      eligibilityCriteria: {
+        'en':
+            'All farmers, landless laborers, SHGs involved in animal husbandry. Special provisions for SC/ST/women beneficiaries.',
+        'hi':
+            'पशुपालन में शामिल सभी किसान, भूमिहीन मजदूर, स्वयं सहायता समूह। एससी/एसटी/महिला लाभार्थियों के लिए विशेष प्रावधान।',
+        'pa':
+            'ਪਸ਼ੂ ਪਾਲਣ ਵਿੱਚ ਸ਼ਾਮਲ ਸਾਰੇ ਕਿਸਾਨ, ਬੇਜ਼ਮੀਨ ਮਜ਼ਦੂਰ, ਸਵੈ ਸਹਾਇਤਾ ਸਮੂਹ। SC/ST/ਮਹਿਲਾ ਲਾਭਾਰਥੀਆਂ ਲਈ ਵਿਸ਼ੇਸ਼ ਪ੍ਰਬੰਧ।',
+        'bn':
+            'পশুপালনে জড়িত সমস্ত কৃষক, ভূমিহীন শ্রমিক, স্ব-সহায়ক গোষ্ঠী। তফসিলি জাতি/উপজাতি/মহিলা সুবিধাভোগীদের জন্য বিশেষ বিধান।',
+        'ta':
+            'கால்நடை வளர்ப்பில் ஈடுபட்டுள்ள அனைத்து விவசாயிகள், நிலமற்ற தொழிலாளர்கள், சுயஉதவிக் குழுக்கள். SC/ST/பெண்கள் பயனாளிகளுக்கான சிறப்பு விதிகள்.',
+        'te':
+            'పశుపాలనలో పాల్గొన్న అన్ని రైతులు, భూమిలేని కూలీలు, స్వయం సహాయక సమూహాలు. SC/ST/స్త్రీల లబ్ధిదారుల కోసం ప్రత్యేక నిబంధనలు.',
+        'mr':
+            'पशुपालनात गुंतलेले सर्व शेतकरी, भूमिहीन कामगार, स्वयंसहाय्य गट. अनुसूचित जाती/जमाती/महिला लाभार्थ्यांसाठी विशेष तरतूद.',
+        'gu':
+            'પશુપાલનમાં સામેલ તમામ ખેડૂતો, જમીનવિહીન મજૂરો, સ્વયં સહાયતા જૂથો. SC/ST/સ્ત્રીઓના લાભાર્થીઓ માટે વિશેષ જોગવાઈઓ.',
+      },
+      applicationProcess: {
+        'en':
+            'Apply through local Veterinary Hospital, District Animal Husbandry Department or Krishi Vigyan Kendra with ID proof, bank details, and project proposal if applicable.',
+        'hi':
+            'स्थानीय पशु चिकित्सालय, जिला पशुपालन विभाग या कृषि विज्ञान केंद्र के माध्यम से पहचान प्रमाण, बैंक विवरण और यदि लागू हो तो परियोजना प्रस्ताव के साथ आवेदन करें।',
+        'pa':
+            'ਸਥਾਨਕ ਵੈਟਰਨਰੀ ਹਸਪਤਾਲ, ਜ਼ਿਲ੍ਹਾ ਪਸ਼ੂ ਪਾਲਣ ਵਿਭਾਗ ਜਾਂ ਕ੍ਰਿਸ਼ੀ ਵਿਗਿਆਨ ਕੇਂਦਰ ਰਾਹੀਂ ID ਪ੍ਰਮਾਣ, ਬੈਂਕ ਵੇਰਵੇ ਅਤੇ ਜੇ ਲਾਗੂ ਹੋਵੇ ਤਾਂ ਪ੍ਰੋਜੈਕਟ ਪ੍ਰਸਤਾਵ ਨਾਲ ਅਰਜ਼ੀ ਦਿਓ।',
+        'bn':
+            'স্থানীয় পশুচিকিত্সা হাসপাতাল, জেলা পশুপালন বিভাগ বা কৃষি বিজ্ঞান কেন্দ্রের মাধ্যমে পরিচয় প্রমাণ, ব্যাংক বিবরণ এবং প্রয়োজনে প্রকল্প প্রস্তাব সহ আবেদন করুন।',
+        'ta':
+            'உள்ளூர் கால்நடை மருத்துவமனை, மாவட்ட கால்நடை பராமரிப்பு துறை அல்லது கிரிஷி விக்யான் கேந்திரா வழியாக அடையாள ஆதாரம், வங்கி விவரங்கள் மற்றும் தேவைப்பட்டால் திட்ட முன்மொழிவுடன் விண்ணப்பிக்கவும்.',
+        'te':
+            'స్థానిక వెటర్నరీ హాస్పిటల్, జిల్లా పశుపాలన శాఖ లేదా కృషి విజ్ఞాన కేంద్రం ద్వారా ID పురావా, బ్యాంక్ వివరాలు మరియు వర్తించినట్లయితే ప్రాజెక్ట్ ప్రతిపాదనతో దరఖాస్తు చేసుకోండి.',
+        'mr':
+            'स्थानिक पशुवैद्यकीय रुग्णालय, जिल्हा पशुपालन विभाग किंवा कृषी विज्ञान केंद्रातून ओळखपत्र, बँक तपशील आणि लागू असेल तर प्रकल्प प्रस्तावासह अर्ज करा.',
+        'gu':
+            'સ્થાનિક પશુ દવાખાના, જિલ્લા પશુપાલન વિભાગ અથવા કૃષિ વિજ્ઞાન કેન્દ્ર દ્વારા ID પુરાવો, બેંકની વિગતો અને લાગુ પડે તો પ્રોજેક્ટ પ્રસ્તાવ સાથે અરજી કરો.',
+      },
+      benefits: {
+        'en':
+            'Up to 50% subsidy for establishing small ruminant units, poultry units, piggery units. Financial assistance for feed and fodder development. Support for entrepreneurship development and technology transfer.',
+        'hi':
+            'छोटे रोमंथक इकाइयों, पोल्ट्री इकाइयों, सुअर पालन इकाइयों की स्थापना के लिए 50% तक की सब्सिडी। चारा और चारा विकास के लिए वित्तीय सहायता। उद्यमिता विकास और प्रौद्योगिकी हस्तांतरण के लिए समर्थन।',
+        'pa':
+            'ਛੋਟੇ ਰੋਮੰਥਕ ਯੂਨਿਟਾਂ, ਪੋਲਟਰੀ ਯੂਨਿਟਾਂ, ਸੂਰ ਪਾਲਣ ਯੂਨਿਟਾਂ ਸਥਾਪਤ ਕਰਨ ਲਈ 50% ਤੱਕ ਦੀ ਸਬਸਿਡੀ। ਫੀਡ ਅਤੇ ਚਾਰੇ ਦੇ ਵਿਕਾਸ ਲਈ ਵਿੱਤੀ ਸਹਾਇਤਾ। ਉੱਦਮਤਾ ਵਿਕਾਸ ਅਤੇ ਤਕਨਾਲੋਜੀ ਟ੍ਰਾਂਸਫਰ ਲਈ ਸਹਾਇਤਾ।',
+        'bn':
+            'ছোট রোমন্থক ইউনিট, পোল্ট্রি ইউনিট, শূকর পালন ইউনিট স্থাপনের জন্য 50% পর্যন্ত ভর্তুকি। খাদ্য ও খড়ের উন্নয়নের জন্য আর্থিক সহায়তা। উদ্যোগ উন্নয়ন এবং প্রযুক্তি হস্তান্তরের জন্য সহায়তা।',
+        'ta':
+            'சிறிய ருமினன்ட் அலகுகள், கோழி பண்ணை அலகுகள், பன்றி பண்ணை அலகுகள் நிறுவுவதற்கு 50% வரை மானியம். தீவனம் மற்றும் வைக்கோல் வளர்ச்சிக்கான நிதி உதவி. தொழில் முனைவோர் மேம்பாடு மற்றும் தொழில்நுட்ப பரிமாற்றத்திற்கான ஆதரவு.',
+        'te':
+            'చిన్న రోమన్ యూనిట్లు, పౌల్ట్రీ యూనిట్లు, పంది పెంపక యూనిట్లను ఏర్పాటు చేయడానికి 50% వరకు సబ్సిడీ. ఫీడ్ మరియు గడ్డి అభివృద్ధి కోసం ఆర్థిక సహాయం. వ్యవస్థాపక అభివృద్ధి మరియు సాంకేతిక బదిలీకి మద్దతు.',
+        'mr':
+            'लहान रोमंथक एकके, कुक्कुटपालन एकके, डुक्करपालन एकके स्थापन करण्यासाठी 50% पर्यंत सब्सिडी. चारा आणि चारा विकासासाठी आर्थिक मदत. उद्योजकता विकास आणि तंत्रज्ञान हस्तांतरणासाठी समर्थन.',
+        'gu':
+            'નાના રોમિનન્ટ યુનિટ્સ, પોલ્ટ્રી યુનિટ્સ, પિગરી યુનિટ્સ સ્થાપિત કરવા માટે 50% સુધીની સબસિડી. ફીડ અને ઘાસચારાના વિકાસ માટે નાણાકીય સહાય. ઉદ્યોગતા વિકાસ અને ટેકનોલોજી ટ્રાન્સફર માટે ટેકો.',
+      },
+      contactInfo: {
+        'en':
+            'District Animal Husbandry Department or Toll Free: 1800-180-8791',
+        'hi': 'जिला पशुपालन विभाग या टोल फ्री: 1800-180-8791',
+        'pa': 'ਜ਼ਿਲ੍ਹਾ ਪਸ਼ੂ ਪਾਲਣ ਵਿਭਾਗ ਜਾਂ ਟੋਲ ਫ੍ਰੀ: 1800-180-8791',
+        'bn': 'জেলা পশুপালন বিভাগ বা টোল ফ্রি: 1800-180-8791',
+        'ta': 'மாவட்ட கால்நடை பராமரிப்பு துறை அல்லது டோல் ஃப்ரீ: 1800-180-8791',
+        'te': 'జిల్లా పశుపాలన శాఖ లేదా టోల్ ఫ్రీ: 1800-180-8791',
+        'mr': 'जिल्हा पशुपालन विभाग किंवा टोल फ्री: 1800-180-8791',
+        'gu': 'જિલ્લા પશુપાલન વિભાગ અથવા ટોલ ફ્રી: 1800-180-8791',
+      },
+    ),
+
+    GovernmentScheme(
+      id: '8',
+      title: {
+        'en': 'Pradhan Mantri Kisan Maan Dhan Yojana (PM-KMY)',
+        'hi': 'प्रधानमंत्री किसान मान धन योजना (पीएम-केएमवाई)',
+        'pa': 'ਪ੍ਰਧਾਨ ਮੰਤਰੀ ਕਿਸਾਨ ਮਾਨ ਧਨ ਯੋਜਨਾ (ਪੀਐਮ-ਕੇਐਮਵਾਈ)',
+        'bn': 'প্রধানমন্ত্রী কিসান মান ধন যোজন (পিএম-কেএমওয়াই)',
+        'ta': 'பிரதமர் கிசான் மான் தன யோஜனா (பிஎம்-கேஎம்ஒய்)',
+        'te': 'ప్రధాన మంత్రి కిసాన్ మాన్ ధన్ యోజన (పీఎం-కెఎమ్వై)',
+        'mr': 'प्रधानमंत्री किसान मान धन योजना (पीएम-केएमवाय)',
+        'gu': 'પ્રધાનમંત્રી કિસાન માન ધન યોજના (પીએમ-કેએમવાય)',
+      },
+      description: {
+        'en':
+            'Voluntary and contributory pension scheme for small and marginal farmers to provide them social security in old age.',
+        'hi':
+            'छोटे और सीमांत किसानों के लिए स्वैच्छिक और अंशदायी पेंशन योजना जो उन्हें बुढ़ापे में सामाजिक सुरक्षा प्रदान करती है।',
+        'pa':
+            'ਛੋਟੇ ਅਤੇ ਸੀਮਾਂਤ ਕਿਸਾਨਾਂ ਲਈ ਆਪਣੀ ਮਰਜ਼ੀ ਅਤੇ ਯੋਗਦਾਨ ਪੈਨਸ਼ਨ ਯੋਜਨਾ ਜੋ ਉਹਨਾਂ ਨੂੰ ਬੁਢਾਪੇ ਵਿੱਚ ਸਮਾਜਿਕ ਸੁਰੱਖਿਆ ਪ੍ਰਦਾਨ ਕਰਦੀ ਹੈ।',
+        'bn':
+            'ছোট ও প্রান্তিক কৃষকদের জন্য স্বেচ্ছাসেবী ও অবদানভিত্তিক পেনশন স্কিম যা তাদের বার্ধক্যে সামাজিক সুরক্ষা প্রদান করে।',
+        'ta':
+            'சிறிய மற்றும் குறு விவசாயிகளுக்கான தன்னார்வ மற்றும் பங்களிப்பு ஓய்வூதிய திட்டம், அவர்களுக்கு முதுமையில் சமூக பாதுகாப்பை வழங்குகிறது.',
+        'te':
+            'చిన్న మరియు సీమాంత రైతులకు స్వచ్ఛంద మరియు సహాయక పెన్షన్ పథకం, వారికి వృద్ధాప్యంలో సామాజిక భద్రతను అందిస్తుంది.',
+        'mr':
+            'लहान व सीमांत शेतकऱ्यांसाठी स्वयंसेवी व योगदानात्मक निवृत्तीवेतन योजना जी त्यांना वृद्धापकाळात सामाजिक सुरक्षा पुरवते.',
+        'gu':
+            'નાના અને સીમાંત ખેડૂતો માટે સ્વૈચ્છિક અને યોગદાન આપતી પેન્શન યોજના જે તેમને વૃદ્ધાવસ્થામાં સામાજિક સુરક્ષા પ્રદાન કરે છે.',
+      },
+      imageUrl: 'assets/pmkmy.png',
+      expiryDate: DateTime(2025, 12, 31),
+      department: {
+        'en': 'Agriculture Department',
+        'hi': 'कृषि विभाग',
+        'pa': 'ਖੇਤੀਬਾੜੀ ਵਿਭਾਗ',
+        'bn': 'কৃষি বিভাগ',
+        'ta': 'விவசாயத் துறை',
+        'te': 'వ్యవసాయ శాఖ',
+        'mr': 'कृषी विभाग',
+        'gu': 'કૃષિ વિભાગ',
+      },
+      farmingTypes: ['All'],
+      cropTypes: ['All'],
+      minLandSize: 0.0,
+      maxLandSize: 2.0,
+      requiresAadhar: true,
+      eligibilityCriteria: {
+        'en':
+            'Small and marginal farmers between 18-40 years of age with landholding up to 2 hectares.',
+        'hi':
+            '18-40 वर्ष की आयु के छोटे और सीमांत किसान जिनके पास 2 हेक्टेयर तक की जोत है।',
+        'pa':
+            '18-40 ਸਾਲ ਦੀ ਉਮਰ ਦੇ ਛੋਟੇ ਅਤੇ ਸੀਮਾਂਤ ਕਿਸਾਨ ਜਿਨ੍ਹਾਂ ਕੋਲ 2 ਹੈਕਟੇਅਰ ਤੱਕ ਦੀ ਜ਼ਮੀਨ ਹੈ।',
+        'bn':
+            '18-40 বছর বয়সী ছোট ও প্রান্তিক কৃষক যাদের জমির পরিমাণ 2 হেক্টর পর্যন্ত।',
+        'ta':
+            '18-40 வயதுக்குட்பட்ட சிறிய மற்றும் குறு விவசாயிகள், 2 ஹெக்டேர் வரை நில உரிமை கொண்டவர்கள்.',
+        'te':
+            '18-40 సంవత్సరాల వయస్సు గల చిన్న మరియు సీమాంత రైతులు, 2 హెక్టార్ల వరకు భూమిని కలిగి ఉంటారు.',
+        'mr':
+            '18-40 वर्षे वयोगटातील लहान व सीमांत शेतकरी ज्यांच्याकडे 2 हेक्टरपर्यंत जमीन आहे.',
+        'gu':
+            '18-40 વર્ષની ઉંમરના નાના અને સીમાંત ખેડૂતો જેમની પાસે 2 હેક્ટર સુધીની જમીન છે.',
+      },
+      applicationProcess: {
+        'en':
+            'Register at nearest Common Service Center (CSC) with Aadhaar card, bank account details, and land records. Can also register online through PM-KMY portal.',
+        'hi':
+            'निकटतम सामान्य सेवा केंद्र (सीएससी) पर आधार कार्ड, बैंक खाता विवरण और भूमि रिकॉर्ड के साथ पंजीकरण करें। पीएम-केएमवाई पोर्टल के माध्यम से ऑनलाइन भी पंजीकरण कर सकते हैं।',
+        'pa':
+            'ਨਜ਼ਦੀਕੀ ਕਾਮਨ ਸਰਵਿਸ ਸੈਂਟਰ (ਸੀਐਸਸੀ) ਵਿੱਚ ਆਧਾਰ ਕਾਰਡ, ਬੈਂਕ ਖਾਤੇ ਦੇ ਵੇਰਵੇ ਅਤੇ ਜ਼ਮੀਨ ਦੇ ਰਿਕਾਰਡਾਂ ਨਾਲ ਰਜਿਸਟਰ ਕਰੋ। PM-KMY ਪੋਰਟਲ ਰਾਹੀਂ ਔਨਲਾਈਨ ਵੀ ਰਜਿਸਟਰ ਕਰ ਸਕਦੇ ਹੋ।',
+        'bn':
+            'নিকটতম সাধারণ পরিষেবা কেন্দ্রে (সিএসসি) আধার কার্ড, ব্যাংক অ্যাকাউন্টের বিবরণ এবং জমির রেকর্ড সহ নিবন্ধন করুন। পিএম-কেএমওয়াই পোর্টালের মাধ্যমে অনলাইনেও নিবন্ধন করতে পারেন।',
+        'ta':
+            'அருகிலுள்ள பொது சேவை மையத்தில் (சிஎஸ்சி) ஆதார் அட்டை, வங்கி கணக்கு விவரங்கள் மற்றும் நில பதிவேடுகளுடன் பதிவு செய்யவும். பிஎம்-கேஎம்ஒய் போர்ட்டல் மூலம் ஆன்லைனில் பதிவு செய்யலாம்.',
+        'te':
+            'దగ్గర్లోని కామన్ సర్వీస్ సెంటర్ (CSC) వద్ద ఆధార్ కార్డ్, బ్యాంక్ ఖాతా వివరాలు మరియు భూమి రికార్డులతో నమోదు చేసుకోండి. PM-KMY పోర్టల్ ద్వారా ఆన్‌లైన్‌లో కూడా నమోదు చేసుకోవచ్చు.',
+        'mr':
+            'जवळच्या कॉमन सर्व्हिस सेंटर (CSC) मध्ये आधार कार्ड, बँक खात्याची माहिती आणि जमीन नोंदी सह नोंदणी करा. पीएम-केएमवाय पोर्टलद्वारे ऑनलाईन देखील नोंदणी करू शकता.',
+        'gu':
+            'નજીકના કોમન સર્વિસ સેન્ટર (CSC) પર આધાર કાર્ડ, બેંક એકાઉન્ટની વિગતો અને જમીનના રેકોર્ડ સાથે નોંધણી કરો. PM-KMY પોર્ટલ દ્વારા ઑનલાઇન પણ નોંધણી કરી શકાય છે.',
+      },
+      benefits: {
+        'en':
+            'Monthly pension of ₹3,000 after attaining the age of 60. Family pension applicable in case of death of the farmer. Central Government matches the farmer contribution. Exit option available with appropriate returns.',
+        'hi':
+            '60 वर्ष की आयु प्राप्त करने के बाद ₹3,000 की मासिक पेंशन। किसान की मृत्यु की स्थिति में पारिवारिक पेंशन लागू होती है। केंद्र सरकार किसान के योगदान से मेल खाती है। उचित रिटर्न के साथ निकास विकल्प उपलब्ध है।',
+        'pa':
+            '60 ਸਾਲ ਦੀ ਉਮਰ ਪ੍ਰਾਪਤ ਕਰਨ ਤੋਂ ਬਾਅਦ ₹3,000 ਦੀ ਮਾਸਿਕ ਪੈਨਸ਼ਨ। ਕਿਸਾਨ ਦੀ ਮੌਤ ਦੀ ਸਥਿਤੀ ਵਿੱਚ ਪਰਿਵਾਰਕ ਪੈਨਸ਼ਨ ਲਾਗੂ ਹੁੰਦੀ ਹੈ। ਕੇਂਦਰ ਸਰਕਾਰ ਕਿਸਾਨ ਦੇ ਯੋਗਦਾਨ ਨਾਲ ਮੇਲ ਖਾਂਦੀ ਹੈ। ਉਚਿਤ ਵਾਪਸੀ ਦੇ ਨਾਲ ਬਾਹਰ ਨਿਕਲਣ ਦਾ ਵਿਕਲਪ ਉਪਲਬਧ ਹੈ।',
+        'bn':
+            '60 বছর বয়সে পৌঁছানোর পর মাসিক ₹3,000 পেনশন। কৃষকের মৃত্যুর ক্ষেত্রে পারিবারিক পেনশন প্রযোজ্য। কেন্দ্রীয় সরকার কৃষকের অবদানের সাথে মিলে যায়। উপযুক্ত রিটার্ন সহ প্রস্থানের বিকল্প উপলব্ধ।',
+        'ta':
+            '60 வயது அடைந்த பிறகு மாதாந்திர ₹3,000 ஓய்வூதியம். விவசாயி இறந்தால் குடும்ப ஓய்வூதியம் பொருந்தும். மத்திய அரசு விவசாயியின் பங்களிப்புக்கு ஈடுகொடுக்கிறது. பொருத்தமான வருமானத்துடன் வெளியேறும் விருப்பம் கிடைக்கிறது.',
+        'te':
+            '60 సంవత్సరాల వయస్సు చేరుకున్న తర్వాత నెలకు ₹3,000 పెన్షన్. రైతు మరణించిన సందర్భంలో కుటుంబ పెన్షన్ వర్తిస్తుంది. కేంద్ర ప్రభుత్వం రైతు సహకారానికి అనుగుణంగా ఉంటుంది. తగిన రాబడితో నిష్క్రమణ ఎంపిక అందుబాటులో ఉంది.',
+        'mr':
+            '60 वर्षे वयाची पूर्तता झाल्यानंतर ₹3,000 मासिक निवृत्तीवेतन. शेतकऱ्याच्या मृत्यूच्या स्थितीत कौटुंबिक निवृत्तीवेतन लागू होते. केंद्र सरकार शेतकऱ्याच्या योगदानाशी जुळवून घेते. योग्य परताव्यासह बाहेर पडण्याचा पर्याय उपलब्ध आहे.',
+        'gu':
+            '60 વર્ષની ઉંમર પ્રાપ્ત થયા પછી માસિક ₹3,000 ની પેન્શન. ખેડૂતની મૃત્યુની સ્થિતિમાં કુટુંબ પેન્શન લાગુ પડે છે. કેન્દ્ર સરકાર ખેડૂતના યોગદાનને અનુરૂપ છે. યોગ્ય રીટર્ન સાથે એગ્ઝિટ વિકલ્પ ઉપલબ્ધ છે.',
+      },
+      contactInfo: {
+        'en': 'PM-KMY Helpline: 1800-180-1551',
+        'hi': 'पीएम-केएमवाई हेल्पलाइन: 1800-180-1551',
+        'pa': 'ਪੀਐਮ-ਕੇਐਮਵਾਈ ਹੈਲਪਲਾਈਨ: 1800-180-1551',
+        'bn': 'পিএম-কেএমওয়াই হেল্পলাইন: 1800-180-1551',
+        'ta': 'பிஎம்-கேஎம்ஒய் உதவி மையம்: 1800-180-1551',
+        'te': 'PM-KMY హెల్ప్‌లైన్: 1800-180-1551',
+        'mr': 'पीएम-केएमवाय हेल्पलाइन: 1800-180-1551',
+        'gu': 'PM-KMY હેલ્પલાઇન: 1800-180-1551',
+      },
+    ),
+
+    GovernmentScheme(
+      id: '9',
+      title: {
+        'en': 'Micro Irrigation Fund (MIF)',
+        'hi': 'माइक्रो इरिगेशन फंड (एमआईएफ)',
+        'pa': 'ਮਾਈਕ੍ਰੋ ਇਰੀਗੇਸ਼ਨ ਫੰਡ (ਐਮਆਈਐਫ)',
+        'bn': 'মাইক্রো ইরিগেশন ফান্ড (এমআইএফ)',
+        'ta': 'மைக்ரோ பாசன நிதி (எம்ஐஎஃப்)',
+        'te': 'మైక్రో ఇరిగేషన్ ఫండ్ (ఎమ్ఐఎఫ్)',
+        'mr': 'मायक्रो इरिगेशन फंड (एमआयएफ)',
+        'gu': 'માઇક્રો ઇરિગેશન ફંડ (એમઆઇએફ)',
+      },
+      description: {
+        'en':
+            'Special fund created under NABARD to expand coverage of micro irrigation systems across the country for water conservation.',
+        'hi':
+            'जल संरक्षण के लिए देश भर में सूक्ष्म सिंचाई प्रणालियों के कवरेज को बढ़ाने के लिए नाबार्ड के तहत बनाया गया विशेष कोष।',
+        'pa':
+            'ਪਾਣੀ ਦੀ ਸੰਭਾਲ ਲਈ ਦੇਸ਼ ਭਰ ਵਿੱਚ ਮਾਈਕ੍ਰੋ ਸਿੰਚਾਈ ਪ੍ਰਣਾਲੀਆਂ ਦੇ ਕਵਰੇਜ ਨੂੰ ਵਧਾਉਣ ਲਈ ਨਾਬਾਰਡ ਦੇ ਤਹਿਤ ਬਣਾਇਆ ਗਿਆ ਵਿਸ਼ੇਸ਼ ਫੰਡ।',
+        'bn':
+            'জল সংরক্ষণের জন্য দেশজুড়ে মাইক্রো সেচ ব্যবস্থার কভারেজ সম্প্রসারণের জন্য নাবার্ডের অধীনে তৈরি বিশেষ তহবিল।',
+        'ta':
+            'நீர் பாதுகாப்பிற்காக நாடு முழுவதும் மைக்ரோ பாசன அமைப்புகளின் பரவலை விரிவுபடுத்த நாபார்ட் கீழ் உருவாக்கப்பட்ட சிறப்பு நிதி.',
+        'te':
+            'జల సంరక్షణ కోసం దేశవ్యాప్తంగా సూక్ష్మ నీటిపారుదల వ్యవస్థల కవరేజ్‌ను విస్తరించడానికి నాబార్డ్ కింద సృష్టించబడిన ప్రత్యేక నిధి.',
+        'mr':
+            'जलसंवर्धनासाठी देशभरात सूक्ष्म सिंचन प्रणालींचे कव्हरेज वाढविण्यासाठी नाबार्ड अंतर्गत तयार केलेला विशेष निधी.',
+        'gu':
+            'જળ સંરક્ષણ માટે દેશભરમાં માઇક્રો સિંચાઈ સિસ્ટમ્સના કવરેજને વિસ્તૃત કરવા માટે નાબાર્ડ હેઠળ બનાવવામાં આવેલ વિશિષ્ટ ફંડ.',
+      },
+      imageUrl: 'assets/mif.png',
+      expiryDate: DateTime(2026, 3, 31),
+      department: {
+        'en': 'Agriculture Department',
+        'hi': 'कृषि विभाग',
+        'pa': 'ਖੇਤੀਬਾੜੀ ਵਿਭਾਗ',
+        'bn': 'কৃষি বিভাগ',
+        'ta': 'விவசாயத் துறை',
+        'te': 'వ్యవసాయ శాఖ',
+        'mr': 'कृषी विभाग',
+        'gu': 'કૃષિ વિભાગ',
+      },
+      farmingTypes: ['All', 'Horticulture'],
+      cropTypes: ['Vegetables', 'Fruits', 'Sugarcane', 'Cotton'],
+      minLandSize: 0.0,
+      maxLandSize: double.infinity,
+      requiresAadhar: true,
+      eligibilityCriteria: {
+        'en':
+            'All farmers. Special focus on water-stressed/dark zone areas and farmers installing community-based irrigation systems.',
+        'hi':
+            'सभी किसान। जल-तनावग्रस्त/डार्क जोन क्षेत्रों और सामुदायिक आधारित सिंचाई प्रणाली स्थापित करने वाले किसानों पर विशेष ध्यान।',
+        'pa':
+            'ਸਾਰੇ ਕਿਸਾਨ। ਪਾਣੀ ਦੇ ਤਣਾਅ/ਡਾਰਕ ਜ਼ੋਨ ਖੇਤਰਾਂ ਅਤੇ ਕਿਸਾਨਾਂ ਨੂੰ ਕਮਿਊਨਿਟੀ-ਅਧਾਰਿਤ ਸਿੰਚਾਈ ਪ੍ਰਣਾਲੀਆਂ ਸਥਾਪਤ ਕਰਨ ਤੇ ਖਾਸ ਧਿਆਨ।',
+        'bn':
+            'সমস্ত কৃষক। জল-চাপযুক্ত/ডার্ক জোন অঞ্চল এবং সম্প্রদায়-ভিত্তিক সেচ ব্যবস্থা স্থাপনকারী কৃষকদের উপর বিশেষ ফোকাস।',
+        'ta':
+            'அனைத்து விவசாயிகளும். நீர் அழுத்தம்/இருண்ட மண்டல பகுதிகள் மற்றும் சமூக அடிப்படையிலான பாசன அமைப்புகளை நிறுவும் விவசாயிகளுக்கு சிறப்பு கவனம்.',
+        'te':
+            'అన్ని రైతులు. నీటి ఒత్తిడి/డార్క్ జోన్ ప్రాంతాలు మరియు కమ్యూనిటీ-ఆధారిత నీటిపారుదల వ్యవస్థలను ఇన్‌స్టాల్ చేసే రైతులపై ప్రత్యేక దృష్టి.',
+        'mr':
+            'सर्व शेतकरी. जलतणावग्रस्त/गडद क्षेत्रे आणि समुदायाधारित सिंचन प्रणाली स्थापित करणाऱ्या शेतकऱ्यांवर विशेष लक्ष.',
+        'gu':
+            'બધા ખેડૂતો. પાણીના તણાવ/ડાર્ક ઝોન વિસ્તારો અને સમુદાય-આધારિત સિંચાઈ સિસ્ટમો ઇન્સ્ટોલ કરતા ખેડૂતો પર વિશેષ ધ્યાન.',
+      },
+      applicationProcess: {
+        'en':
+            'Apply through State Agriculture Department or Horticulture Department with land documents, bank account, and proposed irrigation plan.',
+        'hi':
+            'राज्य कृषि विभाग या बागवानी विभाग के माध्यम से जमीन के दस्तावेज, बैंक खाते और प्रस्तावित सिंचाई योजना के साथ आवेदन करें।',
+        'pa':
+            'ਰਾਜ ਖੇਤੀਬਾੜੀ ਵਿਭਾਗ ਜਾਂ ਬਾਗਬਾਨੀ ਵਿਭਾਗ ਦੁਆਰਾ ਜ਼ਮੀਨ ਦੇ ਦਸਤਾਵੇਜ਼ਾਂ, ਬੈਂਕ ਖਾਤੇ ਅਤੇ ਪ੍ਰਸਤਾਵਿਤ ਸਿੰਚਾਈ ਯੋਜਨਾ ਨਾਲ ਅਰਜ਼ੀ ਦਿਓ।',
+        'bn':
+            'জমির নথি, ব্যাংক অ্যাকাউন্ট এবং প্রস্তাবিত সেচ পরিকল্পনা সহ রাজ্য কৃষি বিভাগ বা উদ্যানপালন বিভাগের মাধ্যমে আবেদন করুন।',
+        'ta':
+            'நில ஆவணங்கள், வங்கி கணக்கு மற்றும் முன்மொழியப்பட்ட பாசன திட்டத்துடன் மாநில வேளாண் துறை அல்லது தோட்டக்கலை துறை மூலம் விண்ணப்பிக்கவும்.',
+        'te':
+            'భూమి డాక్యుమెంట్స్, బ్యాంక్ ఖాతా మరియు ప్రతిపాదిత నీటిపారుదల ప్రణాళికతో రాష్ట్ర వ్యవసాయ శాఖ లేదా హార్టికల్చర్ శాఖ ద్వారా దరఖాస్తు చేసుకోండి.',
+        'mr':
+            'जमीन दस्तऐवज, बँक खाते आणि प्रस्तावित सिंचन योजनेसह राज्य कृषी विभाग किंवा बागायत विभागातर्फे अर्ज करा.',
+        'gu':
+            'જમીનના દસ્તાવેજો, બેંક એકાઉન્ટ અને પ્રસ્તાવિત સિંચાઈ યોજના સાથે રાજ્ય કૃષિ વિભાગ અથવા બાગાયતી વિભાગ દ્વારા અરજી કરો.',
+      },
+      benefits: {
+        'en':
+            'Subsidies up to 55% for small and marginal farmers and 45% for other farmers for installation of drip and sprinkler irrigation systems. Additional support for integrating solar pumps with micro-irrigation systems.',
+        'hi':
+            'ड्रिप और स्प्रिंकलर सिंचाई प्रणालियों की स्थापना के लिए छोटे और सीमांत किसानों के लिए 55% तक और अन्य किसानों के लिए 45% तक की सब्सिडी। माइक्रो-इरिगेशन सिस्टम के साथ सोलर पंपों को एकीकृत करने के लिए अतिरिक्त सहायता।',
+        'pa':
+            'ਡ੍ਰਿਪ ਅਤੇ ਸਪ੍ਰਿੰਕਲਰ ਸਿੰਚਾਈ ਸਿਸਟਮਾਂ ਦੀ ਸਥਾਪਨਾ ਲਈ ਛੋਟੇ ਅਤੇ ਸੀਮਾਂਤ ਕਿਸਾਨਾਂ ਲਈ 55% ਅਤੇ ਹੋਰ ਕਿਸਾਨਾਂ ਲਈ 45% ਤੱਕ ਦੀ ਸਬਸਿਡੀ। ਮਾਈਕ੍ਰੋ-ਸਿੰਚਾਈ ਸਿਸਟਮਾਂ ਨਾਲ ਸੋਲਰ ਪੰਪਾਂ ਨੂੰ ਏਕੀਕ੍ਰਿਤ ਕਰਨ ਲਈ ਵਾਧੂ ਸਹਾਇਤਾ।',
+        'bn':
+            'ড্রিপ এবং স্প্রিংকলার সেচ ব্যবস্থা স্থাপনের জন্য ছোট এবং প্রান্তিক কৃষকদের জন্য 55% পর্যন্ত এবং অন্যান্য কৃষকদের জন্য 45% পর্যন্ত ভর্তুকি। মাইক্রো-ইরিগেশন সিস্টেমের সাথে সোলার পাম্পগুলিকে একীভূত করার জন্য অতিরিক্ত সহায়তা।',
+        'ta':
+            'சொட்டு மற்றும் தெளிப்பான் பாசன அமைப்புகளை நிறுவுவதற்கு சிறிய மற்றும் குறு விவசாயிகளுக்கு 55% வரை மற்றும் பிற விவசாயிகளுக்கு 45% வரை மானியம். மைக்ரோ பாசன அமைப்புகளுடன் சூரிய பம்புகளை ஒருங்கிணைப்பதற்கான கூடுதல் ஆதரவு.',
+        'te':
+            'డ్రిప్ మరియు స్ప్రింక్లర్ నీటిపారుదల వ్యవస్థలను ఇన్‌స్టాల్ చేయడానికి చిన్న మరియు సీమాంత రైతులకు 55% వరకు మరియు ఇతర రైతులకు 45% వరకు సబ్సిడీలు. సౌర ఎరువులను సూక్ష్మ నీటిపారుదల వ్యవస్థలతో సమగ్రపరచడానికి అదనపు మద్దతు.',
+        'mr':
+            'ठिबक आणि फवारणी सिंचन प्रणाली स्थापनेसाठी लहान व सीमांत शेतकऱ्यांना 55% पर्यंत व इतर शेतकऱ्यांना 45% पर्यंत सब्सिडी. सूक्ष्म सिंचन प्रणालींमध्ये सौर पंप एकत्रित करण्यासाठी अतिरिक्त सहाय्य.',
+        'gu':
+            'ડ્રિપ અને સ્પ્રિંકલર સિંચાઈ સિસ્ટમ્સની સ્થાપના માટે નાના અને સીમાંત ખેડૂતો માટે 55% અને અન્ય ખેડૂતો માટે 45% સુધીની સબસિડી. માઇક્રો-સિંચાઈ સિસ્ટમ્સ સાથે સોલર પંપોને એકીકૃત કરવા માટે વધારાની મદદ.',
+      },
+      contactInfo: {
+        'en': 'State Agriculture Department or NABARD regional office',
+        'hi': 'राज्य कृषि विभाग या नाबार्ड क्षेत्रीय कार्यालय',
+        'pa': 'ਰਾਜ ਖੇਤੀਬਾੜੀ ਵਿਭਾਗ ਜਾਂ ਨਾਬਾਰਡ ਖੇਤਰੀ ਦਫ਼ਤਰ',
+        'bn': 'রাজ্য কৃষি বিভাগ বা নাবার্ড আঞ্চলিক অফিস',
+        'ta': 'மாநில வேளாண் துறை அல்லது நாபார்ட் பிராந்திய அலுவலகம்',
+        'te': 'రాష్ట్ర వ్యవసాయ శాఖ లేదా నాబార్డ్ ప్రాంతీయ కార్యాలయం',
+        'mr': 'राज्य कृषी विभाग किंवा नाबार्ड प्रादेशिक कार्यालय',
+        'gu': 'રાજ્ય કૃષિ વિભાગ અથવા નાબાર્ડ પ્રાદેશિક કાર્યાલય',
+      },
+    ),
+
+    GovernmentScheme(
+      id: '10',
+      title: {
+        'en': 'Mission for Integrated Development of Horticulture (MIDH)',
+        'hi': 'बागवानी के समेकित विकास के लिए मिशन (एमआईडीएच)',
+        'pa': 'ਬਾਗਬਾਨੀ ਦੇ ਏਕੀਕ੍ਰਿਤ ਵਿਕਾਸ ਲਈ ਮਿਸ਼ਨ (ਐਮਆਈਡੀਐਚ)',
+        'bn': 'সমন্বিত উদ্যানপালন উন্নয়নের জন্য মিশন (এমআইডিএইচ)',
+        'ta': 'தோட்டக்கலை ஒருங்கிணைந்த மேம்பாட்டிற்கான திட்டம் (எம்ஐடிஎச்)',
+        'te': 'హార్టికల్చర్ యొక్క సమగ్ర అభివృద్ధి కోసం మిషన్ (ఎమ్ఐడిఎచ్)',
+        'mr': 'बागायतीच्या एकात्मिक विकासासाठी मिशन (एमआयडीएच)',
+        'gu': 'બાગાયતીના સંકલિત વિકાસ માટે મિશન (એમઆઇડીએચ)',
+      },
+      description: {
+        'en':
+            'Aims to promote holistic growth of the horticulture sector including fruits, vegetables, root & tuber crops, mushrooms, spices, flowers, and medicinal & aromatic plants.',
+        'hi':
+            'फलों, सब्जियों, जड़ और कंद वाली फसलों, मशरूम, मसालों, फूलों और औषधीय एवं सुगंधित पौधों सहित बागवानी क्षेत्र के समग्र विकास को बढ़ावा देने का लक्ष्य है।',
+        'pa':
+            'ਫਲਾਂ, ਸਬਜ਼ੀਆਂ, ਜੜ੍ਹਾਂ ਅਤੇ ਕੰਦ ਫਸਲਾਂ, ਮਸ਼ਰੂਮ, ਮਸਾਲੇ, ਫੁੱਲਾਂ ਅਤੇ ਦਵਾਈਆਂ ਅਤੇ ਸੁਗੰਧਿਤ ਪੌਦਿਆਂ ਸਮੇਤ ਬਾਗਬਾਨੀ ਖੇਤਰ ਦੇ ਸਮੁੱਚੇ ਵਿਕਾਸ ਨੂੰ ਉਤਸ਼ਾਹਿਤ ਕਰਨ ਦਾ ਟੀਚਾ ਹੈ।',
+        'bn':
+            'ফল, শাকসবজি, মূল ও কন্দ ফসল, মাশরুম, মশলা, ফুল এবং ঔষধি ও সুগন্ধি গাছপালা সহ উদ্যানপালন খাতের সমগ্র বিকাশকে উন্নীত করার লক্ষ্য।',
+        'ta':
+            'பழங்கள், காய்கறிகள், வேர் மற்றும் கிழங்கு பயிர்கள், காளான், மசாலாப் பொருட்கள், மலர்கள் மற்றும் மருந்து மற்றும் நறுமண தாவரங்கள் உள்ளிட்ட தோட்டக்கலைத் துறையின் முழுமையான வளர்ச்சியை ஊக்குவிப்பதே இலக்கு.',
+        'te':
+            'పండ్లు, కూరగాయలు, మూల మరియు కంద పంటలు, పుట్టగొడుగులు, మసాలా దినుసులు, పువ్వులు మరియు ఔషధ మరియు సువాసన మొక్కలతో సహా తోటల పరిశ్రమ యొక్క సమగ్ర వృద్ధిని ప్రోత్సహించడం లక్ష్యం.',
+        'mr':
+            'फळे, भाज्या, मूळ व कंद पिके, मशरूम, मसाले, फुले आणि औषधी व सुगंधी वनस्पती यांसह बागायती क्षेत्राच्या सर्वांगीण विकासाला चालना देणे हे उद्दिष्ट आहे.',
+        'gu':
+            'ફળો, શાકભાજી, મૂળ અને કંદ પાક, મશરૂમ, મસાલા, ફૂલો અને ઔષધીય અને સુગંધિત છોડ સહિત બાગાયતી ક્ષેત્રના સર્વાંગી વિકાસને પ્રોત્સાહન આપવાનો ધ્યેય છે.',
+      },
+      imageUrl: 'assets/midh.png',
+      expiryDate: DateTime(2025, 3, 31),
+      department: {
+        'en': 'Horticulture Department',
+        'hi': 'बागवानी विभाग',
+        'pa': 'ਬਾਗਬਾਨੀ ਵਿਭਾਗ',
+        'bn': 'উদ্যানপালন বিভাগ',
+        'ta': 'தோட்டக்கலை துறை',
+        'te': 'హార్టికల్చర్ శాఖ',
+        'mr': 'बागायत विभाग',
+        'gu': 'બાગાયતી વિભાગ',
+      },
+      farmingTypes: ['Horticulture'],
+      cropTypes: ['Fruits', 'Vegetables'],
+      minLandSize: 0.0,
+      maxLandSize: double.infinity,
+      requiresAadhar: true,
+      eligibilityCriteria: {
+        'en':
+            'All farmers engaged in horticulture production or willing to start. Special provisions for SC/ST farmers, women farmers, and small & marginal farmers.',
+        'hi':
+            'बागवानी उत्पादन में लगे सभी किसान या शुरू करने के इच्छुक। एससी/एसटी किसानों, महिला किसानों और छोटे व सीमांत किसानों के लिए विशेष प्रावधान।',
+        'pa':
+            'ਬਾਗਬਾਨੀ ਉਤਪਾਦਨ ਵਿੱਚ ਸ਼ਾਮਲ ਸਾਰੇ ਕਿਸਾਨ ਜਾਂ ਸ਼ੁਰੂ ਕਰਨ ਲਈ ਤਿਆਰ ਹਨ। SC/ST ਕਿਸਾਨਾਂ, ਮਹਿਲਾ ਕਿਸਾਨਾਂ ਅਤੇ ਛੋਟੇ ਅਤੇ ਸੀਮਾਂਤ ਕਿਸਾਨਾਂ ਲਈ ਵਿਸ਼ੇਸ਼ ਪ੍ਰਬੰਧ।',
+        'bn':
+            'উদ্যানপালন উৎপাদনে নিয়োজিত সমস্ত কৃষক বা শুরু করতে ইচ্ছুক। তফসিলি জাতি/উপজাতি কৃষক, মহিলা কৃষক এবং ছোট ও প্রান্তিক কৃষকদের জন্য বিশেষ বিধান।',
+        'ta':
+            'தோட்டக்கலை உற்பத்தியில் ஈடுபட்டுள்ள அல்லது தொடங்க விரும்பும் அனைத்து விவசாயிகளும். SC/ST விவசாயிகள், பெண் விவசாயிகள் மற்றும் சிறிய மற்றும் குறு விவசாயிகளுக்கான சிறப்பு விதிகள்.',
+        'te':
+            'తోటల ఉత్పత్తిలో నిమగ్నమైన లేదా ప్రారంభించడానికి ఇష్టపడే అన్ని రైతులు. SC/ST రైతులు, మహిళా రైతులు మరియు చిన్న మరియు సీమాంత రైతులకు ప్రత్యేక నిబంధనలు.',
+        'mr':
+            'बागायती उत्पादनात गुंतलेले सर्व शेतकरी किंवा सुरू करण्यास इच्छुक. अनुसूचित जाती/जमाती शेतकरी, महिला शेतकरी आणि लहान व सीमांत शेतकऱ्यांसाठी विशेष तरतूद.',
+        'gu':
+            'બાગાયતી ઉત્પાદનમાં જોડાયેલા અથવા શરૂ કરવા માટે તૈયાર તમામ ખેડૂતો. SC/ST ખેડૂતો, મહિલા ખેડૂતો અને નાના અને સીમાંત ખેડૂતો માટે વિશેષ જોગવાઈઓ.',
+      },
+      applicationProcess: {
+        'en':
+            'Apply through State Horticulture Department with land documents, bank details, and project proposal for the specific component.',
+        'hi':
+            'विशिष्ट घटक के लिए जमीन के दस्तावेज, बैंक विवरण और परियोजना प्रस्ताव के साथ राज्य बागवानी विभाग के माध्यम से आवेदन करें।',
+        'pa':
+            'ਖਾਸ ਭਾਗ ਲਈ ਜ਼ਮੀਨ ਦੇ ਦਸਤਾਵੇਜ਼ਾਂ, ਬੈਂਕ ਵੇਰਵੇ ਅਤੇ ਪ੍ਰੋਜੈਕਟ ਪ੍ਰਸਤਾਵ ਨਾਲ ਰਾਜ ਬਾਗਬਾਨੀ ਵਿਭਾਗ ਰਾਹੀਂ ਅਰਜ਼ੀ ਦਿਓ।',
+        'bn':
+            'নির্দিষ্ট উপাদানের জন্য জমির নথি, ব্যাংক বিবরণ এবং প্রকল্প প্রস্তাব সহ রাজ্য উদ্যানপালন বিভাগের মাধ্যমে আবেদন করুন।',
+        'ta':
+            'குறிப்பிட்ட கூறுக்கான நில ஆவணங்கள், வங்கி விவரங்கள் மற்றும் திட்ட முன்மொழிவுடன் மாநில தோட்டக்கலை துறை மூலம் விண்ணப்பிக்கவும்.',
+        'te':
+            'నిర్దిష్ట భాగం కోసం భూమి డాక్యుమెంట్స్, బ్యాంక్ వివరాలు మరియు ప్రాజెక్ట్ ప్రతిపాదనతో రాష్ట్ర హార్టికల్చర్ శాఖ ద్వారా దరఖాస్తు చేసుకోండి.',
+        'mr':
+            'विशिष्ट घटकासाठी जमीन दस्तऐवज, बँक तपशील आणि प्रकल्प प्रस्तावासह राज्य बागायत विभागातर्फे अर्ज करा.',
+        'gu':
+            'ચોક્કસ ઘટક માટે જમીનના દસ્તાવેજો, બેંકની વિગતો અને પ્રોજેક્ટ પ્રસ્તાવ સાથે રાજ્ય બાગાયતી વિભાગ દ્વારા અરજી કરો.',
+      },
+      benefits: {
+        'en':
+            'Up to 40-50% subsidy on cost of planting material, cultivation costs. Assistance for protected cultivation, integrated farming. Support for post-harvest management, cold chains, marketing infrastructure. Technology transfer through demonstrations and training.',
+        'hi':
+            'रोपण सामग्री की लागत, खेती की लागत पर 40-50% तक की सब्सिडी। संरक्षित खेती, एकीकृत खेती के लिए सहायता। फसल कटाई के बाद प्रबंधन, कोल्ड चेन, विपणन बुनियादी ढांचे के लिए समर्थन। प्रदर्शन और प्रशिक्षण के माध्यम से प्रौद्योगिकी हस्तांतरण।',
+        'pa':
+            'ਰੋਪਣ ਸਮੱਗਰੀ ਦੀ ਲਾਗਤ, ਖੇਤੀ ਦੀ ਲਾਗਤ ਤੇ 40-50% ਤੱਕ ਦੀ ਸਬਸਿਡੀ। ਸੁਰੱਖਿਅਤ ਖੇਤੀ, ਏਕੀਕ੍ਰਿਤ ਖੇਤੀ ਲਈ ਸਹਾਇਤਾ। ਫਸਲ ਕਟਾਈ ਤੋਂ ਬਾਅਦ ਪ੍ਰਬੰਧਨ, ਕੋਲਡ ਚੇਨ, ਮਾਰਕੀਟਿੰਗ ਇਨਫਰਾਸਟ੍ਰਕਚਰ ਲਈ ਸਹਾਇਤਾ। ਪ੍ਰਦਰਸ਼ਨਾਂ ਅਤੇ ਸਿਖਲਾਈ ਦੁਆਰਾ ਤਕਨਾਲੋਜੀ ਟ੍ਰਾਂਸਫਰ।',
+        'bn':
+            'রোপণ সামগ্রীর খরচ, চাষের খরচে 40-50% পর্যন্ত ভর্তুকি। সুরক্ষিত চাষ, সমন্বিত চাষের জন্য সহায়তা। ফসল কাটার পরের ব্যবস্থাপনা, কোল্ড চেইন, বিপণন অবকাঠামোর জন্য সহায়তা। প্রদর্শনী এবং প্রশিক্ষণের মাধ্যমে প্রযুক্তি হস্তান্তর।',
+        'ta':
+            'நடவு பொருட்களின் விலை, வளர்ப்பு செலவுகளில் 40-50% வரை மானியம். பாதுகாக்கப்பட்ட வளர்ப்பு, ஒருங்கிணைந்த விவசாயத்திற்கான உதவி. அறுவடைக்குப் பிந்தைய மேலாண்மை, குளிர் சங்கிலிகள், சந்தைப்படுத்தல் உள்கட்டமைப்புக்கான ஆதரவு. ஆர்ப்பாட்டங்கள் மற்றும் பயிற்சி மூலம் தொழில்நுட்ப பரிமாற்றம்.',
+        'te':
+            'నాటు పదార్థాల ఖర్చు, సాగు ఖర్చులపై 40-50% వరకు సబ్సిడీ. రక్షిత సాగు, సమగ్ర వ్యవసాయానికి సహాయం. పోస్ట్-హార్వెస్ట్ మేనేజ్‌మెంట్, కోల్డ్ చైన్స్, మార్కెటింగ్ ఇన్‌ఫ్రాస్ట్రక్చర్‌కు మద్దతు. ప్రదర్శనలు మరియు శిక్షణ ద్వారా సాంకేతిక బదిలీ.',
+        'mr':
+            'लागवड साहित्याच्या खर्चावर, लागवडीच्या खर्चावर 40-50% पर्यंत सब्सिडी. संरक्षित लागवड, एकात्मिक शेतीसाठी मदत. पिककटीनंतर व्यवस्थापन, कोल्ड चेन, विपणन पायाभूत सुविधांसाठी समर्थन. प्रात्यक्षिके आणि प्रशिक्षणाद्वारे तंत्रज्ञान हस्तांतरण.',
+        'gu':
+            'રોપણ સામગ્રીની કિંમત, ખેતીના ખર્ચ પર 40-50% સુધીની સબસિડી. સુરક્ષિત ખેતી, સંકલિત ખેતી માટે સહાય. પોસ્ટ-હાર્વેસ્ટ મેનેજમેન્ટ, કોલ્ડ ચેન્સ, માર્કેટિંગ ઇન્ફ્રાસ્ટ્રક્ચર માટે ટેકો. પ્રદર્શનો અને તાલીમ દ્વારા ટેકનોલોજી ટ્રાન્સફર.',
+      },
+      contactInfo: {
+        'en': 'State Horticulture Department or Toll Free: 1800-180-1551',
+        'hi': 'राज्य बागवानी विभाग या टोल फ्री: 1800-180-1551',
+        'pa': 'ਰਾਜ ਬਾਗਬਾਨੀ ਵਿਭਾਗ ਜਾਂ ਟੋਲ ਫ੍ਰੀ: 1800-180-1551',
+        'bn': 'রাজ্য উদ্যানপালন বিভাগ বা টোল ফ্রি: 1800-180-1551',
+        'ta': 'மாநில தோட்டக்கலை துறை அல்லது டோல் ஃப்ரீ: 1800-180-1551',
+        'te': 'రాష్ట్ర హార్టికల్చర్ శాఖ లేదా టోల్ ఫ్రీ: 1800-180-1551',
+        'mr': 'राज्य बागायत विभाग किंवा टोल फ्री: 1800-180-1551',
+        'gu': 'રાજ્ય બાગાયતી વિભાગ અથવા ટોલ ફ્રી: 1800-180-1551',
+      },
+    ),
+
+    GovernmentScheme(
+      id: '11',
+      title: {
+        'en': 'Rashtriya Krishi Vikas Yojana (RKVY)',
+        'hi': 'राष्ट्रीय कृषि विकास योजना (आरकेवीवाई)',
+        'pa': 'ਰਾਸ਼ਟਰੀ ਕ੍ਰਿਸ਼ੀ ਵਿਕਾਸ ਯੋਜਨਾ (ਆਰਕੇਵੀਵਾਈ)',
+        'bn': 'রাষ্ট্রীয় কৃষি বিকাশ যোজন (আরকেভিওয়াই)',
+        'ta': 'தேசிய வேளாண் வளர்ச்சித் திட்டம் (ஆர்க்கேவிவை)',
+        'te': 'రాష్ట్రీయ కృషి వికాస్ యోజన (ఆర్కెవివై)',
+        'mr': 'राष्ट्रीय कृषी विकास योजना (आरकेवीवाय)',
+        'gu': 'રાષ્ટ્રીય કૃષિ વિકાસ યોજના (આરકેવીવાય)',
+      },
+      description: {
+        'en':
+            'State Plan Scheme that provides flexibility and autonomy to states in planning and executing agricultural development programs.',
+        'hi':
+            'राज्य योजना योजना जो कृषि विकास कार्यक्रमों की योजना बनाने और निष्पादित करने में राज्यों को लचीलापन और स्वायत्तता प्रदान करती है।',
+        'pa':
+            'ਰਾਜ ਯੋਜਨਾ ਸਕੀਮ ਜੋ ਖੇਤੀਬਾੜੀ ਵਿਕਾਸ ਪ੍ਰੋਗਰਾਮਾਂ ਦੀ ਯੋਜਨਾ ਬਣਾਉਣ ਅਤੇ ਲਾਗੂ ਕਰਨ ਵਿੱਚ ਰਾਜਾਂ ਨੂੰ ਲਚਕ ਅਤੇ ਸਵੈ-ਸ਼ਾਸਨ ਪ੍ਰਦਾਨ ਕਰਦੀ ਹੈ।',
+        'bn':
+            'রাজ্য পরিকল্পনা প্রকল্প যা কৃষি উন্নয়ন কর্মসূচি পরিকল্পনা ও বাস্তবায়নে রাজ্যগুলিকে নমনীয়তা ও স্বায়ত্তশাসন প্রদান করে।',
+        'ta':
+            'மாநிலத் திட்டத் திட்டம், இது வேளாண் வளர்ச்சித் திட்டங்களைத் திட்டமிடுவதிலும் செயல்படுத்துவதிலும் மாநிலங்களுக்கு நெகிழ்வுத்தன்மை மற்றும் சுயாட்சியை வழங்குகிறது.',
+        'te':
+            'రాష్ట్ర ప్రణాళిక పథకం, ఇది వ్యవసాయ అభివృద్ధి కార్యక్రమాలను ప్రణాళిక చేయడం మరియు అమలు చేయడంలో రాష్ట్రాలకు సౌలభ్యం మరియు స్వయంప్రతిపత్తిని అందిస్తుంది.',
+        'mr':
+            'राज्य योजना योजना जी शेती विकास कार्यक्रमांची योजना आखण्यास व अंमलबजावणीसाठी राज्यांना लवचिकता व स्वायत्तता प्रदान करते.',
+        'gu':
+            'રાજ્ય યોજના યોજના જે ખેતી વિકાસ કાર્યક્રમોની આયોજન અને અમલમાં રાજ્યોને લવચીકતા અને સ્વાયત્તતા પ્રદાન કરે છે.',
+      },
+      imageUrl: 'assets/rkvy.png',
+      expiryDate: DateTime(2025, 3, 31),
+      department: {
+        'en': 'Agriculture Department',
+        'hi': 'कृषि विभाग',
+        'pa': 'ਖੇਤੀਬਾੜੀ ਵਿਭਾਗ',
+        'bn': 'কৃষি বিভাগ',
+        'ta': 'விவசாயத் துறை',
+        'te': 'వ్యవసాయ శాఖ',
+        'mr': 'कृषी विभाग',
+        'gu': 'કૃષિ વિભાગ',
+      },
+      farmingTypes: ['All'],
+      cropTypes: ['All'],
+      minLandSize: 0.0,
+      maxLandSize: double.infinity,
+      requiresAadhar: true,
+      eligibilityCriteria: {
+        'en': 'All farmers and agricultural entrepreneurs.',
+        'hi': 'सभी किसान और कृषि उद्यमी।',
+        'pa': 'ਸਾਰੇ ਕਿਸਾਨ ਅਤੇ ਖੇਤੀਬਾੜੀ ਉਦਯੋਗਪਤੀ।',
+        'bn': 'সমস্ত কৃষক এবং কৃষি উদ্যোক্তা।',
+        'ta': 'அனைத்து விவசாயிகள் மற்றும் வேளாண் தொழில்முனைவோர்.',
+        'te': 'అన్ని రైతులు మరియు వ్యవసాయ వ్యవస్థాపకులు.',
+        'mr': 'सर्व शेतकरी व कृषी उद्योजक.',
+        'gu': 'બધા ખેડૂતો અને કૃષિ ઉદ્યોગસાહસિકો.',
+      },
+      applicationProcess: {
+        'en':
+            'Apply through State Agriculture Department or District Agriculture Office with relevant project proposals, land documents, and bank account details.',
+        'hi':
+            'प्रासंगिक परियोजना प्रस्तावों, भूमि दस्तावेजों और बैंक खाता विवरण के साथ राज्य कृषि विभाग या जिला कृषि कार्यालय के माध्यम से आवेदन करें।',
+        'pa':
+            'ਸੰਬੰਧਿਤ ਪ੍ਰੋਜੈਕਟ ਪ੍ਰਸਤਾਵਾਂ, ਜ਼ਮੀਨ ਦੇ ਦਸਤਾਵੇਜ਼ਾਂ ਅਤੇ ਬੈਂਕ ਖਾਤੇ ਦੇ ਵੇਰਵਿਆਂ ਨਾਲ ਰਾਜ ਖੇਤੀਬਾੜੀ ਵਿਭਾਗ ਜਾਂ ਜ਼ਿਲ੍ਹਾ ਖੇਤੀਬਾੜੀ ਦਫ਼ਤਰ ਰਾਹੀਂ ਅਰਜ਼ੀ ਦਿਓ।',
+        'bn':
+            'প্রাসঙ্গিক প্রকল্প প্রস্তাব, জমির নথি এবং ব্যাংক অ্যাকাউন্টের বিবরণ সহ রাজ্য কৃষি বিভাগ বা জেলা কৃষি অফিসের মাধ্যমে আবেদন করুন।',
+        'ta':
+            'தொடர்புடைய திட்ட முன்மொழிவுகள், நில ஆவணங்கள் மற்றும் வங்கி கணக்கு விவரங்களுடன் மாநில வேளாண் துறை அல்லது மாவட்ட வேளாண் அலுவலகம் மூலம் விண்ணப்பிக்கவும்.',
+        'te':
+            'సంబంధిత ప్రాజెక్ట్ ప్రతిపాదనలు, భూమి డాక్యుమెంట్స్ మరియు బ్యాంక్ ఖాతా వివరాలతో రాష్ట్ర వ్యవసాయ శాఖ లేదా జిల్లా వ్యవసాయ కార్యాలయం ద్వారా దరఖాస్తు చేసుకోండి.',
+        'mr':
+            'संबंधित प्रकल्प प्रस्ताव, जमीन दस्तऐवज व बँक खात्याची माहिती सह राज्य कृषी विभाग किंवा जिल्हा कृषी कार्यालयातर्फे अर्ज करा.',
+        'gu':
+            'સંબંધિત પ્રોજેક્ટ પ્રસ્તાવો, જમીનના દસ્તાવેજો અને બેંક એકાઉન્ટની વિગતો સાથે રાજ્ય કૃષિ વિભાગ અથવા જિલ્લા કૃષિ કાર્યાલય દ્વારા અરજી કરો.',
+      },
+      benefits: {
+        'en':
+            'Financial assistance for infrastructure development, capacity building, farm mechanization. Support for value addition, marketing infrastructure, natural resource management. Special focus on seed production, livestock development, and extension activities.',
+        'hi':
+            'अवसंरचना विकास, क्षमता निर्माण, कृषि यंत्रीकरण के लिए वित्तीय सहायता। मूल्य संवर्धन, विपणन अवसंरचना, प्राकृतिक संसाधन प्रबंधन के लिए समर्थन। बीज उत्पादन, पशुधन विकास और विस्तार गतिविधियों पर विशेष ध्यान।',
+        'pa':
+            'ਇਨਫਰਾਸਟ੍ਰਕਚਰ ਵਿਕਾਸ, ਸਮਰੱਥਾ ਨਿਰਮਾਣ, ਖੇਤੀ ਮਸ਼ੀਨੀਕਰਨ ਲਈ ਵਿੱਤੀ ਸਹਾਇਤਾ। ਮੁੱਲ ਵਾਧਾ, ਮਾਰਕੀਟਿੰਗ ਇਨਫਰਾਸਟ੍ਰਕਚਰ, ਕੁਦਰਤੀ ਸਰੋਤ ਪ੍ਰਬੰਧਨ ਲਈ ਸਹਾਇਤਾ। ਬੀਜ ਉਤਪਾਦਨ, ਪਸ਼ੂਧਨ ਵਿਕਾਸ ਅਤੇ ਵਿਸਤਾਰ ਗਤੀਵਿਧੀਆਂ ਤੇ ਖਾਸ ਧਿਆਨ।',
+        'bn':
+            'অবকাঠামো উন্নয়ন, সক্ষমতা বৃদ্ধি, খামার যান্ত্রিকীকরণের জন্য আর্থিক সহায়তা। মূল্য সংযোজন, বিপণন অবকাঠামো, প্রাকৃতিক সম্পদ ব্যবস্থাপনার জন্য সহায়তা। বীজ উৎপাদন, পশুসম্পদ উন্নয়ন এবং সম্প্রসারণ কার্যক্রমে বিশেষ ফোকাস।',
+        'ta':
+            'உள்கட்டமைப்பு மேம்பாடு, திறன் வளர்ச்சி, பண்ணை இயந்திரமயமாக்கல் ஆகியவற்றிற்கான நிதி உதவி. மதிப்பு கூட்டல், சந்தைப்படுத்தல் உள்கட்டமைப்பு, இயற்கை வள மேலாண்மை ஆகியவற்றிற்கான ஆதரவு. விதை உற்பத்தி, கால்நடை வளர்ச்சி மற்றும் விரிவாக்க நடவடிக்கைகளில் சிறப்பு கவனம்.',
+        'te':
+            'ఇన్ఫ్రాస్ట్రక్చర్ అభివృద్ధి, సామర్థ్య నిర్మాణం, వ్యవసాయ యాంత్రీకరణకు ఆర్థిక సహాయం. విలువ ఆధిక్యత, మార్కెటింగ్ ఇన్ఫ్రాస్ట్రక్చర్, సహజ వనరుల నిర్వహణకు మద్దతు. విత్తన ఉత్పత్తి, పశువుల అభివృద్ధి మరియు విస్తరణ కార్యకలాపాలపై ప్రత్యేక దృష్టి.',
+        'mr':
+            'पायाभूत सुविधा विकास, क्षमता निर्मिती, शेतीचे यांत्रिकीकरण यासाठी आर्थिक मदत. मूल्यवर्धन, विपणन पायाभूत सुविधा, नैसर्गिक साधनसंपत्ती व्यवस्थापन यासाठी समर्थन. बियाणे उत्पादन, पशुधन विकास व प्रसार क्रियाकलापांवर विशेष लक्ष.',
+        'gu':
+            'ઇન્ફ્રાસ્ટ્રક્ચર વિકાસ, ક્ષમતા નિર્માણ, ખેતી મેશીનીકરણ માટે નાણાકીય સહાય. મૂલ્ય વધારો, માર્કેટિંગ ઇન્ફ્રાસ્ટ્રક્ચર, કુદરતી સંસાધન વ્યવસ્થાપન માટે ટેકો. બીજ ઉત્પાદન, પશુધન વિકાસ અને વિસ્તરણ પ્રવૃત્તિઓ પર ખાસ ધ્યાન.',
+      },
+      contactInfo: {
+        'en': 'District Agriculture Office or State Agriculture Department',
+        'hi': 'जिला कृषि कार्यालय या राज्य कृषि विभाग',
+        'pa': 'ਜ਼ਿਲ੍ਹਾ ਖੇਤੀਬਾੜੀ ਦਫ਼ਤਰ ਜਾਂ ਰਾਜ ਖੇਤੀਬਾੜੀ ਵਿਭਾਗ',
+        'bn': 'জেলা কৃষি অফিস বা রাজ্য কৃষি বিভাগ',
+        'ta': 'மாவட்ட வேளாண் அலுவலகம் அல்லது மாநில வேளாண் துறை',
+        'te': 'జిల్లా వ్యవసాయ కార్యాలయం లేదా రాష్ట్ర వ్యవసాయ శాఖ',
+        'mr': 'जिल्हा कृषी कार्यालय किंवा राज्य कृषी विभाग',
+        'gu': 'જિલ્લા કૃષિ કાર્યાલય અથવા રાજ્ય કૃષિ વિભાગ',
+      },
+    ),
+
+    GovernmentScheme(
+      id: '12',
+      title: {
+        'en': 'Pradhan Mantri Matsya Sampada Yojana (PMMSY)',
+        'hi': 'प्रधानमंत्री मत्स्य संपदा योजना (पीएमएमएसवाई)',
+        'pa': 'ਪ੍ਰਧਾਨ ਮੰਤਰੀ ਮੱਛੀ ਸੰਪਦਾ ਯੋਜਨਾ (ਪੀਐਮਐਮਐਸਵਾਈ)',
+        'bn': 'প্রধানমন্ত্রী মৎস্য সম্পদা যোজন (পিএমএমএসওয়াই)',
+        'ta': 'பிரதமர் மத்ச்ய சம்பதா யோஜனா (பிஎம்எம்எஸ்ஒய்)',
+        'te': 'ప్రధాన మంత్రి మత్స్య సంపద యోజన (పీఎమ్ఎమ్ఎస్వై)',
+        'mr': 'प्रधानमंत्री मत्स्य संपदा योजना (पीएमएमएसवाय)',
+        'gu': 'પ્રધાનમંત્રી મત્સ્ય સંપદા યોજના (પીએમએમએસવાય)',
+      },
+      description: {
+        'en':
+            'Aims to bring about Blue Revolution through sustainable and responsible development of the fisheries sector in India.',
+        'hi':
+            'भारत में मत्स्य क्षेत्र के सतत और जिम्मेदार विकास के माध्यम से नीली क्रांति लाने का लक्ष्य है।',
+        'pa':
+            'ਭਾਰਤ ਵਿੱਚ ਮੱਛੀ ਪਾਲਣ ਖੇਤਰ ਦੇ ਟਿਕਾਊ ਅਤੇ ਜ਼ਿੰਮੇਵਾਰ ਵਿਕਾਸ ਦੁਆਰਾ ਨੀਲੀ ਕ੍ਰਾਂਤੀ ਲਿਆਉਣ ਦਾ ਟੀਚਾ ਹੈ।',
+        'bn':
+            'ভারতে মৎস্য খাতের টেকসই ও দায়িত্বশীল উন্নয়নের মাধ্যমে ব্লু রেভোলিউশন আনার লক্ষ্য।',
+        'ta':
+            'இந்தியாவில் மீன்வளத் துறையின் நிலையான மற்றும் பொறுப்பான வளர்ச்சியின் மூலம் நீலப் புரட்சியை உண்டாக்குவதே இலக்கு.',
+        'te':
+            'భారతదేశంలో మత్స్య సంపద రంగం యొక్క స్థిరమైన మరియు బాధ్యతాయుతమైన అభివృద్ధి ద్వారా బ్లూ రివల్యూషన్‌ను తీసుకురావడానికి లక్ష్యంగా పెట్టుకుంది.',
+        'mr':
+            'भारतातील मत्स्यव्यवसाय क्षेत्राच्या शाश्वत व जबाबदार विकासाद्वारे निळी क्रांती घडवून आणणे हे उद्दिष्ट.',
+        'gu':
+            'ભારતમાં મત્સ્યક્ષેત્રના ટકાઉ અને જવાબદાર વિકાસ દ્વારા બ્લુ રિવોલ્યુશન લાવવાનો ધ્યેય છે.',
+      },
+      imageUrl: 'assets/pmmsy.png',
+      expiryDate: DateTime(2026, 3, 31),
+      department: {
+        'en': 'Animal Husbandry Department',
+        'hi': 'पशुपालन विभाग',
+        'pa': 'ਪਸ਼ੂ ਪਾਲਣ ਵਿਭਾਗ',
+        'bn': 'পশুপালন বিভাগ',
+        'ta': 'கால்நடை பராமரிப்பு துறை',
+        'te': 'పశుపాలన శాఖ',
+        'mr': 'पशुपालन विभाग',
+        'gu': 'પશુપાલન વિભાગ',
+      },
+      farmingTypes: ['Fishery'],
+      cropTypes: ['All'],
+      minLandSize: 0.0,
+      maxLandSize: double.infinity,
+      requiresAadhar: true,
+      eligibilityCriteria: {
+        'en':
+            'Fishers, fish farmers, fish workers, SHGs, cooperatives, entrepreneurs, and other entities in fisheries sector.',
+        'hi':
+            'मछुआरे, मछली किसान, मछली कामगार, स्वयं सहायता समूह, सहकारी समितियाँ, उद्यमी और मत्स्य क्षेत्र की अन्य संस्थाएँ।',
+        'pa':
+            'ਮੱਛੀਆਰੇ, ਮੱਛੀ ਪਾਲਣ ਕਰਨ ਵਾਲੇ, ਮੱਛੀ ਕਾਮੇ, ਸਵੈ ਸਹਾਇਤਾ ਸਮੂਹ, ਸਹਿਕਾਰੀ ਸੰਗਠਨ, ਉਦਯੋਗਪਤੀ ਅਤੇ ਮੱਛੀ ਪਾਲਣ ਖੇਤਰ ਦੀਆਂ ਹੋਰ ਸੰਸਥਾਵਾਂ।',
+        'bn':
+            'জেলেরা, মৎস্য চাষী, মৎস্য শ্রমিক, স্ব-সহায়ক গোষ্ঠী, সমবায়, উদ্যোক্তা এবং মৎস্য খাতের অন্যান্য সত্তা।',
+        'ta':
+            'மீனவர்கள், மீன் வளர்ப்பவர்கள், மீன் தொழிலாளர்கள், சுயஉதவிக் குழுக்கள், கூட்டுறவு சங்கங்கள், தொழில்முனைவோர் மற்றும் மீன்வளத் துறையில் உள்ள பிற நிறுவனங்கள்.',
+        'te':
+            'ఫిషర్స్, ఫిష్ ఫార్మర్స్, ఫిష్ వర్కర్స్, ఎస్హెచ్జిలు, కోఆపరేటివ్స్, ఎంటర్ప్రెన్యూర్స్ మరియు ఫిషరీస్ సెక్టార్‌లోని ఇతర ఎంటిటీస్.',
+        'mr':
+            'मासेमारी करणारे, मत्स्योत्पादक, मत्स्यकामगार, स्वयंसहाय्य गट, सहकारी संस्था, उद्योजक व मत्स्यव्यवसाय क्षेत्रातील इतर संस्था.',
+        'gu':
+            'માછીમારો, માછીપાલકો, માછી કામદારો, સ્વયં સહાયતા જૂથો, સહકારી સંસ્થાઓ, ઉદ્યોગસાહસિકો અને મત્સ્યક્ષેત્રની અન્ય એન્ટિટીઓ.',
+      },
+      applicationProcess: {
+        'en':
+            'Apply through State Fisheries Department or District Fisheries Office with project proposal, land/water body lease documents, and bank account details.',
+        'hi':
+            'परियोजना प्रस्ताव, भूमि/जल निकाय पट्टा दस्तावेज और बैंक खाता विवरण के साथ राज्य मत्स्य विभाग या जिला मत्स्य कार्यालय के माध्यम से आवेदन करें।',
+        'pa':
+            'ਪ੍ਰੋਜੈਕਟ ਪ੍ਰਸਤਾਵ, ਜ਼ਮੀਨ/ਪਾਣੀ ਦੇ ਸਰੀਰ ਦੇ ਲੀਜ਼ ਦੇ ਦਸਤਾਵੇਜ਼ਾਂ ਅਤੇ ਬੈਂਕ ਖਾਤੇ ਦੇ ਵੇਰਵਿਆਂ ਨਾਲ ਰਾਜ ਮੱਛੀ ਪਾਲਣ ਵਿਭਾਗ ਜਾਂ ਜ਼ਿਲ੍ਹਾ ਮੱਛੀ ਪਾਲਣ ਦਫ਼ਤਰ ਰਾਹੀਂ ਅਰਜ਼ੀ ਦਿਓ।',
+        'bn':
+            'প্রকল্প প্রস্তাব, জমি/জলাধার লিজ নথি এবং ব্যাংক অ্যাকাউন্টের বিবরণ সহ রাজ্য মৎস্য বিভাগ বা জেলা মৎস্য অফিসের মাধ্যমে আবেদন করুন।',
+        'ta':
+            'திட்ட முன்மொழிவு, நிலம்/நீர் உடல் குத்தகை ஆவணங்கள் மற்றும் வங்கி கணக்கு விவரங்களுடன் மாநில மீன்வளத் துறை அல்லது மாவட்ட மீன்வள அலுவலகம் மூலம் விண்ணப்பிக்கவும்.',
+        'te':
+            'ప్రాజెక్ట్ ప్రతిపాదన, భూమి/నీటి వనరుల లీజ్ డాక్యుమెంట్స్ మరియు బ్యాంక్ ఖాతా వివరాలతో రాష్ట్ర ఫిషరీస్ శాఖ లేదా జిల్లా ఫిషరీస్ కార్యాలయం ద్వారా దరఖాస్తు చేసుకోండి.',
+        'mr':
+            'प्रकल्प प्रस्ताव, जमीन/जलस्रोत भाडेतत्त्व कागदपत्रे व बँक खात्याची माहिती सह राज्य मत्स्यव्यवसाय विभाग किंवा जिल्हा मत्स्यव्यवसाय कार्यालयातर्फे अर्ज करा.',
+        'gu':
+            'પ્રોજેક્ટ પ્રસ્તાવ, જમીન/પાણીના સ્ત્રોતના લીઝ દસ્તાવેજો અને બેંક એકાઉન્ટની વિગતો સાથે રાજ્ય મત્સ્ય વિભાગ અથવા જિલ્લા મત્સ્ય કાર્યાલય દ્વારા અરજી કરો.',
+      },
+      benefits: {
+        'en':
+            'Up to 40% subsidy for general category and 60% for SC/ST/women for various fisheries activities. Support for enhancement of fish production, infrastructure development, post-harvest management. Insurance coverage for fishermen.',
+        'hi':
+            'विभिन्न मत्स्य गतिविधियों के लिए सामान्य श्रेणी के लिए 40% तक और एससी/एसटी/महिलाओं के लिए 60% तक की सब्सिडी। मछली उत्पादन बढ़ाने, बुनियादी ढांचे के विकास, फसल कटाई के बाद प्रबंधन के लिए समर्थन। मछुआरों के लिए बीमा कवर।',
+        'pa':
+            'ਵੱਖ-ਵੱਖ ਮੱਛੀ ਪਾਲਣ ਗਤੀਵਿਧੀਆਂ ਲਈ ਸਧਾਰਨ ਸ਼੍ਰੇਣੀ ਲਈ 40% ਅਤੇ SC/ST/ਮਹਿਲਾਵਾਂ ਲਈ 60% ਤੱਕ ਦੀ ਸਬਸਿਡੀ। ਮੱਛੀ ਉਤਪਾਦਨ ਵਧਾਉਣ, ਇਨਫਰਾਸਟ੍ਰਕਚਰ ਵਿਕਾਸ, ਫਸਲ ਕਟਾਈ ਤੋਂ ਬਾਅਦ ਪ੍ਰਬੰਧਨ ਲਈ ਸਹਾਇਤਾ। ਮੱਛੀਆਰਿਆਂ ਲਈ ਬੀਮਾ ਕਵਰੇਜ।',
+        'bn':
+            'বিভিন্ন মৎস্য কার্যক্রমের জন্য সাধারণ বিভাগের জন্য 40% পর্যন্ত এবং SC/ST/মহিলাদের জন্য 60% পর্যন্ত ভর্তুকি। মাছের উৎপাদন বৃদ্ধি, অবকাঠামো উন্নয়ন, ফসল কাটার পরের ব্যবস্থাপনার জন্য সহায়তা। জেলেদের জন্য বীমা কভারেজ।',
+        'ta':
+            'பல்வேறு மீன்வள நடவடிக்கைகளுக்கு பொது வகைக்கு 40% வரையும், SC/ST/பெண்களுக்கு 60% வரையும் மானியம். மீன் உற்பத்தியை அதிகரிப்பதற்கான ஆதரவு, உள்கட்டமைப்பு மேம்பாடு, அறுவடைக்குப் பிந்தைய மேலாண்மை. மீனவர்களுக்கான காப்பீட்டு உறுதி.',
+        'te':
+            'వివిధ మత్స్య సంపద కార్యక్రమాలకు సాధారణ వర్గానికి 40% వరకు మరియు SC/ST/స్త్రీలకు 60% వరకు సబ్సిడీ. చేపల ఉత్పత్తిని పెంచడానికి మద్దతు, మౌలిక సదుపాయాల అభివృద్ధి, పోస్ట్-హార్వెస్ట్ మేనేజ్‌మెంట్. మత్స్యకారులకు బీమా కవరేజ్.',
+        'mr':
+            'विविध मत्स्यव्यवसाय क्रियाकलापांसाठी सामान्य वर्गासाठी 40% पर्यंत व अनुसूचित जाती/जमाती/महिलांसाठी 60% पर्यंत सब्सिडी. मासेउत्पादन वाढ, पायाभूत सुविधा विकास, पिककटीनंतर व्यवस्थापनासाठी मदत. मासेमारांसाठी विमा व्याप्ती.',
+        'gu':
+            'વિવિધ મત્સ્યઉદ્યોગ પ્રવૃત્તિઓ માટે સામાન્ય શ્રેણી માટે 40% અને SC/ST/સ્ત્રીઓ માટે 60% સુધીની સબસિડી. માછલી ઉત્પાદન વધારવા, ઇન્ફ્રાસ્ટ્રક્ચર વિકાસ, પોસ્ટ-હાર્વેસ્ટ મેનેજમેન્ટ માટે ટેકો. માછીમારો માટે વીમા કવરેજ.',
+      },
+      contactInfo: {
+        'en': 'State Fisheries Department or Toll Free: 1800-425-1662',
+        'hi': 'राज्य मत्स्य विभाग या टोल फ्री: 1800-425-1662',
+        'pa': 'ਰਾਜ ਮੱਛੀ ਪਾਲਣ ਵਿਭਾਗ ਜਾਂ ਟੋਲ ਫ੍ਰੀ: 1800-425-1662',
+        'bn': 'রাজ্য মৎস্য বিভাগ বা টোল ফ্রি: 1800-425-1662',
+        'ta': 'மாநில மீன்வளத் துறை அல்லது டோல் ஃப்ரீ: 1800-425-1662',
+        'te': 'రాష్ట్ర ఫిషరీస్ శాఖ లేదా టోల్ ఫ్రీ: 1800-425-1662',
+        'mr': 'राज्य मत्स्यव्यवसाय विभाग किंवा टोल फ्री: 1800-425-1662',
+        'gu': 'રાજ્ય મત્સ્ય વિભાગ અથવા ટોલ ફ્રી: 1800-425-1662',
+      },
+    ),
+
+    GovernmentScheme(
+      id: '13',
+      title: {
+        'en': 'Agriculture Infrastructure Fund (AIF)',
+        'hi': 'कृषि अवसंरचना कोष (एआईएफ)',
+        'pa': 'ਐਗਰੀਕਲਚਰ ਇਨਫਰਾਸਟ੍ਰਕਚਰ ਫੰਡ (ਏਆਈਐਫ)',
+        'bn': 'কৃষি অবকাঠামো তহবিল (এআইএফ)',
+        'ta': 'விவசாய உள்கட்டமைப்பு நிதி (ஏஐஎஃப்)',
+        'te': 'ఎగ్రికల్చర్ ఇన్ఫ్రాస్ట్రక్చర్ ఫండ్ (ఏఐఎఫ్)',
+        'mr': 'कृषी पायाभूत निधी (एआयएफ)',
+        'gu': 'એગ્રિકલ્ચર ઇન્ફ્રાસ્ટ્રક્ચર ફંડ (એઆઇએફ)',
+      },
+      description: {
+        'en':
+            'Financing facility for investment in agricultural projects, post-harvest management infrastructure, and community farming assets.',
+        'hi':
+            'कृषि परियोजनाओं, फसल कटाई के बाद प्रबंधन बुनियादी ढांचे और सामुदायिक कृषि संपत्तियों में निवेश के लिए वित्तपोषण सुविधा।',
+        'pa':
+            'ਖੇਤੀਬਾੜੀ ਪ੍ਰੋਜੈਕਟਾਂ, ਫਸਲ ਕਟਾਈ ਤੋਂ ਬਾਅਦ ਪ੍ਰਬੰਧਨ ਇਨਫਰਾਸਟ੍ਰਕਚਰ, ਅਤੇ ਕਮਿਊਨਿਟੀ ਫਾਰਮਿੰਗ ਸੰਪਤੀਆਂ ਵਿੱਚ ਨਿਵੇਸ਼ ਲਈ ਵਿੱਤ ਪ੍ਰਦਾਨ ਕਰਨ ਦੀ ਸਹੂਲਤ।',
+        'bn':
+            'কৃষি প্রকল্প, ফসল কাটার পরের ব্যবস্থাপনা অবকাঠামো এবং সম্প্রদায়ভিত্তিক কৃষি সম্পদে বিনিয়োগের জন্য অর্থায়নের সুবিধা।',
+        'ta':
+            'விவசாயத் திட்டங்கள், அறுவடைக்குப் பிந்தைய மேலாண்மை உள்கட்டமைப்பு மற்றும் சமூக விவசாய சொத்துகளில் முதலீட்டிற்கான நிதியுதவி வசதி.',
+        'te':
+            'వ్యవసాయ ప్రాజెక్టులు, పోస్ట్-హార్వెస్ట్ మేనేజ్‌మెంట్ ఇన్‌ఫ్రాస్ట్రక్చర్ మరియు కమ్యూనిటీ ఫార్మింగ్ ఆస్తులలో పెట్టుబడుల కోసం ఫైనాన్సింగ్ సౌకర్యం.',
+        'mr':
+            'कृषी प्रकल्पांमध्ये गुंतवणूक, पिककटीनंतर व्यवस्थापन पायाभूत सुविधा व सामुदायिक शेती मालमत्तेसाठी अर्थसहाय्य सुविधा.',
+        'gu':
+            'કૃષિ પ્રોજેક્ટ્સ, પોસ્ટ-હાર્વેસ્ટ મેનેજમેન્ટ ઇન્ફ્રાસ્ટ્રક્ચર અને કમ્યુનિટી ફાર્મિંગ એસેટ્સમાં રોકાણ માટે ફાઇનાન્સિંગ સુવિધા.',
+      },
+      imageUrl: 'assets/aif.png',
+      expiryDate: DateTime(2029, 3, 31),
+      department: {
+        'en': 'Agriculture Department',
+        'hi': 'कृषि विभाग',
+        'pa': 'ਖੇਤੀਬਾੜੀ ਵਿਭਾਗ',
+        'bn': 'কৃষি বিভাগ',
+        'ta': 'விவசாயத் துறை',
+        'te': 'వ్యవసాయ శాఖ',
+        'mr': 'कृषी विभाग',
+        'gu': 'કૃષિ વિભાગ',
+      },
+      farmingTypes: ['All'],
+      cropTypes: ['All'],
+      minLandSize: 0.0,
+      maxLandSize: double.infinity,
+      requiresAadhar: true,
+      eligibilityCriteria: {
+        'en':
+            'Farmers, FPOs, PACS, Marketing Cooperative Societies, SHGs, Joint Liability Groups, Multipurpose Cooperative Societies, Agri-entrepreneurs, Start-ups, and Central/State agency or Local Body sponsored Public-Private Partnership Projects.',
+        'hi':
+            'किसान, एफपीओ, पीएसीएस, मार्केटिंग सहकारी समितियाँ, स्वयं सहायता समूह, संयुक्त देयता समूह, बहुउद्देशीय सहकारी समितियाँ, कृषि उद्यमी, स्टार्ट-अप और केंद्र/राज्य एजेंसी या स्थानीय निकाय प्रायोजित सार्वजनिक-निजी भागीदारी परियोजनाएँ।',
+        'pa':
+            'ਕਿਸਾਨ, ਐੱਫਪੀਓ, ਪੀਏਸੀਐਸ, ਮਾਰਕੀਟਿੰਗ ਕੋਆਪਰੇਟਿਵ ਸੋਸਾਇਟੀਜ਼, ਐਸਐਚਜੀ, ਸੰਯੁਕਤ ਦੇਣਦਾਰੀ ਗਰੁੱਪਸ, ਮਲਟੀਪਰਪਸ ਕੋਆਪਰੇਟਿਵ ਸੋਸਾਇਟੀਜ਼, ਐਗਰੀ-ਐਂਟਰਪ੍ਰੈਨਿਯਰਜ਼, ਸਟਾਰਟ-ਅਪਸ, ਅਤੇ ਸੈਂਟਰਲ/ਸਟੇਟ ਏਜੰਸੀ ਜਾਂ ਲੋਕਲ ਬਾਡੀ ਸਪਾਂਸਰਡ ਪਬਲਿਕ-ਪ੍ਰਾਈਵੇਟ ਪਾਰਟਨਰਸ਼ਿਪ ਪ੍ਰੋਜੈਕਟਸ।',
+        'bn':
+            'কৃষক, এফপিও, পিএসিএস, বিপণন সমবায় সমিতি, স্ব-সহায়ক গোষ্ঠী, যৌথ দায়বদ্ধতা গোষ্ঠী, বহুমুখী সমবায় সমিতি, কৃষি উদ্যোক্তা, স্টার্ট-আপ এবং কেন্দ্রীয়/রাজ্য সংস্থা বা স্থানীয় সংস্থা-প্রায়োজিত সরকারি-বেসরকারি অংশীদারিত্ব প্রকল্প।',
+        'ta':
+            'விவசாயிகள், FPOகள், PACS, மார்க்கெட்டிங் கூட்டுறவு சங்கங்கள், SHGகள், கூட்டு பொறுப்பு குழுக்கள், பல்நோக்கு கூட்டுறவு சங்கங்கள், வேளாண் தொழில்முனைவோர், ஸ்டார்ட்-அப்கள் மற்றும் மத்திய/மாநில நிறுவனம் அல்லது உள்ளூர் அமைப்பு வழங்கும் பொது-தனியார் கூட்டு வணிக திட்டங்கள்.',
+        'te':
+            'రైతులు, FPOలు, PACS, మార్కెటింగ్ కోఆపరేటివ్ సొసైటీలు, SHGలు, జాయింట్ లైబిలిటీ గ్రూపులు, మల్టీపర్పస్ కోఆపరేటివ్ సొసైటీలు, అగ్రి-ఎంటర్ప్రెన్యూర్స్, స్టార్ట్-అప్స్ మరియు సెంట్రల్/స్టేట్ ఏజెన్సీ లేదా లోకల్ బాడీ స్పాన్సర్ చేసిన పబ్లిక్-ప్రైవేట్ పార్టనర్‌షిప్ ప్రాజెక్టులు.',
+        'mr':
+            'शेतकरी, FPO, PACS, विपणन सहकारी संस्था, स्वयंसहाय्य गट, संयुक्त जबाबदारी गट, बहुउद्देशीय सहकारी संस्था, कृषी उद्योजक, स्टार्ट-अप व केंद्रीय/राज्य एजन्सी किंवा स्थानिक संस्था प्रायोजित सार्वजनिक-खाजगी भागीदारी प्रकल्प.',
+        'gu':
+            'ખેડૂતો, એફપીઓ, પીએસીએસ, માર્કેટિંગ કોઓપરેટિવ સોસાયટીઝ, એસએચજી, સંયુક્ત જવાબદારી જૂથો, બહુહેતુક સહકારી સંઘો, એગ્રી-એન્ટરપ્રેન્યોર્સ, સ્ટાર્ટ-અપ્સ અને કેન્દ્ર/રાજ્ય એજન્સી અથવા સ્થાનિક સંસ્થા પ્રાયોજિત જાહેર-ખાનગી ભાગીદારી પ્રોજેક્ટ્સ.',
+      },
+      applicationProcess: {
+        'en':
+            'Apply through banks/financial institutions participating in AIF. Submit project proposal, land documents, and other required documents. Also possible to apply online through AIF portal.',
+        'hi':
+            'एआईएफ में भाग लेने वाले बैंकों/वित्तीय संस्थानों के माध्यम से आवेदन करें। परियोजना प्रस्ताव, भूमि दस्तावेज और अन्य आवश्यक दस्तावेज जमा करें। एआईएफ पोर्टल के माध्यम से ऑनलाइन भी आवेदन करना संभव है।',
+        'pa':
+            'ਏਆਈਐਫ ਵਿੱਚ ਹਿੱਸਾ ਲੈਣ ਵਾਲੇ ਬੈਂਕਾਂ/ਵਿੱਤੀ ਸੰਸਥਾਵਾਂ ਰਾਹੀਂ ਅਰਜ਼ੀ ਦਿਓ। ਪ੍ਰੋਜੈਕਟ ਪ੍ਰਸਤਾਵ, ਜ਼ਮੀਨ ਦੇ ਦਸਤਾਵੇਜ਼ ਅਤੇ ਹੋਰ ਲੋੜੀਂਦੇ ਦਸਤਾਵੇਜ਼ ਜਮ੍ਹਾਂ ਕਰੋ। ਏਆਈਐਫ ਪੋਰਟਲ ਰਾਹੀਂ ਔਨਲਾਈਨ ਅਰਜ਼ੀ ਦੇਣਾ ਵੀ ਸੰਭਵ ਹੈ।',
+        'bn':
+            'AIF-এ অংশগ্রহণকারী ব্যাংক/আর্থিক প্রতিষ্ঠানের মাধ্যমে আবেদন করুন। প্রকল্প প্রস্তাব, জমির নথি এবং অন্যান্য প্রয়োজনীয় নথি জমা দিন। AIF পোর্টালের মাধ্যমে অনলাইনে আবেদন করাও সম্ভব।',
+        'ta':
+            'AIF இல் பங்கேற்கும் வங்கிகள்/நிதி நிறுவனங்கள் மூலம் விண்ணப்பிக்கவும். திட்ட முன்மொழிவு, நில ஆவணங்கள் மற்றும் பிற தேவையான ஆவணங்களை சமர்ப்பிக்கவும். AIF போர்ட்டல் மூலம் ஆன்லைனில் விண்ணப்பிக்கவும் வாய்ப்பு உள்ளது.',
+        'te':
+            'AIFలో పాల్గొన్న బ్యాంకులు/ఫైనాన్షియల్ ఇన్స్టిట్యూషన్ల ద్వారా దరఖాస్తు చేసుకోండి. ప్రాజెక్ట్ ప్రతిపాదన, భూమి డాక్యుమెంట్స్ మరియు ఇతర అవసరమైన డాక్యుమెంట్స్ సమర్పించండి. AIF పోర్టల్ ద్వారా ఆన్‌లైన్‌లో దరఖాస్తు చేయడం కూడా సాధ్యమే.',
+        'mr':
+            'AIF मध्ये सहभागी असलेल्या बँका/आर्थिक संस्थांकडून अर्ज करा. प्रकल्प प्रस्ताव, जमीन दस्तऐवज व इतर आवश्यक कागदपत्रे सादर करा. AIF पोर्टलद्वारे ऑनलाईन अर्ज करणेही शक्य आहे.',
+        'gu':
+            'AIF માં ભાગ લેતી બેંકો/નાણાકીય સંસ્થાઓ દ્વારા અરજી કરો. પ્રોજેક્ટ પ્રસ્તાવ, જમીનના દસ્તાવેજો અને અન્ય જરૂરી દસ્તાવેજો સબમિટ કરો. AIF પોર્ટલ દ્વારા ઑનલાઇન અરજી કરવાની પણ શક્યતા છે.',
+      },
+      benefits: {
+        'en':
+            'Loans with 3% interest subvention and credit guarantee coverage for loans up to ₹2 crore. Funding for creation of post-harvest management infrastructure, community farming assets. Convergence with other government schemes.',
+        'hi':
+            '₹2 करोड़ तक के ऋण पर 3% ब्याज अनुदान और ऋण गारंटी कवरेज के साथ ऋण। फसल कटाई के बाद प्रबंधन बुनियादी ढांचे, सामुदायिक कृषि संपत्तियों के निर्माण के लिए धन। अन्य सरकारी योजनाओं के साथ अभिसरण।',
+        'pa':
+            '₹2 ਕਰੋੜ ਤੱਕ ਦੇ ਕਰਜ਼ੇ ਲਈ 3% ਵਿਆਜ ਸਬਸਿਡੀ ਅਤੇ ਕ੍ਰੈਡਿਟ ਗਾਰੰਟੀ ਕਵਰੇਜ ਵਾਲੇ ਕਰਜ਼ੇ। ਫਸਲ ਕਟਾਈ ਤੋਂ ਬਾਅਦ ਪ੍ਰਬੰਧਨ ਇਨਫਰਾਸਟ੍ਰਕਚਰ, ਕਮਿਊਨਿਟੀ ਫਾਰਮਿੰਗ ਸੰਪਤੀਆਂ ਦੇ ਨਿਰਮਾਣ ਲਈ ਫੰਡਿੰਗ। ਹੋਰ ਸਰਕਾਰੀ ਸਕੀਮਾਂ ਨਾਲ ਏਕੀਕਰਨ।',
+        'bn':
+            '₹2 কোটি পর্যন্ত ঋণের জন্য 3% সুদ ভর্তুকি এবং ঋণ গ্যারান্টি কভারেজ সহ ঋণ। ফসল কাটার পরের ব্যবস্থাপনা অবকাঠামো, সম্প্রদায়ভিত্তিক কৃষি সম্পদ তৈরির জন্য তহবিল। অন্যান্য সরকারি প্রকল্পের সাথে অভিসৃতি।',
+        'ta':
+            '₹2 கோடி வரையிலான கடன்களுக்கு 3% வட்டி உதவி மற்றும் கடன் உத்தரவாத கவரேஜ் கொண்ட கடன்கள். அறுவடைக்குப் பிந்தைய மேலாண்மை உள்கட்டமைப்பு, சமூக விவசாய சொத்துகளை உருவாக்குவதற்கான நிதியுதவி. பிற அரசுத் திட்டங்களுடன் இணைத்தல்.',
+        'te':
+            '₹2 కోట్ల వరకు రుణాలకు 3% వడ్డీ సబ్సిడీ మరియు క్రెడిట్ హామీ కవరేజ్‌తో రుణాలు. పోస్ట్-హార్వెస్ట్ మేనేజ్‌మెంట్ ఇన్‌ఫ్రాస్ట్రక్చర్, కమ్యూనిటీ ఫార్మింగ్ ఆస్తుల సృష్టి కోసం ఫండింగ్. ఇతర ప్రభుత్వ పథకాలతో అభిసరణ.',
+        'mr':
+            '₹2 कोटीपर्यंतच्या कर्जासाठी 3% व्याज अनुदान व कर्ज हमी व्याप्ती असलेली कर्जे. पिककटीनंतर व्यवस्थापन पायाभूत सुविधा, सामुदायिक शेती मालमत्ता निर्मितीसाठी निधी. इतर सरकारी योजनांशी एकत्रीकरण.',
+        'gu':
+            '₹2 કરોડ સુધીના લોન માટે 3% વ્યાજ સબસિડી અને ક્રેડિટ ગેરંટી કવરેજ સાથે લોન. પોસ્ટ-હાર્વેસ્ટ મેનેજમેન્ટ ઇન્ફ્રાસ્ટ્રક્ચર, કમ્યુનિટી ફાર્મિંગ એસેટ્સના સર્જન માટે ફંડિંગ. અન્ય સરકારી યોજનાઓ સાથે કન્વર્જન્સ.',
+      },
+      contactInfo: {
+        'en': 'AIF Helpline: 1800-114-515',
+        'hi': 'एआईएफ हेल्पलाइन: 1800-114-515',
+        'pa': 'ਏਆਈਐਫ ਹੈਲਪਲਾਈਨ: 1800-114-515',
+        'bn': 'এআইএফ হেল্পলাইন: 1800-114-515',
+        'ta': 'ஏஐஎஃப் உதவி மையம்: 1800-114-515',
+        'te': 'AIF హెల్ప్‌లైన్: 1800-114-515',
+        'mr': 'एआयएफ हेल्पलाइन: 1800-114-515',
+        'gu': 'AIF હેલ્પલાઇન: 1800-114-515',
+      },
+    ),
+
+    GovernmentScheme(
+      id: '14',
+      title: {
+        'en': 'Sub-Mission on Agricultural Mechanization (SMAM)',
+        'hi': 'कृषि यंत्रीकरण पर उप-मिशन (एसएमएएम)',
+        'pa': 'ਐਗਰੀਕਲਚਰਲ ਮਕੈਨਾਇਜ਼ੇਸ਼ਨ ਤੇ ਸਬ-ਮਿਸ਼ਨ (ਐਸਐਮਏਐਮ)',
+        'bn': 'কৃষি যান্ত্রিকীকরণে উপ-মিশন (এসএমএএম)',
+        'ta': 'விவசாய இயந்திரமயமாக்கல் துணை-திட்டம் (எஸ்எம்ஏஎம்)',
+        'te': 'ఎగ్రికల్చరల్ మెకానైజేషన్ పై సబ్-మిషన్ (ఎస్ఎమ్ఏఎమ్)',
+        'mr': 'कृषी यंत्रीकरणावरील उप-मिशन (एसएमएएम)',
+        'gu': 'ઍગ્રિકલ્ચરલ મેકેનાઇઝેશન પર સબ-મિશન (એસએમએએમ)',
+      },
+      description: {
+        'en':
+            'Aims to increase the reach of farm mechanization to small and marginal farmers and to regions where availability of farm power is low.',
+        'hi':
+            'छोटे और सीमांत किसानों और उन क्षेत्रों में जहां कृषि शक्ति की उपलब्धता कम है, वहां कृषि यंत्रीकरण की पहुंच बढ़ाने का लक्ष्य है।',
+        'pa':
+            'ਛੋਟੇ ਅਤੇ ਸੀਮਾਂਤ ਕਿਸਾਨਾਂ ਅਤੇ ਉਹਨਾਂ ਖੇਤਰਾਂ ਵਿੱਚ ਜਿੱਥੇ ਖੇਤੀ ਸ਼ਕਤੀ ਦੀ ਉਪਲਬਧਤਾ ਘੱਟ ਹੈ, ਖੇਤੀ ਮਸ਼ੀਨੀਕਰਨ ਦੀ ਪਹੁੰਚ ਨੂੰ ਵਧਾਉਣ ਦਾ ਟੀਚਾ ਹੈ।',
+        'bn':
+            'ছোট ও প্রান্তিক কৃষক এবং যে অঞ্চলে কৃষি শক্তির প্রাপ্যতা কম, সেখানে কৃষি যান্ত্রিকীকরণের প্রসার বাড়ানোর লক্ষ্য।',
+        'ta':
+            'சிறிய மற்றும் குறு விவசாயிகள் மற்றும் விவசாய சக்தி கிடைப்பது குறைவான பகுதிகளுக்கு பண்ணை இயந்திரமயமாக்கல் அடைவை அதிகரிப்பதே இலக்கு.',
+        'te':
+            'చిన్న మరియు సీమాంత రైతులకు మరియు వ్యవసాయ శక్తి లభ్యత తక్కువగా ఉన్న ప్రాంతాలకు వ్యవసాయ యాంత్రీకరణ యొక్క పరిధిని పెంచడం లక్ష్యం.',
+        'mr':
+            'लहान व सीमांत शेतकऱ्यांपर्यंत व ज्या भागात शेतीची शक्ती उपलब्धता कमी आहे तेथे शेतीच्या यंत्रीकरणाचा प्रसार वाढवणे हे उद्दिष्ट.',
+        'gu':
+            'નાના અને સીમાંત ખેડૂતો અને જ્યાં ખેતી શક્તિની ઉપલબ્ધતા ઓછી છે તેવા પ્રદેશોમાં ખેતી મશીનીકરણની પહોંચ વધારવાનો ધ્યેય છે.',
+      },
+      imageUrl: 'assets/smam.png',
+      expiryDate: DateTime(2025, 3, 31),
+      department: {
+        'en': 'Agriculture Department',
+        'hi': 'कृषि विभाग',
+        'pa': 'ਖੇਤੀਬਾੜੀ ਵਿਭਾਗ',
+        'bn': 'কৃষি বিভাগ',
+        'ta': 'விவசாயத் துறை',
+        'te': 'వ్యవసాయ శాఖ',
+        'mr': 'कृषी विभाग',
+        'gu': 'કૃષિ વિભાગ',
+      },
+      farmingTypes: ['All'],
+      cropTypes: ['All'],
+      minLandSize: 0.0,
+      maxLandSize: double.infinity,
+      requiresAadhar: true,
+      eligibilityCriteria: {
+        'en':
+            'All farmers with special focus on small and marginal farmers. Higher subsidy rates for SC/ST farmers and women farmers.',
+        'hi':
+            'छोटे और सीमांत किसानों पर विशेष ध्यान देने वाले सभी किसान। एससी/एसटी किसानों और महिला किसानों के लिए उच्च सब्सिडी दरें।',
+        'pa':
+            'ਛੋਟੇ ਅਤੇ ਸੀਮਾਂਤ ਕਿਸਾਨਾਂ ਤੇ ਖਾਸ ਧਿਆਨ ਦੇਣ ਵਾਲੇ ਸਾਰੇ ਕਿਸਾਨ। SC/ST ਕਿਸਾਨਾਂ ਅਤੇ ਮਹਿਲਾ ਕਿਸਾਨਾਂ ਲਈ ਵਧੇਰੇ ਸਬਸਿਡੀ ਦਰਾਂ।',
+        'bn':
+            'ছোট ও প্রান্তিক কৃষকদের উপর বিশেষ জোর দিয়ে সমস্ত কৃষক। তফসিলি জাতি/উপজাতি কৃষক এবং মহিলা কৃষকদের জন্য উচ্চতর ভর্তুকি হার।',
+        'ta':
+            'சிறிய மற்றும் குறு விவசாயிகளுக்கு சிறப்பு கவனம் செலுத்தும் அனைத்து விவசாயிகளும். SC/ST விவசாயிகள் மற்றும் பெண் விவசாயிகளுக்கு அதிக மானிய விகிதங்கள்.',
+        'te':
+            'చిన్న మరియు సీమాంత రైతులపై ప్రత్యేక దృష్టి పెట్టే అన్ని రైతులు. SC/ST రైతులు మరియు మహిళా రైతులకు ఎక్కువ సబ్సిడీ రేట్లు.',
+        'mr':
+            'लहान व सीमांत शेतकऱ्यांवर विशेष लक्ष केंद्रित करणारे सर्व शेतकरी. अनुसूचित जाती/जमाती शेतकऱ्यांना व महिला शेतकऱ्यांना जास्त सब्सिडी दर.',
+        'gu':
+            'નાના અને સીમાંત ખેડૂતો પર ખાસ ધ્યાન આપતા તમામ ખેડૂતો. SC/ST ખેડૂતો અને મહિલા ખેડૂતો માટે ઉચ્ચ સબસિડી દરો.',
+      },
+      applicationProcess: {
+        'en':
+            'Apply through State Agriculture Department or District Agriculture Office with land documents and bank account details.',
+        'hi':
+            'जमीन के दस्तावेज और बैंक खाता विवरण के साथ राज्य कृषि विभाग या जिला कृषि कार्यालय के माध्यम से आवेदन करें।',
+        'pa':
+            'ਜ਼ਮੀਨ ਦੇ ਦਸਤਾਵੇਜ਼ਾਂ ਅਤੇ ਬੈਂਕ ਖਾਤੇ ਦੇ ਵੇਰਵਿਆਂ ਨਾਲ ਰਾਜ ਖੇਤੀਬਾੜੀ ਵਿਭਾਗ ਜਾਂ ਜ਼ਿਲ੍ਹਾ ਖੇਤੀਬਾੜੀ ਦਫ਼ਤਰ ਰਾਹੀਂ ਅਰਜ਼ੀ ਦਿਓ।',
+        'bn':
+            'জমির নথি এবং ব্যাংক অ্যাকাউন্টের বিবরণ সহ রাজ্য কৃষি বিভাগ বা জেলা কৃষি অফিসের মাধ্যমে আবেদন করুন।',
+        'ta':
+            'நில ஆவணங்கள் மற்றும் வங்கி கணக்கு விவரங்களுடன் மாநில வேளாண் துறை அல்லது மாவட்ட வேளாண் அலுவலகம் மூலம் விண்ணப்பிக்கவும்.',
+        'te':
+            'భూమి డాక్యుమెంట్స్ మరియు బ్యాంక్ ఖాతా వివరాలతో రాష్ట్ర వ్యవసాయ శాఖ లేదా జిల్లా వ్యవసాయ కార్యాలయం ద్వారా దరఖాస్తు చేసుకోండి.',
+        'mr':
+            'जमीन दस्तऐवज व बँक खात्याची माहिती सह राज्य कृषी विभाग किंवा जिल्हा कृषी कार्यालयातर्फे अर्ज करा.',
+        'gu':
+            'જમીનના દસ્તાવેજો અને બેંક એકાઉન્ટની વિગતો સાથે રાજ્ય કૃષિ વિભાગ અથવા જિલ્લા કૃષિ કાર્યાલય દ્વારા અરજી કરો.',
+      },
+      benefits: {
+        'en':
+            'Financial assistance for purchase of agricultural machinery and equipment. Subsidy of 40-50% for individual farmers depending on the machinery. Higher subsidy for SC/ST/small/marginal/women farmers. Support for establishing Custom Hiring Centers.',
+        'hi':
+            'कृषि मशीनरी और उपकरण खरीदने के लिए वित्तीय सहायता। मशीनरी के आधार पर व्यक्तिगत किसानों के लिए 40-50% की सब्सिडी। एससी/एसटी/छोटे/सीमांत/महिला किसानों के लिए अधिक सब्सिडी। कस्टम हायरिंग सेंटर स्थापित करने के लिए समर्थन।',
+        'pa':
+            'ਖੇਤੀਬਾੜੀ ਮਸ਼ੀਨਰੀ ਅਤੇ ਉਪਕਰਣ ਖਰੀਦਣ ਲਈ ਵਿੱਤੀ ਸਹਾਇਤਾ। ਮਸ਼ੀਨਰੀ ਦੇ ਅਧਾਰ ਤੇ ਵਿਅਕਤੀਗਤ ਕਿਸਾਨਾਂ ਲਈ 40-50% ਦੀ ਸਬਸਿਡੀ। SC/ST/ਛੋਟੇ/ਸੀਮਾਂਤ/ਮਹਿਲਾ ਕਿਸਾਨਾਂ ਲਈ ਵਧੇਰੇ ਸਬਸਿਡੀ। ਕਸਟਮ ਹਾਇਰਿੰਗ ਸੈਂਟਰ ਸਥਾਪਤ ਕਰਨ ਲਈ ਸਹਾਇਤਾ।',
+        'bn':
+            'কৃষি যন্ত্রপাতি ও সরঞ্জাম ক্রয়ের জন্য আর্থিক সহায়তা। যন্ত্রপাতির উপর নির্ভর করে ব্যক্তিগত কৃষকদের জন্য 40-50% ভর্তুকি। তফসিলি জাতি/উপজাতি/ছোট/প্রান্তিক/মহিলা কৃষকদের জন্য উচ্চতর ভর্তুকি। কাস্টম হায়ারিং সেন্টার স্থাপনের জন্য সহায়তা।',
+        'ta':
+            'விவசாய இயந்திரங்கள் மற்றும் உபகரணங்களை வாங்குவதற்கான நிதி உதவி. இயந்திரத்தைப் பொறுத்து தனிப்பட்ட விவசாயிகளுக்கு 40-50% மானியம். SC/ST/சிறிய/குறு/பெண் விவசாயிகளுக்கு அதிக மானியம். தனிப்பயன் நியமன மையங்களை நிறுவுவதற்கான ஆதரவு.',
+        'te':
+            'వ్యవసాయ యంత్రాలు మరియు పరికరాలను కొనుగోలు చేయడానికి ఆర్థిక సహాయం. యంత్రాలను బట్టి వ్యక్తిగత రైతులకు 40-50% సబ్సిడీ. SC/ST/చిన్న/సీమాంత/స్త్రీ రైతులకు ఎక్కువ సబ్సిడీ. కస్టమ్ హైరింగ్ సెంటర్లను ఏర్పాటు చేయడానికి మద్దతు.',
+        'mr':
+            'शेतीची यंत्रसामग्री व उपकरणे खरेदीसाठी आर्थिक मदत. यंत्रानुसार स्वतंत्र शेतकऱ्यांना 40-50% सब्सिडी. अनुसूचित जाती/जमाती/लहान/सीमांत/महिला शेतकऱ्यांना जास्त सब्सिडी. कस्टम भाडेतत्त्व केंद्र स्थापनासाठी मदत.',
+        'gu':
+            'કૃષિ યંત્રો અને સાધનોની ખરીદી માટે નાણાકીય સહાય. મશીનરીના આધારે વ્યક્તિગત ખેડૂતો માટે 40-50% ની સબસિડી. SC/ST/નાના/સીમાંત/મહિલા ખેડૂતો માટે વધુ સબસિડી. કસ્ટમ હાયરિંગ સેન્ટર્સ સ્થાપવા માટે ટેકો.',
+      },
+      contactInfo: {
+        'en': 'District Agriculture Office or Toll Free: 1800-180-1551',
+        'hi': 'जिला कृषि कार्यालय या टोल फ्री: 1800-180-1551',
+        'pa': 'ਜ਼ਿਲ੍ਹਾ ਖੇਤੀਬਾੜੀ ਦਫ਼ਤਰ ਜਾਂ ਟੋਲ ਫ੍ਰੀ: 1800-180-1551',
+        'bn': 'জেলা কৃষি অফিস বা টোল ফ্রি: 1800-180-1551',
+        'ta': 'மாவட்ட வேளாண் அலுவலகம் அல்லது டோல் ஃப்ரீ: 1800-180-1551',
+        'te': 'జిల్లా వ్యవసాయ కార్యాలయం లేదా టోల్ ఫ్రీ: 1800-180-1551',
+        'mr': 'जिल्हा कृषी कार्यालय किंवा टोल फ्री: 1800-180-1551',
+        'gu': 'જિલ્લા કૃષિ કાર્યાલય અથવા ટોલ ફ્રી: 1800-180-1551',
+      },
+    ),
+
+    GovernmentScheme(
+      id: '15',
+      title: {
+        'en': 'National Beekeeping & Honey Mission (NBHM)',
+        'hi': 'राष्ट्रीय मधुमक्खी पालन और शहद मिशन (एनबीएचएम)',
+        'pa': 'ਨੈਸ਼ਨਲ ਬੀਕੀਪਿੰਗ ਐਂਡ ਹਨੀ ਮਿਸ਼ਨ (ਐਨਬੀਐਚਐਮ)',
+        'bn': 'জাতীয় মৌমাছি পালন ও মধু মিশন (এনবিএইচএম)',
+        'ta': 'தேசிய தேனீ வளர்ப்பு மற்றும் தேன் திட்டம் (என்பிஎச்எம்)',
+        'te': 'నేషనల్ బీకీపింగ్ & హనీ మిషన్ (ఎన్బిఎచ్ఎమ్)',
+        'mr': 'राष्ट्रीय मधमाशीपालन व मध मिशन (एनबीएचएम)',
+        'gu': 'નેશનલ બીકીપિંગ એન્ડ હની મિશન (એનબીએચએમ)',
+      },
+      description: {
+        'en':
+            'Aims to promote holistic growth of beekeeping industry for income and employment generation, and to enhance agricultural/horticultural productivity.',
+        'hi':
+            'आय और रोजगार सृजन के लिए मधुमक्खी पालन उद्योग के समग्र विकास को बढ़ावा देने और कृषि/बागवानी उत्पादकता बढ़ाने का लक्ष्य है।',
+        'pa':
+            'ਮਧੂਮੱਖੀ ਪਾਲਣ ਉਦਯੋਗ ਦੇ ਸਮੁੱਚੇ ਵਿਕਾਸ ਨੂੰ ਆਮਦਨ ਅਤੇ ਰੁਜ਼ਗਾਰ ਪੈਦਾ ਕਰਨ ਲਈ ਉਤਸ਼ਾਹਿਤ ਕਰਨ ਅਤੇ ਖੇਤੀਬਾੜੀ/ਬਾਗਬਾਨੀ ਉਤਪਾਦਕਤਾ ਨੂੰ ਵਧਾਉਣ ਦਾ ਟੀਚਾ ਹੈ।',
+        'bn':
+            'আয় ও কর্মসংস্থান সৃষ্টির জন্য মৌমাছি পালন শিল্পের সমগ্র বিকাশকে উন্নীত করা এবং কৃষি/উদ্যানপালন উৎপাদনশীলতা বৃদ্ধি করার লক্ষ্য।',
+        'ta':
+            'வருமானம் மற்றும் வேலைவாய்ப்பு உருவாக்கத்திற்காக தேனீ வளர்ப்புத் தொழிலின் முழுமையான வளர்ச்சியை ஊக்குவிப்பதும், வேளாண்/தோட்டக்கலை உற்பத்தித்திறனை அதிகரிப்பதும் இலக்கு.',
+        'te':
+            'ఆదాయం మరియు ఉపాధి ఉత్పత్తి కోసం తేనెటీగల పెంపక పరిశ్రమ యొక్క సమగ్ర వృద్ధిని ప్రోత్సహించడం మరియు వ్యవసాయ/తోటల ఉత్పాదకతను పెంచడం లక్ష్యం.',
+        'mr':
+            'उत्पन्न व रोजगार निर्मितीसाठी मधमाशीपालन उद्योगाचा सर्वांगीण विकास प्रोत्साहित करणे व शेती/बागायती उत्पादकता वाढवणे हे उद्दिष्ट.',
+        'gu':
+            'આવક અને રોજગાર સર્જન માટે મધમાખીપાલન ઉદ્યોગના સર્વાંગી વિકાસને પ્રોત્સાહન આપવા અને ખેતી/બાગાયતી ઉત્પાદકતા વધારવાનો ધ્યેય છે.',
+      },
+      imageUrl: 'assets/nbhm.png',
+      expiryDate: DateTime(2025, 3, 31),
+      department: {
+        'en': 'Agriculture Department',
+        'hi': 'कृषि विभाग',
+        'pa': 'ਖੇਤੀਬਾੜੀ ਵਿਭਾਗ',
+        'bn': 'কৃষি বিভাগ',
+        'ta': 'விவசாயத் துறை',
+        'te': 'వ్యవసాయ శాఖ',
+        'mr': 'कृषी विभाग',
+        'gu': 'કૃષિ વિભાગ',
+      },
+      farmingTypes: ['All'],
+      cropTypes: ['All'],
+      minLandSize: 0.0,
+      maxLandSize: double.infinity,
+      requiresAadhar: true,
+      eligibilityCriteria: {
+        'en':
+            'All farmers, beekeepers, SHGs, FPOs, and entrepreneurs interested in beekeeping.',
+        'hi':
+            'सभी किसान, मधुमक्खी पालक, स्वयं सहायता समूह, एफपीओ और मधुमक्खी पालन में रुचि रखने वाले उद्यमी।',
+        'pa':
+            'ਸਾਰੇ ਕਿਸਾਨ, ਮਧੂਮੱਖੀ ਪਾਲਣ ਕਰਨ ਵਾਲੇ, ਐਸਐਚਜੀ, ਐੱਫਪੀਓ, ਅਤੇ ਮਧੂਮੱਖੀ ਪਾਲਣ ਵਿੱਚ ਦਿਲਚਸਪੀ ਰੱਖਣ ਵਾਲੇ ਉਦਯੋਗਪਤੀ।',
+        'bn':
+            'সমস্ত কৃষক, মৌমাছি পালনকারী, স্ব-সহায়ক গোষ্ঠী, এফপিও এবং মৌমাছি পালনে আগ্রহী উদ্যোক্তা।',
+        'ta':
+            'அனைத்து விவசாயிகள், தேனீ வளர்ப்பவர்கள், சுயஉதவிக் குழுக்கள், FPOகள் மற்றும் தேனீ வளர்ப்பில் ஆர்வமுள்ள தொழில்முனைவோர்.',
+        'te':
+            'అన్ని రైతులు, తేనెటీగల పెంపకందారులు, SHGలు, FPOలు మరియు తేనెటీగల పెంపకంలో ఆసక్తి ఉన్న వ్యవస్థాపకులు.',
+        'mr':
+            'सर्व शेतकरी, मधमाशीपालक, स्वयंसहाय्य गट, FPO व मधमाशीपालनात रस असणारे उद्योजक.',
+        'gu':
+            'બધા ખેડૂતો, મધમાખીપાલકો, SHG, FPO અને મધમાખીપાલનમાં રસ ધરાવતા ઉદ્યોગસાહસિકો.',
+      },
+      applicationProcess: {
+        'en':
+            'Apply through National Bee Board, State Agriculture Department, or Khadi and Village Industries Commission with relevant documents and project proposal if applicable.',
+        'hi':
+            'राष्ट्रीय मधुमक्खी पालन बोर्ड, राज्य कृषि विभाग, या खादी और ग्रामोद्योग आयोग के माध्यम से प्रासंगिक दस्तावेजों और यदि लागू हो तो परियोजना प्रस्ताव के साथ आवेदन करें।',
+        'pa':
+            'ਰਾਸ਼ਟਰੀ ਮਧੂਮੱਖੀ ਪਾਲਣ ਬੋਰਡ, ਰਾਜ ਖੇਤੀਬਾੜੀ ਵਿਭਾਗ, ਜਾਂ ਖਾਦੀ ਅਤੇ ਪਿੰਡ ਉਦਯੋਗ ਕਮਿਸ਼ਨ ਰਾਹੀਂ ਸੰਬੰਧਿਤ ਦਸਤਾਵੇਜ਼ਾਂ ਅਤੇ ਜੇ ਲਾਗੂ ਹੋਵੇ ਤਾਂ ਪ੍ਰੋਜੈਕਟ ਪ੍ਰਸਤਾਵ ਨਾਲ ਅਰਜ਼ੀ ਦਿਓ।',
+        'bn':
+            'প্রাসঙ্গিক নথি এবং প্রয়োজনে প্রকল্প প্রস্তাব সহ জাতীয় মৌমাছি পালন বোর্ড, রাজ্য কৃষি বিভাগ বা খাদি ও গ্রামোদ্যোগ কমিশনের মাধ্যমে আবেদন করুন।',
+        'ta':
+            'தேசிய தேனீ வளர்ப்பு வாரியம், மாநில வேளாண் துறை அல்லது காதி மற்றும் கிராம தொழில் ஆணையம் மூலம் தொடர்புடைய ஆவணங்கள் மற்றும் தேவைப்பட்டால் திட்ட முன்மொழிவுடன் விண்ணப்பிக்கவும்.',
+        'te':
+            'నేషనల్ బీ బోర్డ్, స్టేట్ అగ్రికల్చర్ డిపార్ట్మెంట్ లేదా ఖాదీ అండ్ విలేజ్ ఇండస్ట్రీస్ కమిషన్ ద్వారా సంబంధిత డాక్యుమెంట్స్ మరియు వర్తించినట్లయితే ప్రాజెక్ట్ ప్రతిపాదనతో దరఖాస్తు చేసుకోండి.',
+        'mr':
+            'राष्ट्रीय मधमाशीपालन मंडळ, राज्य कृषी विभाग किंवा खादी व ग्रामोद्योग आयोगातर्फे संबंधित कागदपत्रे व लागू असेल तर प्रकल्प प्रस्तावासह अर्ज करा.',
+        'gu':
+            'રાષ્ટ્રીય મધમાખીપાલન બોર્ડ, રાજ્ય કૃષિ વિભાગ અથવા ખાદી અને ગ્રામોદ્યોગ આયોગ દ્વારા સંબંધિત દસ્તાવેજો અને લાગુ પડે તો પ્રોજેક્ટ પ્રસ્તાવ સાથે અરજી કરો.',
+      },
+      benefits: {
+        'en':
+            'Financial assistance for setting up of beekeeping units, honey processing units. Support for creation of infrastructure for honey and other bee products. Training and capacity building for beekeepers. Distribution of bee colonies and hives.',
+        'hi':
+            'मधुमक्खी पालन इकाइयों, शहद प्रसंस्करण इकाइयों की स्थापना के लिए वित्तीय सहायता। शहद और अन्य मधुमक्खी उत्पादों के लिए बुनियादी ढांचा बनाने के लिए समर्थन। मधुमक्खी पालकों के लिए प्रशिक्षण और क्षमता निर्माण। मधुमक्खी कालोनियों और छत्तों का वितरण।',
+        'pa':
+            'ਮਧੂਮੱਖੀ ਪਾਲਣ ਯੂਨਿਟਾਂ, ਸ਼ਹਿਦ ਪ੍ਰੋਸੈਸਿੰਗ ਯੂਨਿਟਾਂ ਦੀ ਸਥਾਪਨਾ ਲਈ ਵਿੱਤੀ ਸਹਾਇਤਾ। ਸ਼ਹਿਦ ਅਤੇ ਹੋਰ ਮਧੂਮੱਖੀ ਉਤਪਾਦਾਂ ਲਈ ਇਨਫਰਾਸਟ੍ਰਕਚਰ ਦੇ ਨਿਰਮਾਣ ਲਈ ਸਹਾਇਤਾ। ਮਧੂਮੱਖੀ ਪਾਲਣ ਕਰਨ ਵਾਲਿਆਂ ਲਈ ਸਿਖਲਾਈ ਅਤੇ ਸਮਰੱਥਾ ਨਿਰਮਾਣ। ਮਧੂਮੱਖੀ ਕਾਲੋਨੀਆਂ ਅਤੇ ਛੱਤਿਆਂ ਦੀ ਵੰਡ।',
+        'bn':
+            'মৌমাছি পালন ইউনিট, মধু প্রক্রিয়াকরণ ইউনিট স্থাপনের জন্য আর্থিক সহায়তা। মধু ও অন্যান্য মৌমাছি পণ্যের জন্য অবকাঠামো তৈরির জন্য সহায়তা। মৌমাছি পালনকারীদের জন্য প্রশিক্ষণ ও সক্ষমতা বৃদ্ধি। মৌমাছি কলোনি এবং মৌচাক বিতরণ।',
+        'ta':
+            'தேனீ வளர்ப்பு அலகுகள், தேன் பதப்படுத்தும் அலகுகள் அமைப்பதற்கான நிதி உதவி. தேன் மற்றும் பிற தேனீ உற்பத்திப் பொருட்களுக்கான உள்கட்டமைப்பை உருவாக்குவதற்கான ஆதரவு. தேனீ வளர்ப்பவர்களுக்கான பயிற்சி மற்றும் திறன் வளர்ச்சி. தேனீ காலனிகள் மற்றும் கூடுகளை விநியோகித்தல்.',
+        'te':
+            'తేనెటీగల పెంపక యూనిట్లు, తేనె ప్రాసెసింగ్ యూనిట్లను ఏర్పాటు చేయడానికి ఆర్థిక సహాయం. తేనె మరియు ఇతర తేనెటీగల ఉత్పత్తుల కోసం మౌలిక సదుపాయాల సృష్టి కోసం మద్దతు. తేనెటీగల పెంపకందారులకు శిక్షణ మరియు సామర్థ్య నిర్మాణం. తేనెటీగల కాలనీలు మరియు తేనెపట్టుల పంపిణీ.',
+        'mr':
+            'मधमाशीपालन एकके, मध प्रक्रिया एकके स्थापन करण्यासाठी आर्थिक मदत. मध व इतर मधमाशी उत्पादनांसाठी पायाभूत सुविधा निर्मितीसाठी मदत. मधमाशीपालकांसाठी प्रशिक्षण व क्षमता निर्मिती. मधमाशी वसाहती व पोळे वितरण.',
+        'gu':
+            'મધમાખીપાલન યુનિટ્સ, મધ પ્રોસેસિંગ યુનિટ્સની સ્થાપના માટે નાણાકીય સહાય. મધ અને અન્ય મધમાખી ઉત્પાદનો માટે ઇન્ફ્રાસ્ટ્રક્ચર સર્જન માટે ટેકો. મધમાખીપાલકો માટે તાલીમ અને ક્ષમતા નિર્માણ. મધમાખી વસાહતો અને મધપૂડાનું વિતરણ.',
+      },
+      contactInfo: {
+        'en': 'National Bee Board or State Agriculture Department',
+        'hi': 'राष्ट्रीय मधुमक्खी पालन बोर्ड या राज्य कृषि विभाग',
+        'pa': 'ਨੈਸ਼ਨਲ ਬੀ ਬੋਰਡ ਜਾਂ ਰਾਜ ਖੇਤੀਬਾੜੀ ਵਿਭਾਗ',
+        'bn': 'জাতীয় মৌমাছি পালন বোর্ড বা রাজ্য কৃষি বিভাগ',
+        'ta': 'தேசிய தேனீ வளர்ப்பு வாரியம் அல்லது மாநில வேளாண் துறை',
+        'te': 'నేషనల్ బీ బోర్డ్ లేదా రాష్ట్ర వ్యవసాయ శాఖ',
+        'mr': 'राष्ट्रीय मधमाशीपालन मंडळ किंवा राज्य कृषी विभाग',
+        'gu': 'નેશનલ બી બોર્ડ અથવા રાજ્ય કૃષિ વિભાગ',
+      },
+    ),
+
+    GovernmentScheme(
+      id: '16',
+      title: {
+        'en':
+            'Formation and Promotion of 10,000 Farmer Producer Organizations (FPOs)',
+        'hi': '10,000 किसान उत्पादक संगठनों (एफपीओ) का गठन और प्रचार',
+        'pa': '10,000 ਕਿਸਾਨ ਉਤਪਾਦਕ ਸੰਗਠਨਾਂ (ਐਫਪੀਓ) ਦਾ ਗਠਨ ਅਤੇ ਪ੍ਰਚਾਰ',
+        'bn': '১০,০০০ কৃষক উৎপাদক সংগঠনের (এফপিও) গঠন ও প্রচার',
+        'ta':
+            '10,000 விவசாயி உற்பத்தியாளர் அமைப்புகளை (எஃப்பிஓ) உருவாக்குதல் மற்றும் ஊக்குவித்தல்',
+        'te':
+            '10,000 రైతు ఉత్పత్తిదారు సంస్థల (ఎఫ్పీఓలు) ఏర్పాటు మరియు ప్రోత్సాహం',
+        'mr': '10,000 शेतकरी उत्पादक संघटनांची (एफपीओ) निर्मिती आणि प्रोत्साहन',
+        'gu': '10,000 ખેડૂત ઉત્પાદક સંસ્થાઓ (એફપીઓ) ની રચના અને પ્રોત્સાહન',
+      },
+      description: {
+        'en':
+            'Scheme for creation of 10,000 FPOs to form and promote collectives of farmers for enhanced production, productivity, and better access to inputs, technology, and markets.',
+        'hi':
+            'बेहतर उत्पादन, उत्पादकता और आदानों, प्रौद्योगिकी और बाजारों तक बेहतर पहुंच के लिए किसानों के सामूहिक संगठन बनाने और बढ़ावा देने के लिए 10,000 एफपीओ बनाने की योजना।',
+        'pa':
+            'ਵਧੇਰੇ ਉਤਪਾਦਨ, ਉਤਪਾਦਕਤਾ ਅਤੇ ਇਨਪੁਟਸ, ਤਕਨਾਲੋਜੀ ਅਤੇ ਬਾਜ਼ਾਰਾਂ ਤੱਕ ਬਿਹਤਰ ਪਹੁੰਚ ਲਈ ਕਿਸਾਨਾਂ ਦੇ ਸਮੂਹਿਕ ਸੰਗਠਨ ਬਣਾਉਣ ਅਤੇ ਉਤਸ਼ਾਹਿਤ ਕਰਨ ਲਈ 10,000 ਐਫਪੀਓ ਬਣਾਉਣ ਦੀ ਯੋਜਨਾ।',
+        'bn':
+            'উন্নত উৎপাদন, উৎপাদনশীলতা এবং ইনপুট, প্রযুক্তি এবং বাজারে আরও ভাল অ্যাক্সেসের জন্য কৃষকদের সমষ্টিগত সংগঠন গঠন ও প্রচারের জন্য 10,000 এফপিও তৈরি করার স্কিম।',
+        'ta':
+            'மேம்படுத்தப்பட்ட உற்பத்தி, உற்பத்தித்திறன் மற்றும் உள்ளீடுகள், தொழில்நுட்பம் மற்றும் சந்தைகளுக்கு சிறந்த அணுகலை வழங்க விவசாயிகளின் கூட்டுறவு அமைப்புகளை உருவாக்குவதற்கும் ஊக்குவிப்பதற்கும் 10,000 எஃப்பிஓக்களை உருவாக்குவதற்கான திட்டம்.',
+        'te':
+            'పెరిగిన ఉత్పత్తి, ఉత్పాదకత మరియు ఇన్పుట్లు, సాంకేతికత మరియు మార్కెట్లకు మెరుగైన ప్రాప్యత కోసం రైతుల సమిష్టి సంస్థలను ఏర్పాటు చేయడానికి మరియు ప్రోత్సహించడానికి 10,000 ఎఫ్పీఓలను సృష్టించడానికి స్కీమ్.',
+        'mr':
+            'वाढीव उत्पादन, उत्पादकता आणि इनपुट्स, तंत्रज्ञान आणि बाजारांमध्ये चांगली प्रवेश्यता यासाठी शेतकऱ्यांच्या सामूहिक संस्था तयार करणे आणि प्रोत्साहन देण्यासाठी 10,000 एफपीओ तयार करण्याची योजना.',
+        'gu':
+            'વધુ ઉત્પાદન, ઉત્પાદકતા અને ઇનપુટ્સ, ટેકનોલોજી અને બજારોમાં વધુ સારી ઍક્સેસ માટે ખેડૂતોના સામૂહિક સંગઠનો બનાવવા અને પ્રોત્સાહન આપવા માટે 10,000 એફપીઓ બનાવવાની યોજના.',
+      },
+      imageUrl: 'assets/fpo.png',
+      expiryDate: DateTime(2027, 3, 31),
+      department: {
+        'en': 'Agriculture Department',
+        'hi': 'कृषि विभाग',
+        'pa': 'ਖੇਤੀਬਾੜੀ ਵਿਭਾਗ',
+        'bn': 'কৃষি বিভাগ',
+        'ta': 'விவசாயத் துறை',
+        'te': 'వ్యవసాయ శాఖ',
+        'mr': 'कृषी विभाग',
+        'gu': 'કૃષિ વિભાગ',
+      },
+      farmingTypes: ['All'],
+      cropTypes: ['All'],
+      minLandSize: 0.0,
+      maxLandSize: double.infinity,
+      requiresAadhar: true,
+      eligibilityCriteria: {
+        'en':
+            'Group of farmers willing to form FPO. Minimum 300 farmers in plain areas and 100 farmers in North-East and hilly areas required to form an FPO.',
+        'hi':
+            'एफपीओ बनाने के इच्छुक किसानों का समूह। मैदानी क्षेत्रों में न्यूनतम 300 किसान और उत्तर-पूर्व तथा पहाड़ी क्षेत्रों में 100 किसानों की आवश्यकता होती है।',
+        'pa':
+            'ਐਫਪੀਓ ਬਣਾਉਣ ਲਈ ਤਿਆਰ ਕਿਸਾਨਾਂ ਦਾ ਸਮੂਹ। ਮੈਦਾਨੀ ਖੇਤਰਾਂ ਵਿੱਚ ਘੱਟੋ-ਘੱਟ 300 ਕਿਸਾਨ ਅਤੇ ਉੱਤਰ-ਪੂਰਬ ਅਤੇ ਪਹਾੜੀ ਖੇਤਰਾਂ ਵਿੱਚ 100 ਕਿਸਾਨਾਂ ਦੀ ਲੋੜ ਹੁੰਦੀ ਹੈ।',
+        'bn':
+            'এফপিও গঠনে ইচ্ছুক কৃষকদের গ্রুপ। সমতল অঞ্চলে ন্যূনতম ৩০০ জন কৃষক এবং উত্তর-পূর্ব ও পার্বত্য অঞ্চলে ১০০ জন কৃষকের প্রয়োজন।',
+        'ta':
+            'எஃப்பிஓ உருவாக்க தயாராக உள்ள விவசாயிகளின் குழு. சமவெளிப் பகுதிகளில் குறைந்தபட்சம் 300 விவசாயிகள் மற்றும் வடகிழக்கு மற்றும் மலைப்பாங்கான பகுதிகளில் 100 விவசாயிகள் தேவை.',
+        'te':
+            'ఎఫ్పీఓ ఏర్పాటు చేయడానికి ఇష్టపడే రైతుల సమూహం. సమతల ప్రాంతాల్లో కనీసం 300 మంది రైతులు మరియు ఈశాన్య మరియు కొండ ప్రాంతాల్లో 100 మంది రైతులు అవసరం.',
+        'mr':
+            'एफपीओ तयार करण्यास इच्छुक असलेल्या शेतकऱ्यांचा गट. मैदानी भागात किमान 300 शेतकरी आणि ईशान्य आणि डोंगराळ भागात 100 शेतकरी आवश्यक आहेत.',
+        'gu':
+            'એફપીઓ બનાવવા માટે તૈયાર ખેડૂતોનું જૂથ. સપાટ વિસ્તારોમાં ઓછામાં ઓછા 300 ખેડૂતો અને ઉત્તર-પૂર્વ અને પર્વતીય વિસ્તારોમાં 100 ખેડૂતો જરૂરી છે.',
+      },
+      applicationProcess: {
+        'en':
+            'Apply through NABARD, NCDC, or other implementing agencies with list of farmer members, proposed business plan, and relevant documents.',
+        'hi':
+            'नाबार्ड, एनसीडीसी या अन्य कार्यान्वयन एजेंसियों के माध्यम से किसान सदस्यों की सूची, प्रस्तावित व्यवसाय योजना और प्रासंगिक दस्तावेजों के साथ आवेदन करें।',
+        'pa':
+            'ਕਿਸਾਨ ਮੈਂਬਰਾਂ ਦੀ ਸੂਚੀ, ਪ੍ਰਸਤਾਵਿਤ ਕਾਰੋਬਾਰੀ ਯੋਜਨਾ ਅਤੇ ਸੰਬੰਧਿਤ ਦਸਤਾਵੇਜ਼ਾਂ ਦੇ ਨਾਲ ਨਾਬਾਰਡ, ਐਨਸੀਡੀਐਸੀ ਜਾਂ ਹੋਰ ਲਾਗੂ ਏਜੰਸੀਆਂ ਰਾਹੀਂ ਅਰਜ਼ੀ ਦਿਓ।',
+        'bn':
+            'কৃষক সদস্যদের তালিকা, প্রস্তাবিত ব্যবসায়িক পরিকল্পনা এবং প্রাসঙ্গিক নথি সহ নাবার্ড, এনসিডিসি বা অন্যান্য বাস্তবায়নকারী সংস্থার মাধ্যমে আবেদন করুন।',
+        'ta':
+            'விவசாயி உறுப்பினர்களின் பட்டியல், முன்மொழியப்பட்ட வணிகத் திட்டம் மற்றும் தொடர்புடைய ஆவணங்களுடன் நாபார்ட், என்சிடிசி அல்லது பிற செயல்படுத்தும் நிறுவனங்கள் மூலம் விண்ணப்பிக்கவும்.',
+        'te':
+            'రైతు సభ్యుల జాబితా, ప్రతిపాదిత వ్యాపార ప్రణాళిక మరియు సంబంధిత డాక్యుమెంట్స్‌తో నాబార్డ్, ఎన్‌సిడిసి లేదా ఇతర అమలు చేస్తున్న ఏజెన్సీల ద్వారా దరఖాస్తు చేసుకోండి.',
+        'mr':
+            'शेतकरी सदस्यांची यादी, प्रस्तावित व्यवसाय योजना आणि संबंधित कागदपत्रे सह नाबार्ड, एनसीडीसी किंवा इतर अंमलबजावणी एजन्सीद्वारे अर्ज करा.',
+        'gu':
+            'ખેડૂત સભ્યોની યાદી, પ્રસ્તાવિત વ્યવસાય યોજના અને સંબંધિત દસ્તાવેજો સાથે નાબાર્ડ, એનસીડીસી અથવા અન્ય અમલ કરનાર એજન્સીઓ દ્વારા અરજી કરો.',
+      },
+      benefits: {
+        'en':
+            'Financial support up to ₹25 lakh per FPO for five years. Management cost of ₹18 lakh over three years. Matching equity grant up to ₹15 lakh. Credit guarantee facility. Business development services and training.',
+        'hi':
+            'पांच साल तक प्रति एफपीओ ₹25 लाख तक की वित्तीय सहायता। तीन साल में ₹18 लाख का प्रबंधन खर्च। ₹15 लाख तक की मिलान इक्विटी अनुदान। क्रेडिट गारंटी सुविधा। व्यावसायिक विकास सेवाएं और प्रशिक्षण।',
+        'pa':
+            'ਪੰਜ ਸਾਲਾਂ ਲਈ ਪ੍ਰਤੀ ਐਫਪੀਓ ₹25 ਲੱਖ ਤੱਕ ਦੀ ਵਿੱਤੀ ਸਹਾਇਤਾ। ਤਿੰਨ ਸਾਲਾਂ ਵਿੱਚ ₹18 ਲੱਖ ਦਾ ਪ੍ਰਬੰਧਨ ਖਰਚਾ। ₹15 ਲੱਖ ਤੱਕ ਦੀ ਮੈਚਿੰਗ ਇਕੁਇਟੀ ਗ੍ਰਾਂਟ। ਕ੍ਰੈਡਿਟ ਗਾਰੰਟੀ ਸਹੂਲਤ। ਕਾਰੋਬਾਰੀ ਵਿਕਾਸ ਸੇਵਾਵਾਂ ਅਤੇ ਸਿਖਲਾਈ।',
+        'bn':
+            'পাঁচ বছরের জন্য প্রতি এফপিওতে ২৫ লক্ষ টাকা পর্যন্ত আর্থিক সহায়তা। তিন বছরে ১৮ লক্ষ টাকা ব্যবস্থাপনা ব্যয়। ১৫ লক্ষ টাকা পর্যন্ত ম্যাচিং ইক্যুইটি অনুদান। ক্রেডিট গ্যারান্টি সুবিধা। ব্যবসায়িক উন্নয়ন পরিষেবা এবং প্রশিক্ষণ।',
+        'ta':
+            'ஐந்து ஆண்டுகளுக்கு ஒரு எஃப்பிஓவுக்கு ₹25 லட்சம் வரை நிதி உதவி. மூன்று ஆண்டுகளில் ₹18 லட்சம் மேலாண்மை செலவு. ₹15 லட்சம் வரை பொருந்தும் பங்கு மானியம். கடன் உத்தரவாத வசதி. வணிக மேம்பாடு சேவைகள் மற்றும் பயிற்சி.',
+        'te':
+            'ఐదు సంవత్సరాల పాటు ఒక్కో ఎఫ్పీఓకి ₹25 లక్షల వరకు ఆర్థిక సహాయం. మూడు సంవత్సరాలలో ₹18 లక్షల నిర్వహణ ఖర్చు. ₹15 లక్షల వరకు సరిపోలే ఈక్విటీ గ్రాంట్. క్రెడిట్ గ్యారంటీ సదుపాయం. వ్యాపార అభివృద్ధి సేవలు మరియు శిక్షణ.',
+        'mr':
+            'पाच वर्षांसाठी प्रति एफपीओ ₹25 लाख पर्यंत आर्थिक सहायता. तीन वर्षात ₹18 लाख व्यवस्थापन खर्च. ₹15 लाख पर्यंत जुळणारी इक्विटी अनुदान. क्रेडिट हमी सुविधा. व्यवसाय विकास सेवा आणि प्रशिक्षण.',
+        'gu':
+            'પાંચ વર્ષ માટે દરેક એફપીઓને ₹25 લાખ સુધીની નાણાકીય સહાય. ત્રણ વર્ષમાં ₹18 લાખનો વ્યવસ્થાપન ખર્ચ. ₹15 લાખ સુધીની મેચિંગ ઇક્વિટી ગ્રાન્ટ. ક્રેડિટ ગેરંટી સુવિધા. બિઝનેસ ડેવલપમેન્ટ સર્વિસીસ અને તાલીમ.',
+      },
+      contactInfo: {
+        'en': 'NABARD or State Agriculture Department',
+        'hi': 'नाबार्ड या राज्य कृषि विभाग',
+        'pa': 'ਨਾਬਾਰਡ ਜਾਂ ਰਾਜ ਖੇਤੀਬਾੜੀ ਵਿਭਾਗ',
+        'bn': 'নাবার্ড বা রাজ্য কৃষি বিভাগ',
+        'ta': 'நாபார்ட் அல்லது மாநில விவசாயத் துறை',
+        'te': 'నాబార్డ్ లేదా రాష్ట్ర వ్యవసాయ శాఖ',
+        'mr': 'नाबार्ड किंवा राज्य कृषी विभाग',
+        'gu': 'નાબાર્ડ અથવા રાજ્ય કૃષિ વિભાગ',
+      },
+    ),
+
+    GovernmentScheme(
+      id: '17',
+      title: {
+        'en': 'PM Formalization of Micro Food Processing Enterprises (PMFME)',
+        'hi':
+            'पीएम सूक्ष्म खाद्य प्रसंस्करण उद्यमों का औपचारिकीकरण (पीएमएफएमई)',
+        'pa':
+            'ਪੀਐਮ ਮਾਈਕ੍ਰੋ ਫੂਡ ਪ੍ਰੋਸੈਸਿੰਗ ਐਂਟਰਪ੍ਰਾਈਜ਼ ਦਾ ਫਾਰਮਲਾਈਜ਼ੇਸ਼ਨ (ਪੀਐਮਐਫਐਮਈ)',
+        'bn':
+            'পিএম মাইক্রো ফুড প্রসেসিং এন্টারপ্রাইজের ফরমালাইজেশন (পিএমএফএমই)',
+        'ta':
+            'பிஎம் மைக்ரோ உணவு பதப்படுத்தும் நிறுவனங்களின் முறைப்படுத்தல் (பிஎம்எஃப்எம்ஈ)',
+        'te':
+            'పీఎం మైక్రో ఫుడ్ ప్రాసెసింగ్ ఎంటర్ప్రైజెస్ ఫార్మలైజేషన్ (పీఎమ్ఎఫ్ఎమ్ఈ)',
+        'mr': 'पीएम सूक्ष्म अन्नप्रक्रिया उद्योगांचे औपचारीकरण (पीएमएफएमई)',
+        'gu':
+            'પીએમ માઇક્રો ફુડ પ્રોસેસિંગ એન્ટરપ્રાઇઝનું ફોર્મલાઇઝેશન (પીએમએફએમઈ)',
+      },
+      description: {
+        'en':
+            'Scheme to provide financial, technical, and business support for upgradation of existing micro food processing enterprises.',
+        'hi':
+            'मौजूदा सूक्ष्म खाद्य प्रसंस्करण उद्यमों के उन्नयन के लिए वित्तीय, तकनीकी और व्यावसायिक सहायता प्रदान करने की योजना।',
+        'pa':
+            'ਮੌਜੂਦਾ ਮਾਈਕ੍ਰੋ ਫੂਡ ਪ੍ਰੋਸੈਸਿੰਗ ਐਂਟਰਪ੍ਰਾਈਜ਼ ਨੂੰ ਅਪਗ੍ਰੇਡ ਕਰਨ ਲਈ ਵਿੱਤੀ, ਤਕਨੀਕੀ ਅਤੇ ਕਾਰੋਬਾਰੀ ਸਹਾਇਤਾ ਪ੍ਰਦਾਨ ਕਰਨ ਦੀ ਯੋਜਨਾ।',
+        'bn':
+            'বিদ্যমান মাইক্রো ফুড প্রসেসিং এন্টারপ্রাইজের আপগ্রেডেশনের জন্য আর্থিক, প্রযুক্তিগত এবং ব্যবসায়িক সহায়তা প্রদানের স্কিম।',
+        'ta':
+            'தற்போதுள்ள மைக்ரோ உணவு பதப்படுத்தும் நிறுவனங்களின் மேம்பாட்டிற்கான நிதி, தொழில்நுட்ப மற்றும் வணிக ஆதரவை வழங்குவதற்கான திட்டம்.',
+        'te':
+            'ఇప్పటికే ఉన్న మైక్రో ఫుడ్ ప్రాసెసింగ్ ఎంటర్ప్రైజెస్ అప్గ్రేడేషన్ కోసం ఆర్థిక, సాంకేతిక మరియు వ్యాపార మద్దతును అందించే స్కీమ్.',
+        'mr':
+            'विद्यमान सूक्ष्म अन्नप्रक्रिया उद्योगांच्या उन्नतीसाठी आर्थिक, तांत्रिक आणि व्यावसायिक सहाय्य पुरविण्याची योजना.',
+        'gu':
+            'હાલના માઇક્રો ફુડ પ્રોસેસિંગ એન્ટરપ્રાઇઝના અપગ્રેડેશન માટે નાણાકીય, તકનીકી અને વ્યવસાયિક સહાય પૂરી પાડવાની યોજના.',
+      },
+      imageUrl: 'assets/pmfme.png',
+      expiryDate: DateTime(2025, 3, 31),
+      department: {
+        'en': 'Rural Development',
+        'hi': 'ग्रामीण विकास',
+        'pa': 'ਪੇਂਡੂ ਵਿਕਾਸ',
+        'bn': 'গ্রামীণ উন্নয়ন',
+        'ta': 'கிராமீய வளர்ச்சி',
+        'te': 'గ్రామీణాభివృద్ధి',
+        'mr': 'ग्रामीण विकास',
+        'gu': 'ગ્રામીણ વિકાસ',
+      },
+      farmingTypes: ['All'],
+      cropTypes: ['All'],
+      minLandSize: 0.0,
+      maxLandSize: double.infinity,
+      requiresAadhar: true,
+      eligibilityCriteria: {
+        'en':
+            'Existing micro food processing enterprises, FPOs, SHGs, and producer cooperatives.',
+        'hi':
+            'मौजूदा सूक्ष्म खाद्य प्रसंस्करण उद्यम, एफपीओ, स्वयं सहायता समूह और उत्पादक सहकारी समितियाँ।',
+        'pa':
+            'ਮੌਜੂਦਾ ਮਾਈਕ੍ਰੋ ਫੂਡ ਪ੍ਰੋਸੈਸਿੰਗ ਐਂਟਰਪ੍ਰਾਈਜ਼, ਐਫਪੀਓ, ਐਸਐਚਜੀ ਅਤੇ ਪ੍ਰੋਡਿਊਸਰ ਕੋਆਪਰੇਟਿਵਜ਼।',
+        'bn':
+            'বিদ্যমান মাইক্রো ফুড প্রসেসিং এন্টারপ্রাইজ, এফপিও, স্ব-সহায়ক গোষ্ঠী এবং প্রযোজক কো-অপারেটিভ।',
+        'ta':
+            'தற்போதுள்ள மைக்ரோ உணவு பதப்படுத்தும் நிறுவனங்கள், எஃப்பிஓக்கள், சுயஉதவிக் குழுக்கள் மற்றும் உற்பத்தியாளர் கூட்டுறவு சங்கங்கள்.',
+        'te':
+            'ఇప్పటికే ఉన్న మైక్రో ఫుడ్ ప్రాసెసింగ్ ఎంటర్ప్రైజెస్, ఎఫ్పీఓలు, ఎస్హెచ్జిలు మరియు ఉత్పత్తిదారు సహకార సంఘాలు.',
+        'mr':
+            'विद्यमान सूक्ष्म अन्नप्रक्रिया उद्योग, एफपीओ, स्वयंसहायता गट आणि उत्पादक सहकारी संस्था.',
+        'gu':
+            'હાલની માઇક્રો ફુડ પ્રોસેસિંગ એન્ટરપ્રાઇઝ, એફપીઓ, એસએચજી અને ઉત્પાદક સહકારી સંસ્થાઓ.',
+      },
+      applicationProcess: {
+        'en':
+            'Apply through State Food Processing Department or District Industries Center with project proposal, existing business details, and bank account information.',
+        'hi':
+            'परियोजना प्रस्ताव, मौजूदा व्यवसाय विवरण और बैंक खाता जानकारी के साथ राज्य खाद्य प्रसंस्करण विभाग या जिला उद्योग केंद्र के माध्यम से आवेदन करें।',
+        'pa':
+            'ਪ੍ਰੋਜੈਕਟ ਪ੍ਰਸਤਾਵ, ਮੌਜੂਦਾ ਕਾਰੋਬਾਰ ਦੇ ਵੇਰਵੇ ਅਤੇ ਬੈਂਕ ਖਾਤੇ ਦੀ ਜਾਣਕਾਰੀ ਦੇ ਨਾਲ ਰਾਜ ਫੂਡ ਪ੍ਰੋਸੈਸਿੰਗ ਵਿਭਾਗ ਜਾਂ ਜ਼ਿਲ੍ਹਾ ਇੰਡਸਟਰੀਜ਼ ਸੈਂਟਰ ਰਾਹੀਂ ਅਰਜ਼ੀ ਦਿਓ।',
+        'bn':
+            'প্রকল্পের প্রস্তাব, বিদ্যমান ব্যবসার বিবরণ এবং ব্যাংক অ্যাকাউন্টের তথ্য সহ রাজ্য খাদ্য প্রক্রিয়াকরণ বিভাগ বা জেলা শিল্প কেন্দ্রের মাধ্যমে আবেদন করুন।',
+        'ta':
+            'திட்ட முன்மொழிவு, தற்போதைய வணிக விவரங்கள் மற்றும் வங்கி கணக்கு தகவல்களுடன் மாநில உணவு பதப்படுத்தும் துறை அல்லது மாவட்ட தொழில் மையம் மூலம் விண்ணப்பிக்கவும்.',
+        'te':
+            'ప్రాజెక్ట్ ప్రతిపాదన, ఇప్పటికే ఉన్న వ్యాపార వివరాలు మరియు బ్యాంక్ ఖాతా సమాచారంతో రాష్ట్ర ఫుడ్ ప్రాసెసింగ్ శాఖ లేదా జిల్లా ఇండస్ట్రీస్ సెంటర్ ద్వారా దరఖాస్తు చేసుకోండి.',
+        'mr':
+            'प्रकल्प प्रस्ताव, विद्यमान व्यवसाय तपशील आणि बँक खाते माहिती सह राज्य अन्नप्रक्रिया विभाग किंवा जिल्हा उद्योग केंद्राद्वारे अर्ज करा.',
+        'gu':
+            'પ્રોજેક્ટ પ્રસ્તાવ, હાલની વ્યવસાયિક વિગતો અને બેંક ખાતા માહિતી સાથે રાજ્ય ફુડ પ્રોસેસિંગ વિભાગ અથવા જિલ્લા ઇન્ડસ્ટ્રીઝ સેન્ટર દ્વારા અરજી કરો.',
+      },
+      benefits: {
+        'en':
+            'Credit-linked capital subsidy of 35% of eligible project cost with maximum ceiling of ₹10 lakh. Handholding support for DPR preparation, obtaining bank loan, technical upgradation, etc. Support to FPOs, SHGs, producer cooperatives for marketing, branding, and capacity building.',
+        'hi':
+            'पात्र परियोजना लागत का 35% क्रेडिट-लिंक्ड पूंजी सब्सिडी, अधिकतम सीमा ₹10 लाख। डीपीआर तैयार करने, बैंक ऋण प्राप्त करने, तकनीकी उन्नयन आदि के लिए हाथ पकड़ने का समर्थन। विपणन, ब्रांडिंग और क्षमता निर्माण के लिए एफपीओ, स्वयं सहायता समूह, उत्पादक सहकारी समितियों को समर्थन।',
+        'pa':
+            'ਯੋਗ ਪ੍ਰੋਜੈਕਟ ਲਾਗਤ ਦਾ 35% ਕ੍ਰੈਡਿਟ-ਲਿੰਕਡ ਕੈਪੀਟਲ ਸਬਸਿਡੀ, ਅਧਿਕਤਮ ਸੀਮਾ ₹10 ਲੱਖ। ਡੀਪੀਆਰ ਤਿਆਰ ਕਰਨ, ਬੈਂਕ ਲੋਨ ਪ੍ਰਾਪਤ ਕਰਨ, ਤਕਨੀਕੀ ਅਪਗ੍ਰੇਡੇਸ਼ਨ ਆਦਿ ਲਈ ਹੈਂਡਹੋਲਡਿੰਗ ਸਹਾਇਤਾ। ਮਾਰਕੀਟਿੰਗ, ਬ੍ਰਾਂਡਿੰਗ ਅਤੇ ਸਮਰੱਥਾ ਨਿਰਮਾਣ ਲਈ ਐਫਪੀਓ, ਐਸਐਚਜੀ, ਪ੍ਰੋਡਿਊਸਰ ਕੋਆਪਰੇਟਿਵਜ਼ ਨੂੰ ਸਹਾਇਤਾ।',
+        'bn':
+            'যোগ্য প্রকল্প ব্যয়ের 35% ক্রেডিট-লিঙ্কড মূলধন ভর্তুকি, সর্বোচ্চ সিলিং ₹10 লক্ষ। ডিপিআর প্রস্তুত, ব্যাংক লোন পাওয়া, প্রযুক্তিগত আপগ্রেডেশন ইত্যাদির জন্য হ্যান্ডহোল্ডিং সাপোর্ট। বিপণন, ব্র্যান্ডিং এবং সক্ষমতা বৃদ্ধির জন্য এফপিও, স্ব-সহায়ক গোষ্ঠী, প্রযোজক কো-অপারেটিভদের সমর্থন।',
+        'ta':
+            'தகுதியான திட்ட செலவில் 35% கடன் இணைக்கப்பட்ட மூலதன மானியம், அதிகபட்ச உச்சவரம்பு ₹10 லட்சம். டிபிஆர் தயாரிப்பு, வங்கிக் கடன் பெறுதல், தொழில்நுட்ப மேம்படுத்தல் போன்றவற்றுக்கான கைப்பிடி ஆதரவு. சந்தைப்படுத்தல், பிராண்டிங் மற்றும் திறன் வளர்ப்புக்கான எஃப்பிஓக்கள், சுயஉதவிக் குழுக்கள், உற்பத்தியாளர் கூட்டுறவு சங்கங்களுக்கு ஆதரவு.',
+        'te':
+            'అర్హత కలిగిన ప్రాజెక్ట్ ఖర్చులో 35% క్రెడిట్-లింక్డ్ క్యాపిటల్ సబ్సిడీ, గరిష్టంగా ₹10 లక్షలు. డిపిఆర్ తయారీ, బ్యాంక్ లోన్ పొందడం, సాంకేతిక నవీకరణ మొదలైన వాటికి హ్యాండ్హోల్డింగ్ మద్దతు. మార్కెటింగ్, బ్రాండింగ్ మరియు సామర్థ్య నిర్మాణం కోసం ఎఫ్పీఓలు, ఎస్హెచ్జిలు, ఉత్పత్తిదారు సహకార సంఘాలకు మద్దతు.',
+        'mr':
+            'पात्र प्रकल्प खर्चाच्या 35% क्रेडिट-लिंक्ड भांडवल अनुदान, जास्तीत जास्त कमाल ₹10 लाख. डीपीआर तयार करणे, बँक कर्ज मिळविणे, तांत्रिक उन्नयन इत्यादीसाठी हँडहोल्डिंग समर्थन. विपणन, ब्रँडिंग आणि क्षमता निर्मितीसाठी एफपीओ, स्वयंसहायता गट, उत्पादक सहकारी संस्थांना समर्थन.',
+        'gu':
+            'યોગ્ય પ્રોજેક્ટ ખર્ચના 35% ક્રેડિટ-લિંક્ડ કેપિટલ સબસિડી, મહત્તમ સીમા ₹10 લાખ. ડીપીઆર તૈયારી, બેંક લોન મેળવવા, ટેકનિકલ અપગ્રેડેશન વગેરે માટે હેન્ડહોલ્ડિંગ સપોર્ટ. માર્કેટિંગ, બ્રાન્ડિંગ અને ક્ષમતા નિર્માણ માટે એફપીઓ, એસએચજી, ઉત્પાદક સહકારી સંસ્થાઓને ટેકો.',
+      },
+      contactInfo: {
+        'en': 'District Industries Center or State Food Processing Department',
+        'hi': 'जिला उद्योग केंद्र या राज्य खाद्य प्रसंस्करण विभाग',
+        'pa': 'ਜ਼ਿਲ੍ਹਾ ਇੰਡਸਟਰੀਜ਼ ਸੈਂਟਰ ਜਾਂ ਰਾਜ ਫੂਡ ਪ੍ਰੋਸੈਸਿੰਗ ਵਿਭਾਗ',
+        'bn': 'জেলা শিল্প কেন্দ্র বা রাজ্য খাদ্য প্রক্রিয়াকরণ বিভাগ',
+        'ta': 'மாவட்ட தொழில் மையம் அல்லது மாநில உணவு பதப்படுத்தும் துறை',
+        'te': 'జిల్లా ఇండస్ట్రీస్ సెంటర్ లేదా రాష్ట్ర ఫుడ్ ప్రాసెసింగ్ శాఖ',
+        'mr': 'जिल्हा उद्योग केंद्र किंवा राज्य अन्नप्रक्रिया विभाग',
+        'gu': 'જિલ્લા ઇન્ડસ્ટ્રીઝ સેન્ટર અથવા રાજ્ય ફુડ પ્રોસેસિંગ વિભાગ',
+      },
+    ),
+
+    GovernmentScheme(
+      id: '18',
+      title: {
+        'en': 'Soil Health Card Scheme',
+        'hi': 'मृदा स्वास्थ्य कार्ड योजना',
+        'pa': 'ਮਿੱਟੀ ਸਿਹਤ ਕਾਰਡ ਸਕੀਮ',
+        'bn': 'মৃত্তিকা স্বাস্থ্য কার্ড স্কিম',
+        'ta': 'மண் ஆரோக்கிய அட்டை திட்டம்',
+        'te': 'సాయిల్ హెల్త్ కార్డ్ స్కీమ్',
+        'mr': 'मृदा आरोग्य कार्ड योजना',
+        'gu': 'માટી સ્વાસ્થ્ય કાર્ડ યોજના',
+      },
+      description: {
+        'en':
+            'Issues soil health cards to farmers containing crop-wise recommendations for nutrients and fertilizers to help farmers improve productivity through judicious use of inputs.',
+        'hi':
+            'किसानों को पोषक तत्वों और उर्वरकों के लिए फसल-वार सिफारिशों वाले मृदा स्वास्थ्य कार्ड जारी करता है ताकि किसान आदानों का विवेकपूर्ण उपयोग करके उत्पादकता में सुधार कर सकें।',
+        'pa':
+            'ਕਿਸਾਨਾਂ ਨੂੰ ਪੋਸ਼ਕ ਤੱਤਾਂ ਅਤੇ ਖਾਦਾਂ ਲਈ ਫਸਲ-ਵਾਰ ਸਿਫਾਰਸ਼ਾਂ ਵਾਲੇ ਮਿੱਟੀ ਸਿਹਤ ਕਾਰਡ ਜਾਰੀ ਕਰਦਾ ਹੈ ਤਾਂ ਜੋ ਕਿਸਾਨ ਇਨਪੁਟਸ ਦੇ ਵਿਵੇਕਪੂਰਨ ਇਸਤੇਮਾਲ ਰਾਹੀਂ ਉਤਪਾਦਕਤਾ ਵਿੱਚ ਸੁਧਾਰ ਕਰ ਸਕਣ।',
+        'bn':
+            'কৃষকদের পুষ্টি ও সার সম্পর্কে ফসল-ভিত্তিক সুপারিশ সহ মৃত্তিকা স্বাস্থ্য কার্ড প্রদান করে যাতে কৃষকরা উপকরণের বিচক্ষণ ব্যবহারের মাধ্যমে উৎপাদনশীলতা উন্নত করতে পারেন।',
+        'ta':
+            'விவசாயிகளுக்கு மண்ணின் ஆரோக்கிய அட்டைகளை வழங்குகிறது, இதில் பயிர் வாரியான ஊட்டச்சத்து மற்றும் உரங்களுக்கான பரிந்துரைகள் உள்ளன, இது உள்ளீடுகளை பகுத்தறிவு பயன்படுத்தி உற்பத்தித்திறனை மேம்படுத்த உதவுகிறது.',
+        'te':
+            'రైతులకు మట్టి ఆరోగ్య కార్డులను జారీ చేస్తుంది, ఇందులో పంట-వారీగా పోషకాలు మరియు ఎరువులకు సూచనలు ఉంటాయి, ఇది రైతులు ఇన్పుట్లను వివేకపూర్వకంగా ఉపయోగించుకోవడం ద్వారా ఉత్పాదకతను మెరుగుపరచడంలో సహాయపడుతుంది.',
+        'mr':
+            'शेतकऱ्यांना पोषक तत्वे आणि खतांच्या पिकनिहाय शिफारशींचे मृदा आरोग्य कार्ड जारी करते जेणेकरून शेतकरी आदानांचा विवेकपूर्ण वापर करून उत्पादकता सुधारू शकतील.',
+        'gu':
+            'ખેડૂતોને પોષક તત્વો અને ખાતરો માટે પાક-વાઈઝ ભલામણો સાથે માટી સ્વાસ્થ્ય કાર્ડ જારી કરે છે જેથી ખેડૂતો ઇનપુટ્સનો વિવેકપૂર્ણ ઉપયોગ કરીને ઉત્પાદકતા સુધારી શકે.',
+      },
+      imageUrl: 'assets/shc.png',
+      expiryDate: DateTime(2025, 3, 31),
+      department: {
+        'en': 'Agriculture Department',
+        'hi': 'कृषि विभाग',
+        'pa': 'ਖੇਤੀਬਾੜੀ ਵਿਭਾਗ',
+        'bn': 'কৃষি বিভাগ',
+        'ta': 'விவசாயத் துறை',
+        'te': 'వ్యవసాయ శాఖ',
+        'mr': 'कृषी विभाग',
+        'gu': 'કૃષિ વિભાગ',
+      },
+      farmingTypes: ['All'],
+      cropTypes: ['All'],
+      minLandSize: 0.0,
+      maxLandSize: double.infinity,
+      requiresAadhar: true,
+      eligibilityCriteria: {
+        'en': 'All farmers with agricultural land holdings.',
+        'hi': 'कृषि भूमि धारण करने वाले सभी किसान।',
+        'pa': 'ਖੇਤੀਬਾੜੀ ਜ਼ਮੀਨ ਰੱਖਣ ਵਾਲੇ ਸਾਰੇ ਕਿਸਾਨ।',
+        'bn': 'কৃষি জমির মালিকানা সহ সমস্ত কৃষক।',
+        'ta': 'விவசாய நில உரிமையுள்ள அனைத்து விவசாயிகளும்.',
+        'te': 'వ్యవసాయ భూమిని కలిగి ఉన్న అన్ని రైతులు.',
+        'mr': 'कृषी जमीन धारण करणारे सर्व शेतकरी.',
+        'gu': 'કૃષિ જમીનની હોલ્ડિંગ ધરાવતા તમામ ખેડૂતો.',
+      },
+      applicationProcess: {
+        'en':
+            'Register with local Agriculture Department or Krishi Vigyan Kendra. Officials will collect soil samples from farmers\' fields for testing.',
+        'hi':
+            'स्थानीय कृषि विभाग या कृषि विज्ञान केंद्र में पंजीकरण करें। अधिकारी परीक्षण के लिए किसानों के खेतों से मिट्टी के नमूने एकत्र करेंगे।',
+        'pa':
+            'ਸਥਾਨਕ ਖੇਤੀਬਾੜੀ ਵਿਭਾਗ ਜਾਂ ਕ੍ਰਿਸ਼ੀ ਵਿਗਿਆਨ ਕੇਂਦਰ ਵਿੱਚ ਰਜਿਸਟਰ ਕਰੋ। ਅਧਿਕਾਰੀ ਟੈਸਟਿੰਗ ਲਈ ਕਿਸਾਨਾਂ ਦੇ ਖੇਤਾਂ ਤੋਂ ਮਿੱਟੀ ਦੇ ਨਮੂਨੇ ਇਕੱਠੇ ਕਰਨਗੇ।',
+        'bn':
+            'স্থানীয় কৃষি বিভাগ বা কৃষি বিজ্ঞান কেন্দ্রে নিবন্ধন করুন। কর্মকর্তারা পরীক্ষার জন্য কৃষকদের জমি থেকে মাটির নমুনা সংগ্রহ করবেন।',
+        'ta':
+            'உள்ளூர் விவசாயத் துறை அல்லது கிரிஷி விக்யான் கேந்திராவில் பதிவு செய்யவும். அதிகாரிகள் சோதனைக்காக விவசாயிகளின் வயல்களிலிருந்து மண் மாதிரிகளை சேகரிப்பார்கள்.',
+        'te':
+            'స్థానిక వ్యవసాయ శాఖ లేదా కృషి విజ్ఞాన కేంద్రంలో నమోదు చేసుకోండి. అధికారులు పరీక్ష కోసం రైతుల పొలాల నుండి నేల నమూనాలను సేకరిస్తారు.',
+        'mr':
+            'स्थानिक कृषी विभाग किंवा कृषी विज्ञान केंद्रावर नोंदणी करा. अधिकारी चाचणीसाठी शेतकऱ्यांच्या शेतातून मातीचे नमुने गोळा करतील.',
+        'gu':
+            'સ્થાનિક કૃષિ વિભાગ અથવા કૃષિ વિજ્ઞાન કેન્દ્રમાં નોંધણી કરો. અધિકારીઓ પરીક્ષણ માટે ખેડૂતોના ખેતરોમાંથી માટીના નમૂનાઓ એકત્રિત કરશે.',
+      },
+      benefits: {
+        'en':
+            'Free soil testing. Crop-wise fertilizer recommendations based on soil nutrient status. Information on soil health parameters. Helps reduce input costs through optimal use of fertilizers.',
+        'hi':
+            'निःशुल्क मृदा परीक्षण। मृदा पोषक तत्व स्थिति के आधार पर फसल-वार उर्वरक सिफारिशें। मृदा स्वास्थ्य मापदंडों पर जानकारी। उर्वरकों के इष्टतम उपयोग से इनपुट लागत कम करने में मदद करता है।',
+        'pa':
+            'ਮੁਫ਼ਤ ਮਿੱਟੀ ਟੈਸਟਿੰਗ। ਮਿੱਟੀ ਦੇ ਪੋਸ਼ਣ ਦੀ ਸਥਿਤੀ ਦੇ ਆਧਾਰ ਤੇ ਫਸਲ-ਵਾਰ ਖਾਦ ਸਿਫਾਰਸ਼ਾਂ। ਮਿੱਟੀ ਦੀ ਸਿਹਤ ਦੇ ਪੈਰਾਮੀਟਰਾਂ ਬਾਰੇ ਜਾਣਕਾਰੀ। ਖਾਦਾਂ ਦੇ ਸੌਖੇ ਇਸਤੇਮਾਲ ਰਾਹੀਂ ਇਨਪੁਟ ਲਾਗਤ ਨੂੰ ਘਟਾਉਣ ਵਿੱਚ ਮਦਦ ਕਰਦਾ ਹੈ।',
+        'bn':
+            'বিনামূল্যে মাটি পরীক্ষা। মাটির পুষ্টির অবস্থার উপর ভিত্তি করে ফসল-ভিত্তিক সার সুপারিশ। মাটির স্বাস্থ্য পরামিতি সম্পর্কে তথ্য। সারের সর্বোত্তম ব্যবহারের মাধ্যমে ইনপুট খরচ কমাতে সাহায্য করে।',
+        'ta':
+            'இலவச மண் பரிசோதனை. மண் ஊட்டச்சத்து நிலையின் அடிப்படையில் பயிர் வாரியான உர பரிந்துரைகள். மண்ணின் ஆரோக்கிய அளவுருக்கள் பற்றிய தகவல். உரங்களின் உகந்த பயன்பாட்டின் மூலம் உள்ளீட்டு செலவுகளைக் குறைக்க உதவுகிறது.',
+        'te':
+            'ఉచిత మట్టి పరీక్ష. మట్టి పోషక స్థితి ఆధారంగా పంట-వారీగా ఎరువు సిఫార్సులు. మట్టి ఆరోగ్య పారామితులపై సమాచారం. ఎరువులను సరైనవిధంగా ఉపయోగించడం ద్వారా ఇన్పుట్ ఖర్చులను తగ్గించడంలో సహాయపడుతుంది.',
+        'mr':
+            'मोफत मृदा चाचणी. मृदेतील पोषकतत्वांच्या स्थितीवर आधारित पिकनिहाय खतांच्या शिफारसी. मृदा आरोग्याच्या मापदंडांविषयी माहिती. खतांच्या योग्य वापराद्वारे आदान खर्च कमी करण्यास मदत होते.',
+        'gu':
+            'મફત માટી પરીક્ષણ. માટીના પોષક તત્વોની સ્થિતિના આધારે પાક-વાઈઝ ખાતરની ભલામણો. માટી સ્વાસ્થ્ય પરિમાણો પરની માહિતી. ખાતરોના શ્રેષ્ઠ ઉપયોગ દ્વારા ઇનપુટ ખર્ચ ઘટાડવામાં મદદ કરે છે.',
+      },
+      contactInfo: {
+        'en': 'Local Agriculture Department or Krishi Vigyan Kendra',
+        'hi': 'स्थानीय कृषि विभाग या कृषि विज्ञान केंद्र',
+        'pa': 'ਸਥਾਨਕ ਖੇਤੀਬਾੜੀ ਵਿਭਾਗ ਜਾਂ ਕ੍ਰਿਸ਼ੀ ਵਿਗਿਆਨ ਕੇਂਦਰ',
+        'bn': 'স্থানীয় কৃষি বিভাগ বা কৃষি বিজ্ঞান কেন্দ্র',
+        'ta': 'உள்ளூர் விவசாயத் துறை அல்லது கிரிஷி விக்யான் கேந்திரா',
+        'te': 'స్థానిక వ్యవసాయ శాఖ లేదా కృషి విజ్ఞాన కేంద్రం',
+        'mr': 'स्थानिक कृषी विभाग किंवा कृषी विज्ञान केंद्र',
+        'gu': 'સ્થાનિક કૃષિ વિભાગ અથવા કૃષિ વિજ્ઞાન કેન્દ્ર',
+      },
+    ),
+
+    GovernmentScheme(
+      id: '19',
+      title: {
+        'en':
+            'Mission Organic Value Chain Development for North Eastern Region (MOVCDNER)',
+        'hi':
+            'पूर्वोत्तर क्षेत्र के लिए जैविक मूल्य श्रृंखला विकास मिशन (एमओवीसीडीएनईआर)',
+        'pa':
+            'ਉੱਤਰ ਪੂਰਬੀ ਖੇਤਰ ਲਈ ਮਿਸ਼ਨ ਆਰਗੈਨਿਕ ਵੈਲਿਊ ਚੇਨ ਡਿਵੈਲਪਮੈਂਟ (ਐਮਓਵੀਸੀਡੀਐਨਈਆਰ)',
+        'bn':
+            'উত্তর-পূর্বাঞ্চলের জন্য মিশন অর্গানিক ভ্যালু চেইন ডেভেলপমেন্ট (এমওভিসিডিএনইআর)',
+        'ta':
+            'வடகிழக்கு பகுதிக்கான கரிம மதிப்புச் சங்கிலி மேம்பாட்டு திட்டம் (MOVCDNER)',
+        'te':
+            'వాయువ్య ప్రాంతం కోసం మిషన్ ఆర్గానిక్ వాల్యూ చైన్ డెవలప్మెంట్ (MOVCDNER)',
+        'mr':
+            'ईशान्य प्रदेशासाठी मिशन ऑर्गेनिक व्हॅल्यू चेन डेव्हलपमेंट (MOVCDNER)',
+        'gu':
+            'ઉત્તર પૂર્વીય પ્રદેશ માટે મિશન ઑર્ગેનિક વેલ્યુ ચેઇન ડેવલપમેન્ટ (MOVCDNER)',
+      },
+      description: {
+        'en':
+            'Supports development of certified organic production in a value chain mode to link growers with consumers in North Eastern states.',
+        'hi':
+            'पूर्वोत्तर राज्यों में उत्पादकों को उपभोक्ताओं से जोड़ने के लिए मूल्य श्रृंखला मोड में प्रमाणित जैविक उत्पादन के विकास का समर्थन करता है।',
+        'pa':
+            'ਉੱਤਰ ਪੂਰਬੀ ਰਾਜਾਂ ਵਿੱਚ ਉਤਪਾਦਕਾਂ ਨੂੰ ਖਪਤਕਾਰਾਂ ਨਾਲ ਜੋੜਨ ਲਈ ਮੁੱਲ ਲੜੀ ਮੋਡ ਵਿੱਚ ਪ੍ਰਮਾਣਿਤ ਜੈਵਿਕ ਉਤਪਾਦਨ ਦੇ ਵਿਕਾਸ ਨੂੰ ਸਹਾਇਤਾ ਕਰਦਾ ਹੈ।',
+        'bn':
+            'উত্তর-পূর্বাঞ্চলের রাজ্যগুলিতে উৎপাদকদের ভোক্তাদের সাথে সংযুক্ত করার জন্য মূল্য শৃঙ্খলা পদ্ধতিতে প্রত্যয়িত জৈব উৎপাদনের উন্নয়নকে সমর্থন করে।',
+        'ta':
+            'வடகிழக்கு மாநிலங்களில் உற்பத்தியாளர்களை நுகர்வோருடன் இணைக்க மதிப்புச் சங்கிலி முறையில் சான்றளிக்கப்பட்ட கரிம உற்பத்தியின் வளர்ச்சிக்கு ஆதரவளிக்கிறது.',
+        'te':
+            'వాయువ్య రాష్ట్రాలలో సాగుదారులను వినియోగదారులతో లింక్ చేయడానికి విలువ గొలుసు రీతిలో ధృవీకరించబడిన సేంద్రీయ ఉత్పత్తి అభివృద్ధికి మద్దతు ఇస్తుంది.',
+        'mr':
+            'ईशान्य राज्यांमधील उत्पादकांना ग्राहकांशी जोडण्यासाठी मूल्य साखळी पद्धतीने प्रमाणित सेंद्रिय उत्पादनाच्या विकासाला पाठबळ देते.',
+        'gu':
+            'ઉત્તર પૂર્વીય રાજ્યોમાં ઉત્પાદકોને ગ્રાહકો સાથે જોડવા માટે વેલ્યુ ચેઇન મોડમાં પ્રમાણિત ઑર્ગેનિક ઉત્પાદનના વિકાસને ટેકો આપે છે.',
+      },
+      imageUrl: 'assets/movcdner.png',
+      expiryDate: DateTime(2025, 3, 31),
+      department: {
+        'en': 'Agriculture Department',
+        'hi': 'कृषि विभाग',
+        'pa': 'ਖੇਤੀਬਾੜੀ ਵਿਭਾਗ',
+        'bn': 'কৃষি বিভাগ',
+        'ta': 'விவசாயத் துறை',
+        'te': 'వ్యవసాయ శాఖ',
+        'mr': 'कृषी विभाग',
+        'gu': 'કૃષિ વિભાગ',
+      },
+      farmingTypes: ['Organic'],
+      cropTypes: ['All'],
+      minLandSize: 0.0,
+      maxLandSize: 2.0,
+      requiresAadhar: true,
+      eligibilityCriteria: {
+        'en':
+            'Farmers in North Eastern states interested in organic farming. Focus on small and marginal farmers.',
+        'hi':
+            'पूर्वोत्तर राज्यों के जैविक खेती में रुचि रखने वाले किसान। छोटे और सीमांत किसानों पर ध्यान दें।',
+        'pa':
+            'ਉੱਤਰ ਪੂਰਬੀ ਰਾਜਾਂ ਦੇ ਜੈਵਿਕ ਖੇਤੀ ਵਿੱਚ ਦਿਲਚਸਪੀ ਰੱਖਣ ਵਾਲੇ ਕਿਸਾਨ। ਛੋਟੇ ਅਤੇ ਸੀਮਾਂਤ ਕਿਸਾਨਾਂ ਤੇ ਧਿਆਨ ਦਿਓ।',
+        'bn':
+            'উত্তর-পূর্বাঞ্চলের রাজ্যগুলির জৈব চাষে আগ্রহী কৃষকরা। ক্ষুদ্র ও প্রান্তিক কৃষকদের উপর ফোকাস।',
+        'ta':
+            'கரிம விவசாயத்தில் ஆர்வமுள்ள வடகிழக்கு மாநிலங்களின் விவசாயிகள். சிறிய மற்றும் குறு விவசாயிகளில் கவனம் செலுத்துங்கள்.',
+        'te':
+            'వాయువ్య రాష్ట్రాలలో సేంద్రీయ వ్యవసాయంపై ఆసక్తి ఉన్న రైతులు. చిన్న మరియు అల్పాధిక రైతులపై దృష్టి పెట్టండి.',
+        'mr':
+            'ईशान्य राज्यांमधील सेंद्रिय शेतीत रस असलेले शेतकरी. लहान आणि सीमांत शेतकऱ्यांवर लक्ष केंद्रित करा.',
+        'gu':
+            'ઉત્તર પૂર્વીય રાજ્યોમાં ઑર્ગેનિક ખેતીમાં રસ ધરાવતા ખેડૂતો. નાના અને સીમાંત ખેડૂતો પર ધ્યાન કેન્દ્રિત કરો.',
+      },
+      applicationProcess: {
+        'en':
+            'Apply through State Agriculture Department or designated Organic Mission office with land details and willingness to participate in organic clusters.',
+        'hi':
+            'राज्य कृषि विभाग या नामित जैविक मिशन कार्यालय के माध्यम से भूमि विवरण और जैविक क्लस्टर में भाग लेने की इच्छा के साथ आवेदन करें।',
+        'pa':
+            'ਜ਼ਮੀਨ ਦੇ ਵੇਰਵੇ ਅਤੇ ਜੈਵਿਕ ਕਲੱਸਟਰਾਂ ਵਿੱਚ ਹਿੱਸਾ ਲੈਣ ਦੀ ਇੱਛਾ ਦੇ ਨਾਲ ਰਾਜ ਖੇਤੀਬਾੜੀ ਵਿਭਾਗ ਜਾਂ ਨਿਯੁਕਤ ਜੈਵਿਕ ਮਿਸ਼ਨ ਦਫਤਰ ਰਾਹੀਂ ਅਰਜ਼ੀ ਦਿਓ।',
+        'bn':
+            'জমির বিবরণ এবং জৈব ক্লাস্টারে অংশগ্রহণের ইচ্ছা সহ রাজ্য কৃষি বিভাগ বা মনোনীত জৈব মিশন অফিসের মাধ্যমে আবেদন করুন।',
+        'ta':
+            'நில விவரங்கள் மற்றும் கரிம குழுக்களில் பங்கேற்க விருப்பத்துடன் மாநில விவசாயத் துறை அல்லது நியமிக்கப்பட்ட கரிம திட்ட அலுவலகத்தின் மூலம் விண்ணப்பிக்கவும்.',
+        'te':
+            'రాష్ట్ర వ్యవసాయ శాఖ లేదా నియమిత ఆర్గానిక్ మిషన్ కార్యాలయం ద్వారా భూమి వివరాలు మరియు ఆర్గానిక్ క్లస్టర్‌లలో పాల్గొనే సిద్ధాంతంతో దరఖాస్తు చేసుకోండి.',
+        'mr':
+            'राज्य कृषी विभाग किंवा नियुक्त केलेल्या सेंद्रिय मिशन कार्यालयाद्वारे जमिनीचे तपशील आणि सेंद्रिय क्लस्टरमध्ये सहभागी होण्याच्या इच्छेसह अर्ज करा.',
+        'gu':
+            'જમીનની વિગતો અને ઑર્ગેનિક ક્લસ્ટર્સમાં ભાગ લેવાની ઇચ્છા સાથે રાજ્ય કૃષિ વિભાગ અથવા નિયુક્ત ઑર્ગેનિક મિશન ઓફિસ દ્વારા અરજી કરો.',
+      },
+      benefits: {
+        'en':
+            'Financial assistance for conversion to organic farming, organic inputs, certification. Support for post-harvest infrastructure, processing, marketing of organic products. Formation of FPOs and training on organic farming practices.',
+        'hi':
+            'जैविक खेती में परिवर्तन, जैविक आदानों, प्रमाणन के लिए वित्तीय सहायता। जैविक उत्पादों के पोस्ट-हार्वेस्ट बुनियादी ढांचे, प्रसंस्करण, विपणन के लिए समर्थन। एफपीओ का गठन और जैविक खेती प्रथाओं पर प्रशिक्षण।',
+        'pa':
+            'ਜੈਵਿਕ ਖੇਤੀ ਵਿੱਚ ਤਬਦੀਲੀ, ਜੈਵਿਕ ਇਨਪੁਟਸ, ਸਰਟੀਫਿਕੇਸ਼ਨ ਲਈ ਵਿੱਤੀ ਸਹਾਇਤਾ। ਜੈਵਿਕ ਉਤਪਾਦਾਂ ਦੀ ਪੋਸਟ-ਹਾਰਵੇਸਟ ਇਨਫਰਾਸਟ੍ਰਕਚਰ, ਪ੍ਰੋਸੈਸਿੰਗ, ਮਾਰਕੀਟਿੰਗ ਲਈ ਸਹਾਇਤਾ। ਐਫਪੀਓ ਦਾ ਗਠਨ ਅਤੇ ਜੈਵਿਕ ਖੇਤੀ ਅਭਿਆਸਾਂ ਤੇ ਸਿਖਲਾਈ।',
+        'bn':
+            'জৈব চাষে রূপান্তর, জৈব উপকরণ, সার্টিফিকেশনের জন্য আর্থিক সহায়তা। জৈব পণ্যের সংগ্রহোত্তর অবকাঠামো, প্রক্রিয়াকরণ, বিপণনের জন্য সহায়তা। এফপিও গঠন এবং জৈব চাষ পদ্ধতিতে প্রশিক্ষণ।',
+        'ta':
+            'கரிம விவசாயத்திற்கு மாற்றம், கரிம உள்ளீடுகள், சான்றிதழ் ஆகியவற்றிற்கான நிதி உதவி. அறுவடைக்குப் பிந்தைய உள்கட்டமைப்பு, பதப்படுத்துதல், கரிம பொருட்களை விற்பனை செய்வதற்கான ஆதரவு. எஃப்பிஓக்களை உருவாக்குதல் மற்றும் கரிம விவசாய நடைமுறைகள் குறித்த பயிற்சி.',
+        'te':
+            'సేంద్రీయ వ్యవసాయంలోకి మార్పు, సేంద్రీయ ఇన్పుట్లు, ధృవీకరణ కోసం ఆర్థిక సహాయం. సేంద్రీయ ఉత్పత్తుల పోస్ట్-హార్వెస్ట్ ఇన్ఫ్రాస్ట్రక్చర్, ప్రాసెసింగ్, మార్కెటింగ్ కోసం మద్దతు. ఎఫ్పీఓల ఏర్పాటు మరియు సేంద్రీయ వ్యవసాయ పద్ధతులపై శిక్షణ.',
+        'mr':
+            'सेंद्रिय शेतीत रूपांतर, सेंद्रिय आदाने, प्रमाणीकरणासाठी आर्थिक मदत. सेंद्रिय उत्पादनांच्या पिकनंतरच्या पायाभूत सुविधा, प्रक्रिया, विपणनासाठी समर्थन. एफपीओची निर्मिती आणि सेंद्रिय शेती पद्धतींवर प्रशिक्षण.',
+        'gu':
+            'ઑર્ગેનિક ખેતીમાં રૂપાંતર, ઑર્ગેનિક ઇનપુટ્સ, સર્ટિફિકેશન માટે નાણાકીય સહાય. ઑર્ગેનિક ઉત્પાદનોના પોસ્ટ-હાર્વેસ્ટ ઇન્ફ્રાસ્ટ્રક્ચર, પ્રોસેસિંગ, માર્કેટિંગ માટે ટેકો. એફપીઓની રચના અને ઑર્ગેનિક ખેતી પદ્ધતિઓ પર તાલીમ.',
+      },
+      contactInfo: {
+        'en': 'State Agriculture Department in North Eastern states',
+        'hi': 'पूर्वोत्तर राज्यों में राज्य कृषि विभाग',
+        'pa': 'ਉੱਤਰ ਪੂਰਬੀ ਰਾਜਾਂ ਵਿੱਚ ਰਾਜ ਖੇਤੀਬਾੜੀ ਵਿਭਾਗ',
+        'bn': 'উত্তর-পূর্বাঞ্চলের রাজ্যগুলিতে রাজ্য কৃষি বিভাগ',
+        'ta': 'வடகிழக்கு மாநிலங்களில் மாநில விவசாயத் துறை',
+        'te': 'వాయువ్య రాష్ట్రాలలో రాష్ట్ర వ్యవసాయ శాఖ',
+        'mr': 'ईशान्य राज्यांमधील राज्य कृषी विभाग',
+        'gu': 'ઉત્તર પૂર્વીય રાજ્યોમાં રાજ્ય કૃષિ વિભાગ',
+      },
+    ),
+
+    GovernmentScheme(
+      id: '20',
+      title: {
+        'en': 'Dairy Entrepreneurship Development Scheme (DEDS)',
+        'hi': 'डेयरी उद्यमिता विकास योजना (डीईडीएस)',
+        'pa': 'ਡੇਅਰੀ ਐਂਟਰਪ੍ਰੀਨਿਊਰਸ਼ਿਪ ਡਿਵੈਲਪਮੈਂਟ ਸਕੀਮ (ਡੀਈਡੀਐਸ)',
+        'bn': 'ডেয়ারি এন্ট্রাপ্রেনারশিপ ডেভেলপমেন্ট স্কিম (ডিইডিএস)',
+        'ta': 'பால் பண்ணை தொழில் முனைவோர் மேம்பாட்டுத் திட்டம் (டிஇடிஎஸ்)',
+        'te': 'డెయిరీ ఎంటర్ప్రెన్యూర్షిప్ డెవలప్‌మెంట్ స్కీమ్ (DEDS)',
+        'mr': 'डेअरी उद्योजकता विकास योजना (डीईडीएस)',
+        'gu': 'ડેરી એન્ટરપ્રેન્યોરશિપ ડેવલપમેન્ટ સ્કીમ (DEDS)',
+      },
+      description: {
+        'en':
+            'Scheme to promote setting up of modern dairy farms for production of clean milk and generate self-employment opportunities.',
+        'hi':
+            'स्वच्छ दूध के उत्पादन के लिए आधुनिक डेयरी फार्म स्थापित करने और स्वरोजगार के अवसर पैदा करने के लिए योजना।',
+        'pa':
+            'ਸਾਫ਼ ਦੁੱਧ ਦੇ ਉਤਪਾਦਨ ਲਈ ਆਧੁਨਿਕ ਡੇਅਰੀ ਫਾਰਮ ਸਥਾਪਤ ਕਰਨ ਅਤੇ ਸਵੈ-ਰੁਜ਼ਗਾਰ ਦੇ ਮੌਕੇ ਪੈਦਾ ਕਰਨ ਲਈ ਯੋਜਨਾ।',
+        'bn':
+            'পরিষ্কার দুধ উৎপাদনের জন্য আধুনিক ডেয়ারি ফার্ম স্থাপন এবং স্ব-কর্মসংস্থানের সুযোগ সৃষ্টির জন্য স্কিম।',
+        'ta':
+            'சுத்தமான பால் உற்பத்திக்கான நவீன பால் பண்ணைகளை அமைப்பதையும் சுயதொழில் வாய்ப்புகளை உருவாக்குவதையும் ஊக்குவிக்கும் திட்டம்.',
+        'te':
+            'స్వచ్ఛమైన పాలు ఉత్పత్తి కోసం ఆధునిక డెయిరీ ఫారమ్‌లను ఏర్పాటు చేయడానికి మరియు స్వయం ఉపాధి అవకాశాలను సృష్టించడానికి స్కీమ్.',
+        'mr':
+            'स्वच्छ दुधाच्या उत्पादनासाठी आधुनिक डेअरी फार्म स्थापित करणे आणि स्वरोजगाराची संधी निर्माण करण्यासाठी योजना.',
+        'gu':
+            'સ્વચ્છ દૂધના ઉત્પાદન માટે આધુનિક ડેરી ફાર્મ સ્થાપવા અને સ્વ-રોજગારી તકો ઊભી કરવા માટેની યોજના.',
+      },
+      imageUrl: 'assets/deds.png',
+      expiryDate: DateTime(2025, 3, 31),
+      department: {
+        'en': 'Animal Husbandry Department',
+        'hi': 'पशुपालन विभाग',
+        'pa': 'ਪਸ਼ੂ ਪਾਲਣ ਵਿਭਾਗ',
+        'bn': 'পশুপালন বিভাগ',
+        'ta': 'கால்நடை பராமரிப்பு துறை',
+        'te': 'పశుపాలన శాఖ',
+        'mr': 'पशुपालन विभाग',
+        'gu': 'પશુપાલન વિભાગ',
+      },
+      farmingTypes: ['Dairy'],
+      cropTypes: ['All'],
+      minLandSize: 0.0,
+      maxLandSize: double.infinity,
+      requiresAadhar: true,
+      eligibilityCriteria: {
+        'en':
+            'Farmers, individual entrepreneurs, SHGs, dairy cooperatives, and companies interested in dairy sector.',
+        'hi':
+            'किसान, व्यक्तिगत उद्यमी, स्वयं सहायता समूह, डेयरी सहकारी समितियाँ और डेयरी क्षेत्र में रुचि रखने वाली कंपनियाँ।',
+        'pa':
+            'ਕਿਸਾਨ, ਵਿਅਕਤੀਗਤ ਉਦਯੋਗੀਆਂ, ਐਸਐਚਜੀ, ਡੇਅਰੀ ਕੋਆਪਰੇਟਿਵਜ਼ ਅਤੇ ਡੇਅਰੀ ਸੈਕਟਰ ਵਿੱਚ ਦਿਲਚਸਪੀ ਰੱਖਣ ਵਾਲੀਆਂ ਕੰਪਨੀਆਂ।',
+        'bn':
+            'কৃষক, ব্যক্তিগত উদ্যোক্তা, স্ব-সহায়ক গোষ্ঠী, ডেয়ারি কো-অপারেটিভ এবং ডেয়ারি খাতে আগ্রহী কোম্পানি।',
+        'ta':
+            'விவசாயிகள், தனிப்பட்ட தொழில்முனைவோர், சுயஉதவிக் குழுக்கள், பால் பண்ணை கூட்டுறவு சங்கங்கள் மற்றும் பால் பண்ணைத் துறையில் ஆர்வமுள்ள நிறுவனங்கள்.',
+        'te':
+            'రైతులు, వ్యక్తిగత వ్యవస్థాపకులు, ఎస్హెచ్జిలు, డెయిరీ సహకార సంఘాలు మరియు డెయిరీ సెక్టర్‌లో ఆసక్తి ఉన్న కంపెనీలు.',
+        'mr':
+            'शेतकरी, वैयक्तिक उद्योजक, स्वयंसहायता गट, डेअरी सहकारी संस्था आणि डेअरी क्षेत्रात रस असणाऱ्या कंपन्या.',
+        'gu':
+            'ખેડૂતો, વ્યક્તિગત ઉદ્યોગસાહસિકો, એસએચજી, ડેરી સહકારી સંસ્થાઓ અને ડેરી ક્ષેત્રમાં રસ ધરાવતી કંપનીઓ.',
+      },
+      applicationProcess: {
+        'en':
+            'Apply through NABARD regional offices or local bank branches with project proposal and required documents.',
+        'hi':
+            'परियोजना प्रस्ताव और आवश्यक दस्तावेजों के साथ नाबार्ड क्षेत्रीय कार्यालयों या स्थानीय बैंक शाखाओं के माध्यम से आवेदन करें।',
+        'pa':
+            'ਪ੍ਰੋਜੈਕਟ ਪ੍ਰਸਤਾਵ ਅਤੇ ਲੋੜੀਂਦੇ ਦਸਤਾਵੇਜ਼ਾਂ ਦੇ ਨਾਲ ਨਾਬਾਰਡ ਖੇਤਰੀ ਦਫਤਰਾਂ ਜਾਂ ਸਥਾਨਕ ਬੈਂਕ ਸ਼ਾਖਾਵਾਂ ਰਾਹੀਂ ਅਰਜ਼ੀ ਦਿਓ।',
+        'bn':
+            'প্রকল্পের প্রস্তাব এবং প্রয়োজনীয় নথি সহ নাবার্ড আঞ্চলিক অফিস বা স্থানীয় ব্যাংক শাখার মাধ্যমে আবেদন করুন।',
+        'ta':
+            'திட்ட முன்மொழிவு மற்றும் தேவையான ஆவணங்களுடன் நாபார்ட் பிராந்திய அலுவலகங்கள் அல்லது உள்ளூர் வங்கி கிளைகள் மூலம் விண்ணப்பிக்கவும்.',
+        'te':
+            'ప్రాజెక్ట్ ప్రతిపాదన మరియు అవసరమైన డాక్యుమెంట్స్‌తో నాబార్డ్ ప్రాంతీయ కార్యాలయాలు లేదా స్థానిక బ్యాంక్ శాఖల ద్వారా దరఖాస్తు చేసుకోండి.',
+        'mr':
+            'प्रकल्प प्रस्ताव आणि आवश्यक कागदपत्रे सह नाबार्डच्या प्रादेशिक कार्यालयांकडून किंवा स्थानिक बँक शाखांकडून अर्ज करा.',
+        'gu':
+            'પ્રોજેક્ટ પ્રસ્તાવ અને જરૂરી દસ્તાવેજો સાથે નાબાર્ડના પ્રાદેશિક કાર્યાલયો અથવા સ્થાનિક બેંક શાખાઓ દ્વારા અરજી કરો.',
+      },
+      benefits: {
+        'en':
+            '25% back-ended capital subsidy (33.33% for SC/ST) on eligible project costs. Support for purchase of dairy animals, construction of sheds, dairy equipment, cold chain facilities, transportation, etc. Maximum subsidy ranges from ₹20,000 to ₹30 lakh depending on activity.',
+        'hi':
+            'पात्र परियोजना लागत पर 25% बैक-एंडेड पूंजी सब्सिडी (एससी/एसटी के लिए 33.33%)। डेयरी पशुओं की खरीद, शेड के निर्माण, डेयरी उपकरण, कोल्ड चेन सुविधाएं, परिवहन आदि के लिए समर्थन। गतिविधि के आधार पर अधिकतम सब्सिडी ₹20,000 से ₹30 लाख तक होती है।',
+        'pa':
+            'ਯੋਗ ਪ੍ਰੋਜੈਕਟ ਲਾਗਤ ਤੇ 25% ਬੈਕ-ਐਂਡਡ ਕੈਪੀਟਲ ਸਬਸਿਡੀ (ਐਸਸੀ/ਐਸਟੀ ਲਈ 33.33%)। ਡੇਅਰੀ ਜਾਨਵਰਾਂ ਦੀ ਖਰੀਦ, ਸ਼ੈਡਾਂ ਦੀ ਉਸਾਰੀ, ਡੇਅਰੀ ਉਪਕਰਣ, ਕੋਲਡ ਚੇਨ ਸਹੂਲਤਾਂ, ਆਵਾਜਾਈ ਆਦਿ ਲਈ ਸਹਾਇਤਾ। ਗਤੀਵਿਧੀ ਦੇ ਅਧਾਰ ਤੇ ਅਧਿਕਤਮ ਸਬਸਿਡੀ ₹20,000 ਤੋਂ ₹30 ਲੱਖ ਤੱਕ ਹੁੰਦੀ ਹੈ।',
+        'bn':
+            'যোগ্য প্রকল্প ব্যয়ে 25% ব্যাক-এন্ডেড মূলধন ভর্তুকি (এসসি/এসটির জন্য 33.33%)। ডেয়ারি প্রাণী ক্রয়, শেড নির্মাণ, ডেয়ারি সরঞ্জাম, কোল্ড চেইন সুবিধা, পরিবহন ইত্যাদির জন্য সহায়তা। কার্যকলাপের উপর নির্ভর করে সর্বোচ্চ ভর্তুকি ₹20,000 থেকে ₹30 লক্ষ পর্যন্ত।',
+        'ta':
+            'தகுதியான திட்ட செலவில் 25% பின்-முடிவுறு மூலதன மானியம் (SC/STக்கு 33.33%). பால் பண்ணை விலங்குகள் வாங்குதல், கூடாரங்கள் கட்டுதல், பால் பண்ணை உபகரணங்கள், குளிர் சங்கிலி வசதிகள், போக்குவரத்து போன்றவற்றிற்கான ஆதரவு. செயல்பாட்டைப் பொறுத்து அதிகபட்ச மானியம் ₹20,000 முதல் ₹30 லட்சம் வரை இருக்கும்.',
+        'te':
+            'అర్హత కలిగిన ప్రాజెక్ట్ ఖర్చులపై 25% బ్యాక్-ఎండెడ్ క్యాపిటల్ సబ్సిడీ (SC/ST కోసం 33.33%). డెయిరీ జంతువుల కొనుగోలు, షెడ్ల నిర్మాణం, డెయిరీ పరికరాలు, కోల్డ్ చైన్ సౌకర్యాలు, రవాణా మొదలైన వాటికి మద్దతు. కార్యాచరణను బట్టి గరిష్టంగా సబ్సిడీ ₹20,000 నుండి ₹30 లక్షల వరకు ఉంటుంది.',
+        'mr':
+            'पात्र प्रकल्प खर्चावर 25% बॅक-एंडेड भांडवली अनुदान (एससी/एसटी साठी 33.33%). डेअरी प्राण्यांची खरेदी, शेडची बांधणी, डेअरी उपकरणे, कोल्ड चेन सुविधा, वाहतूक इत्यादींसाठी समर्थन. क्रियेवर अवलंबून कमाल अनुदान ₹20,000 ते ₹30 लाख पर्यंत असते.',
+        'gu':
+            'યોગ્ય પ્રોજેક્ટ ખર્ચ પર 25% બેક-એન્ડેડ કેપિટલ સબસિડી (SC/ST માટે 33.33%). ડેરી પ્રાણીઓની ખરીદી, શેડનું બાંધકામ, ડેરી સાધનો, કોલ્ડ ચેન સુવિધાઓ, પરિવહન વગેરે માટે ટેકો. પ્રવૃત્તિના આધારે મહત્તમ સબસિડી ₹20,000 થી ₹30 લાખ સુધીની હોય છે.',
+      },
+      contactInfo: {
+        'en': 'NABARD regional office or bank branches',
+        'hi': 'नाबार्ड क्षेत्रीय कार्यालय या बैंक शाखाएं',
+        'pa': 'ਨਾਬਾਰਡ ਖੇਤਰੀ ਦਫਤਰ ਜਾਂ ਬੈਂਕ ਸ਼ਾਖਾਵਾਂ',
+        'bn': 'নাবার্ড আঞ্চলিক অফিস বা ব্যাংক শাখা',
+        'ta': 'நாபார்ட் பிராந்திய அலுவலகம் அல்லது வங்கி கிளைகள்',
+        'te': 'నాబార్డ్ ప్రాంతీయ కార్యాలయం లేదా బ్యాంక్ శాఖలు',
+        'mr': 'नाबार्डचे प्रादेशिक कार्यालय किंवा बँक शाखा',
+        'gu': 'નાબાર્ડનું પ્રાદેશિક કાર્યાલય અથવા બેંક શાખાઓ',
+      },
+    ),
+  ];
+
+  List<GovernmentScheme> filteredSchemes = [];
+
+  final Map<String, Map<String, String>> departmentOptions = {
+    'All': {
+      'en': 'All',
+      'hi': 'सभी',
+      'pa': 'ਸਾਰੇ',
+      'bn': 'সব',
+      'ta': 'அனைத்தும்',
+      'te': 'అన్నీ',
+      'mr': 'सर्व',
+      'gu': 'બધા',
+    },
+    'Agriculture Department': {
+      'en': 'Agriculture Department',
+      'hi': 'कृषि विभाग',
+      'pa': 'ਖੇਤੀਬਾੜੀ ਵਿਭਾਗ',
+      'bn': 'কৃষি বিভাগ',
+      'ta': 'விவசாயத் துறை',
+      'te': 'వ్యవసాయ శాఖ',
+      'mr': 'कृषी विभाग',
+      'gu': 'કૃષિ વિભાગ',
+    },
+    'Horticulture Department': {
+      'en': 'Horticulture Department',
+      'hi': 'बागवानी विभाग',
+      'pa': 'ਬਾਗਬਾਨੀ ਵਿਭਾਗ',
+      'bn': 'উদ্যানপালন বিভাগ',
+      'ta': 'தோட்டக்கலை துறை',
+      'te': 'ఉద్యానవన శాఖ',
+      'mr': 'बागायत विभाग',
+      'gu': 'ઉદ્યાન વિભાગ',
+    },
+    'Animal Husbandry Department': {
+      'en': 'Animal Husbandry Department',
+      'hi': 'पशुपालन विभाग',
+      'pa': 'ਪਸ਼ੂ ਪਾਲਣ ਵਿਭਾਗ',
+      'bn': 'পশুপালন বিভাগ',
+      'ta': 'கால்நடை பராமரிப்பு துறை',
+      'te': 'పశుపాలన శాఖ',
+      'mr': 'पशुपालन विभाग',
+      'gu': 'પશુપાલન વિભાગ',
+    },
+    'Rural Development': {
+      'en': 'Rural Development',
+      'hi': 'ग्रामीण विकास',
+      'pa': 'ਪੇਂਡੂ ਵਿਕਾਸ',
+      'bn': 'গ্রামীণ উন্নয়ন',
+      'ta': 'கிராமீய வளர்ச்சி',
+      'te': 'గ్రామీణాభివృద్ధి',
+      'mr': 'ग्रामीण विकास',
+      'gu': 'ગ્રામીણ વિકાસ',
+    },
+  };
+
+  final Map<String, Map<String, String>> farmingTypeOptions = {
+    'All': {
+      'en': 'All',
+      'hi': 'सभी',
+      'pa': 'ਸਾਰੇ',
+      'bn': 'সব',
+      'ta': 'அனைத்தும்',
+      'te': 'అన్నీ',
+      'mr': 'सर्व',
+      'gu': 'બધા',
+    },
+    'Organic': {
+      'en': 'Organic',
+      'hi': 'जैविक',
+      'pa': 'ਜੈਵਿਕ',
+      'bn': 'জৈব',
+      'ta': 'கரிம',
+      'te': 'సేంద్రీయ',
+      'mr': 'सेंद्रिय',
+      'gu': 'ઑર્ગેનિક',
+    },
+    'Traditional': {
+      'en': 'Traditional',
+      'hi': 'पारंपरिक',
+      'pa': 'ਰਵਾਇਤੀ',
+      'bn': 'প্রথাগত',
+      'ta': 'பாரம்பரிய',
+      'te': 'సాంప్రదాయ',
+      'mr': 'पारंपारिक',
+      'gu': 'પરંપરાગત',
+    },
+    'Dairy': {
+      'en': 'Dairy',
+      'hi': 'डेयरी',
+      'pa': 'ਡੇਅਰੀ',
+      'bn': 'ডেয়ারি',
+      'ta': 'பால் பண்ணை',
+      'te': 'డెయిరీ',
+      'mr': 'डेअरी',
+      'gu': 'ડેરી',
+    },
+    'Poultry': {
+      'en': 'Poultry',
+      'hi': 'पोल्ट्री',
+      'pa': 'ਪੋਲਟਰੀ',
+      'bn': 'পোল্ট্রি',
+      'ta': 'கோழி வளர்ப்பு',
+      'te': 'పౌల్ట్రీ',
+      'mr': 'पोल्ट्री',
+      'gu': 'પોલ્ટ્રી',
+    },
+    'Fishery': {
+      'en': 'Fishery',
+      'hi': 'मत्स्य पालन',
+      'pa': 'ਮੱਛੀ ਪਾਲਣ',
+      'bn': 'মৎস্য চাষ',
+      'ta': 'மீன் வளர்ப்பு',
+      'te': 'మత్స్య',
+      'mr': 'मत्स्यव्यवसाय',
+      'gu': 'મત્સ્યઉદ્યોગ',
+    },
+    'Horticulture': {
+      'en': 'Horticulture',
+      'hi': 'बागवानी',
+      'pa': 'ਬਾਗਬਾਨੀ',
+      'bn': 'উদ্যানপালন',
+      'ta': 'தோட்டக்கலை',
+      'te': 'ఉద్యానవన',
+      'mr': 'बागायत',
+      'gu': 'ઉદ્યાન',
+    },
+  };
+
+  final Map<String, Map<String, String>> cropTypeOptions = {
+    'All': {
+      'en': 'All',
+      'hi': 'सभी',
+      'pa': 'ਸਾਰੇ',
+      'bn': 'সব',
+      'ta': 'அனைத்தும்',
+      'te': 'అన్నీ',
+      'mr': 'सर्व',
+      'gu': 'બધા',
+    },
+    'Rice': {
+      'en': 'Rice',
+      'hi': 'चावल',
+      'pa': 'ਚਾਵਲ',
+      'bn': 'চাল',
+      'ta': 'அரிசி',
+      'te': 'బియ్యం',
+      'mr': 'तांदूळ',
+      'gu': 'ચોખા',
+    },
+    'Wheat': {
+      'en': 'Wheat',
+      'hi': 'गेहूं',
+      'pa': 'ਕਣਕ',
+      'bn': 'গম',
+      'ta': 'கோதுமை',
+      'te': 'గోధుమ',
+      'mr': 'गहू',
+      'gu': 'ઘઉં',
+    },
+    'Pulses': {
+      'en': 'Pulses',
+      'hi': 'दालें',
+      'pa': 'ਦਾਲਾਂ',
+      'bn': 'ডাল',
+      'ta': 'பருப்பு வகைகள்',
+      'te': 'పప్పులు',
+      'mr': 'डाळ',
+      'gu': 'દાળ',
+    },
+    'Vegetables': {
+      'en': 'Vegetables',
+      'hi': 'सब्जियां',
+      'pa': 'ਸਬਜ਼ੀਆਂ',
+      'bn': 'শাকসবজি',
+      'ta': 'காய்கறிகள்',
+      'te': 'కూరగాయలు',
+      'mr': 'भाजी',
+      'gu': 'શાકભાજી',
+    },
+    'Fruits': {
+      'en': 'Fruits',
+      'hi': 'फल',
+      'pa': 'ਫਲ',
+      'bn': 'ফল',
+      'ta': 'பழங்கள்',
+      'te': 'పండ్లు',
+      'mr': 'फळे',
+      'gu': 'ફળો',
+    },
+    'Cotton': {
+      'en': 'Cotton',
+      'hi': 'कपास',
+      'pa': 'ਕਪਾਹ',
+      'bn': 'তুলা',
+      'ta': 'பருத்தி',
+      'te': 'పత్తి',
+      'mr': 'कापूस',
+      'gu': 'કપાસ',
+    },
+    'Sugarcane': {
+      'en': 'Sugarcane',
+      'hi': 'गन्ना',
+      'pa': 'ਗੰਨਾ',
+      'bn': 'আখ',
+      'ta': 'கரும்பு',
+      'te': 'చెరకు',
+      'mr': 'ऊस',
+      'gu': 'શેરડી',
+    },
+  };
+
+  // Filter states
+  String? selectedDepartment;
+  String? selectedFarmingType;
+  String? selectedCropType;
+  RangeValues landSizeRange = const RangeValues(0.0, 10.0);
+  bool? aadharFilter;
+  String searchQuery = '';
+
+  // Filter options
+  final List<String> departments = [
+    'All',
+    'Agriculture Department',
+    'Horticulture Department',
+    'Animal Husbandry Department',
+    'Rural Development',
+  ];
+  final List<String> farmingTypes = [
+    'All',
+    'Organic',
+    'Traditional',
+    'Dairy',
+    'Poultry',
+    'Fishery',
+    'Horticulture',
+  ];
+  final List<String> cropTypes = [
+    'All',
+    'Rice',
+    'Wheat',
+    'Pulses',
+    'Vegetables',
+    'Fruits',
+    'Cotton',
+    'Sugarcane',
+  ];
+
+  // Helper methods to work with translations
+  String getCurrentLanguageCode(BuildContext context) {
+    return Localizations.localeOf(context).languageCode;
+  }
+
+  String getTranslatedValue(
+    Map<String, Map<String, String>> options,
+    String key,
+    BuildContext context,
+  ) {
+    final languageCode = getCurrentLanguageCode(context);
+    return options[key]?[languageCode] ?? key;
+  }
+
+  String? getOptionKeyFromTranslatedValue(
+    Map<String, Map<String, String>> options,
+    String translatedValue,
+    BuildContext context,
+  ) {
+    final languageCode = getCurrentLanguageCode(context);
+    for (var entry in options.entries) {
+      if (entry.value[languageCode] == translatedValue) {
+        return entry.key;
+      }
+    }
+    return null;
+  }
+
+  List<String> getTranslatedOptions(
+    Map<String, Map<String, String>> options,
+    BuildContext context,
+  ) {
+    final languageCode = getCurrentLanguageCode(context);
+    return options.keys
+        .map((key) => options[key]![languageCode] ?? key)
+        .toList();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    filteredSchemes = List.from(allSchemes);
+  }
+
+  // Updated applyFilters method
+  void applyFilters() {
+    final languageCode = getCurrentLanguageCode(context);
+
+    setState(() {
+      filteredSchemes =
+          allSchemes.where((scheme) {
+            // Apply department filter - now checks translated department
+            if (selectedDepartment != null &&
+                selectedDepartment != 'All' &&
+                scheme.department[languageCode] !=
+                    departmentOptions[selectedDepartment]?[languageCode]) {
+              return false;
+            }
+
+            // Apply farming type filter (unchanged as it uses keys)
+            if (selectedFarmingType != null &&
+                selectedFarmingType != 'All' &&
+                !scheme.farmingTypes.contains(selectedFarmingType) &&
+                !scheme.farmingTypes.contains('All')) {
+              return false;
+            }
+
+            // Apply crop type filter (unchanged as it uses keys)
+            if (selectedCropType != null &&
+                selectedCropType != 'All' &&
+                !scheme.cropTypes.contains(selectedCropType) &&
+                !scheme.cropTypes.contains('All')) {
+              return false;
+            }
+
+            // Apply land size filter (unchanged)
+            if (scheme.minLandSize > landSizeRange.end ||
+                scheme.maxLandSize < landSizeRange.start) {
+              return false;
+            }
+
+            // Apply Aadhar filter (unchanged)
+            if (aadharFilter != null && scheme.requiresAadhar != aadharFilter) {
+              return false;
+            }
+
+            // Apply search query (updated to use current language)
+            if (searchQuery.isNotEmpty &&
+                !(scheme.title[languageCode]?.toLowerCase() ?? '').contains(
+                  searchQuery.toLowerCase(),
+                ) &&
+                !(scheme.description[languageCode]?.toLowerCase() ?? '')
+                    .contains(searchQuery.toLowerCase())) {
+              return false;
+            }
+
+            return true;
+          }).toList();
+    });
+  }
+
+  // Updated clearFilters method
+  void clearFilters() {
+    setState(() {
+      selectedDepartment = null;
+      selectedFarmingType = null;
+      selectedCropType = null;
+      landSizeRange = const RangeValues(0.0, 10.0);
+      aadharFilter = null;
+      searchQuery = '';
+      filteredSchemes = List.from(allSchemes);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context);
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          localizations.governmentSchemesTitle,
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        backgroundColor: Colors.green,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.refresh),
+            onPressed: clearFilters,
+            tooltip: localizations.clearFilters,
+          ),
+        ],
+      ),
+      body: Column(
+        children: [
+          // Search bar
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: TextField(
+              decoration: InputDecoration(
+                hintText: localizations.searchSchemesHint,
+                prefixIcon: const Icon(Icons.search),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                filled: true,
+                fillColor: Colors.grey[100],
+              ),
+              onChanged: (value) {
+                searchQuery = value;
+                applyFilters();
+              },
+            ),
+          ),
+
+          // Filter button
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton.icon(
+                    icon: const Icon(Icons.filter_list),
+                    label: Text(localizations.filterButton),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green[700],
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                    onPressed: () {
+                      _showFilterSheet(context);
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          const SizedBox(height: 10),
+
+          // Results count
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Row(
+              children: [
+                Text(
+                  '${filteredSchemes.length} ${localizations.schemesAvailable}',
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          const SizedBox(height: 10),
+
+          // Schemes list
+          Expanded(
+            child:
+                filteredSchemes.isEmpty
+                    ? Center(
+                      child: Text(
+                        localizations.noSchemesFound,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 16, color: Colors.grey),
+                      ),
+                    )
+                    : ListView.builder(
+                      padding: const EdgeInsets.all(8),
+                      itemCount: filteredSchemes.length,
+                      itemBuilder: (context, index) {
+                        final scheme = filteredSchemes[index];
+                        return Card(
+                          elevation: 3,
+                          margin: const EdgeInsets.symmetric(
+                            vertical: 8,
+                            horizontal: 4,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: InkWell(
+                            onTap: () {
+                              _showSchemeDetails(context, scheme);
+                            },
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                // Scheme image with expiry badge
+                                Stack(
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: const BorderRadius.vertical(
+                                        top: Radius.circular(12),
+                                      ),
+                                      child: Image.asset(
+                                        scheme.imageUrl,
+                                        height: 150,
+                                        width: double.infinity,
+                                        fit: BoxFit.cover,
+                                        errorBuilder: (
+                                          context,
+                                          error,
+                                          stackTrace,
+                                        ) {
+                                          return Container(
+                                            height: 150,
+                                            color: Colors.green[100],
+                                            child: Center(
+                                              child: Icon(
+                                                Icons.eco,
+                                                color: Colors.green[800],
+                                                size: 50,
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                    Positioned(
+                                      top: 10,
+                                      right: 10,
+                                      child: Container(
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 8,
+                                          vertical: 4,
+                                        ),
+                                        decoration: BoxDecoration(
+                                          color:
+                                              scheme.expiryDate.isAfter(
+                                                    DateTime.now().add(
+                                                      const Duration(days: 30),
+                                                    ),
+                                                  )
+                                                  ? Colors.green
+                                                  : Colors.orange,
+                                          borderRadius: BorderRadius.circular(
+                                            20,
+                                          ),
+                                        ),
+                                        child: Text(
+                                          '${localizations.expires} ${scheme.expiryDate.day}/${scheme.expiryDate.month}/${scheme.expiryDate.year}',
+                                          style: const TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                // Scheme information
+                                Padding(
+                                  padding: const EdgeInsets.all(12),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        scheme.getLocalizedTitle(context),
+                                        style: const TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 8),
+                                      Text(
+                                        scheme.getLocalizedDescription(context),
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: Colors.grey[700],
+                                        ),
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                      const SizedBox(height: 12),
+                                      Row(
+                                        children: [
+                                          Chip(
+                                            label: Text(
+                                              scheme.getLocalizedDepartment(
+                                                context,
+                                              ),
+                                            ),
+                                            backgroundColor: Colors.green[100],
+                                            labelStyle: TextStyle(
+                                              color: Colors.green[800],
+                                              fontSize: 12,
+                                            ),
+                                          ),
+                                          const SizedBox(width: 8),
+                                          if (scheme.maxLandSize !=
+                                              double.infinity)
+                                            Chip(
+                                              label: Text(
+                                                '${scheme.minLandSize}-${scheme.maxLandSize} hectares',
+                                              ),
+                                              backgroundColor: Colors.blue[100],
+                                              labelStyle: TextStyle(
+                                                color: Colors.blue[800],
+                                                fontSize: 12,
+                                              ),
+                                            ),
+                                        ],
+                                      ),
+                                      const SizedBox(height: 8),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          TextButton.icon(
+                                            icon: const Icon(
+                                              Icons.info_outline,
+                                            ),
+                                            label: Text(localizations.moreInfo),
+                                            onPressed: () {
+                                              _showSchemeDetails(
+                                                context,
+                                                scheme,
+                                              );
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showFilterSheet(BuildContext context) {
+    final localizations = AppLocalizations.of(context);
+    final currentLanguage = Localizations.localeOf(context).languageCode;
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setModalState) {
+            return DraggableScrollableSheet(
+              initialChildSize: 0.7,
+              minChildSize: 0.5,
+              maxChildSize: 0.9,
+              expand: false,
+              builder: (context, scrollController) {
+                return Container(
+                  padding: const EdgeInsets.all(16),
+                  child: ListView(
+                    controller: scrollController,
+                    children: [
+                      // Header
+                      Row(
+                        children: [
+                          const Icon(Icons.filter_list, size: 24),
+                          const SizedBox(width: 8),
+                          Text(
+                            localizations.filterSchemes,
+                            style: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const Divider(thickness: 1),
+                      const SizedBox(height: 16),
+
+                      // Department filter
+                      Text(
+                        localizations.department,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Wrap(
+                        spacing: 8,
+                        children:
+                            departmentOptions.keys.map((departmentKey) {
+                              final departmentText =
+                                  departmentOptions[departmentKey]?[currentLanguage] ??
+                                  departmentKey;
+                              return ChoiceChip(
+                                label: Text(departmentText),
+                                selected: selectedDepartment == departmentKey,
+                                onSelected: (selected) {
+                                  setModalState(() {
+                                    selectedDepartment =
+                                        selected ? departmentKey : null;
+                                  });
+                                },
+                                backgroundColor: Colors.grey[100],
+                                selectedColor: Colors.green[100],
+                                labelStyle: TextStyle(
+                                  color:
+                                      selectedDepartment == departmentKey
+                                          ? Colors.green[800]
+                                          : Colors.black,
+                                ),
+                              );
+                            }).toList(),
+                      ),
+                      const SizedBox(height: 16),
+
+                      // Farming type filter
+                      Text(
+                        localizations.farmingType,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Wrap(
+                        spacing: 8,
+                        children:
+                            farmingTypeOptions.keys.map((farmingKey) {
+                              final farmingText =
+                                  farmingTypeOptions[farmingKey]?[currentLanguage] ??
+                                  farmingKey;
+                              return ChoiceChip(
+                                label: Text(farmingText),
+                                selected: selectedFarmingType == farmingKey,
+                                onSelected: (selected) {
+                                  setModalState(() {
+                                    selectedFarmingType =
+                                        selected ? farmingKey : null;
+                                  });
+                                },
+                                backgroundColor: Colors.grey[100],
+                                selectedColor: Colors.green[100],
+                                labelStyle: TextStyle(
+                                  color:
+                                      selectedFarmingType == farmingKey
+                                          ? Colors.green[800]
+                                          : Colors.black,
+                                ),
+                              );
+                            }).toList(),
+                      ),
+                      const SizedBox(height: 16),
+
+                      // Crop type filter
+                      Text(
+                        localizations.cropType,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Wrap(
+                        spacing: 8,
+                        children:
+                            cropTypeOptions.keys.map((cropKey) {
+                              final cropText =
+                                  cropTypeOptions[cropKey]?[currentLanguage] ??
+                                  cropKey;
+                              return ChoiceChip(
+                                label: Text(cropText),
+                                selected: selectedCropType == cropKey,
+                                onSelected: (selected) {
+                                  setModalState(() {
+                                    selectedCropType =
+                                        selected ? cropKey : null;
+                                  });
+                                },
+                                backgroundColor: Colors.grey[100],
+                                selectedColor: Colors.green[100],
+                                labelStyle: TextStyle(
+                                  color:
+                                      selectedCropType == cropKey
+                                          ? Colors.green[800]
+                                          : Colors.black,
+                                ),
+                              );
+                            }).toList(),
+                      ),
+                      const SizedBox(height: 16),
+
+                      // Land size filter
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            '${localizations.landSize} (${localizations.hectares})',
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            '${landSizeRange.start.toStringAsFixed(1)} - ${landSizeRange.end.toStringAsFixed(1)} ${localizations.hectares}',
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 8),
+                      RangeSlider(
+                        values: landSizeRange,
+                        min: 0.0,
+                        max: 10.0,
+                        divisions: 20,
+                        labels: RangeLabels(
+                          landSizeRange.start.toStringAsFixed(1),
+                          landSizeRange.end.toStringAsFixed(1),
+                        ),
+                        onChanged: (RangeValues values) {
+                          setModalState(() {
+                            landSizeRange = values;
+                          });
+                        },
+                        activeColor: Colors.green,
+                        inactiveColor: Colors.green[100],
+                      ),
+                      const SizedBox(height: 16),
+
+                      // Aadhar requirement filter
+                      Text(
+                        localizations.aadharRequirement,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Row(
+                        children: [
+                          ChoiceChip(
+                            label: Text(localizations.aadharRequired),
+                            selected: aadharFilter == true,
+                            onSelected: (selected) {
+                              setModalState(() {
+                                aadharFilter = selected ? true : null;
+                              });
+                            },
+                            backgroundColor: Colors.grey[100],
+                            selectedColor: Colors.green[100],
+                            labelStyle: TextStyle(
+                              color:
+                                  aadharFilter == true
+                                      ? Colors.green[800]
+                                      : Colors.black,
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          ChoiceChip(
+                            label: Text(localizations.aadharNotRequired),
+                            selected: aadharFilter == false,
+                            onSelected: (selected) {
+                              setModalState(() {
+                                aadharFilter = selected ? false : null;
+                              });
+                            },
+                            backgroundColor: Colors.grey[100],
+                            selectedColor: Colors.green[100],
+                            labelStyle: TextStyle(
+                              color:
+                                  aadharFilter == false
+                                      ? Colors.green[800]
+                                      : Colors.black,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 24),
+
+                      // Apply and Clear buttons
+                      Row(
+                        children: [
+                          Expanded(
+                            child: OutlinedButton(
+                              onPressed: () {
+                                setModalState(() {
+                                  selectedDepartment = null;
+                                  selectedFarmingType = null;
+                                  selectedCropType = null;
+                                  landSizeRange = const RangeValues(0.0, 10.0);
+                                  aadharFilter = null;
+                                });
+                              },
+                              style: OutlinedButton.styleFrom(
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 12,
+                                ),
+                                side: BorderSide(color: Colors.green[700]!),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                              ),
+                              child: Text(
+                                localizations.reset,
+                                style: TextStyle(color: Colors.green[700]),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 16),
+                          Expanded(
+                            child: ElevatedButton(
+                              onPressed: () {
+                                applyFilters();
+                                Navigator.pop(context);
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.green[700],
+                                foregroundColor: Colors.white,
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 12,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                              ),
+                              child: Text(localizations.apply),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                );
+              },
+            );
+          },
+        );
+      },
+    );
+  }
+
+  void _showSchemeDetails(BuildContext context, GovernmentScheme scheme) {
+    final localizations = AppLocalizations.of(context);
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) {
+        return DraggableScrollableSheet(
+          initialChildSize: 0.8,
+          minChildSize: 0.5,
+          maxChildSize: 0.95,
+          expand: false,
+          builder: (context, scrollController) {
+            return Container(
+              padding: const EdgeInsets.all(16),
+              child: ListView(
+                controller: scrollController,
+                children: [
+                  // Scheme title
+                  Text(
+                    scheme.getLocalizedTitle(context),
+                    style: const TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+
+                  // Scheme image
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(12),
+                    child: Image.asset(
+                      scheme.imageUrl,
+                      height: 200,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Container(
+                          height: 200,
+                          decoration: BoxDecoration(
+                            color: Colors.green[100],
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Center(
+                            child: Icon(
+                              Icons.eco,
+                              color: Colors.green[800],
+                              size: 64,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+
+                  // Department and expiry date
+                  Row(
+                    children: [
+                      Chip(
+                        label: Text(scheme.getLocalizedDepartment(context)),
+                        backgroundColor: Colors.green[100],
+                        labelStyle: TextStyle(color: Colors.green[800]),
+                      ),
+                      const SizedBox(width: 8),
+                      Chip(
+                        label: Text(
+                          '${localizations.expires} ${scheme.expiryDate.day}/${scheme.expiryDate.month}/${scheme.expiryDate.year}',
+                        ),
+                        backgroundColor:
+                            scheme.expiryDate.isAfter(
+                                  DateTime.now().add(const Duration(days: 30)),
+                                )
+                                ? Colors.green[100]
+                                : Colors.orange[100],
+                        labelStyle: TextStyle(
+                          color:
+                              scheme.expiryDate.isAfter(
+                                    DateTime.now().add(
+                                      const Duration(days: 30),
+                                    ),
+                                  )
+                                  ? Colors.green[800]
+                                  : Colors.orange[800],
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+
+                  // Description
+                  Text(
+                    localizations.description,
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    scheme.getLocalizedDescription(context),
+                    style: const TextStyle(fontSize: 16),
+                  ),
+                  const Divider(height: 32),
+
+                  // Benefits
+                  Text(
+                    localizations.benefits,
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    scheme.getLocalizedBenefits(context),
+                    style: const TextStyle(fontSize: 16),
+                  ),
+                  const Divider(height: 32),
+
+                  // Eligibility criteria
+                  Text(
+                    localizations.eligibilityCriteria,
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    scheme.getLocalizedEligibility(context),
+                    style: const TextStyle(fontSize: 16),
+                  ),
+                  const SizedBox(height: 8),
+                  if (scheme.minLandSize > 0 ||
+                      scheme.maxLandSize < double.infinity)
+                    ListTile(
+                      leading: const Icon(Icons.landscape, color: Colors.green),
+                      title: Text(localizations.landSize),
+                      subtitle: Text(
+                        '${scheme.minLandSize} to ${scheme.maxLandSize == double.infinity ? "No maximum limit" : "${scheme.maxLandSize} ${localizations.hectares}"}',
+                      ),
+                      dense: true,
+                    ),
+                  ListTile(
+                    leading: const Icon(Icons.badge, color: Colors.green),
+                    title: Text(localizations.aadharRequirement),
+                    subtitle: Text(
+                      scheme.requiresAadhar
+                          ? localizations.aadharRequired
+                          : localizations.aadharNotRequired,
+                    ),
+                    dense: true,
+                  ),
+                  const Divider(height: 32),
+
+                  // Application process
+                  Text(
+                    localizations.applicationProcess,
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    scheme.getLocalizedApplicationProcess(context),
+                    style: const TextStyle(fontSize: 16),
+                  ),
+                  const Divider(height: 32),
+
+                  // Contact information
+                  Text(
+                    localizations.contactInformation,
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 8),
+                  ListTile(
+                    leading: const Icon(Icons.phone, color: Colors.green),
+                    title: Text(scheme.getLocalizedContactInfo(context)),
+                    onTap: () {
+                      // Implement phone call functionality
+                    },
+                  ),
+                  const SizedBox(height: 24),
+
+                  // Apply button
+                  ElevatedButton(
+                    onPressed: () {
+                      // Implement apply functionality
+                      Navigator.pop(context);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            '${scheme.title} - ${localizations.applicationProcess}',
+                          ),
+                          backgroundColor: Colors.green,
+                        ),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green[700],
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                    child: Text(
+                      localizations.applyNow,
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+}
