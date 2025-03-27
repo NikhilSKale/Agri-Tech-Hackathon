@@ -195,4 +195,10 @@ flutter:
     - assets/farm_background.jpg
     - assets/logo.jpg
     - assets/icon/app_icon.png
+    - assets/fertilizer.jpg
+    - assets/neem_oil.jpg
+    - assets/drip_irrigation.jpg
+    - assets/vermicompost.jpg
+    - assets/sprayer_pump.jpg
+    - assets/tomato_seeds.jpg
     

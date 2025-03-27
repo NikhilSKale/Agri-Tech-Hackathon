@@ -2,7 +2,28 @@ import 'package:flutter/material.dart';
 
 class AppLocalizations {
   final Locale locale;
-
+String get newsScreen {
+    switch (locale.languageCode) {
+      case 'hi':
+        return 'समाचार';
+      case 'pa':
+        return 'ਖ਼ਬਰ';
+      case 'bn':
+        return 'সংবাদ';
+      case 'gu':
+        return 'સમાચાર';
+      case 'mr':
+        return 'बातम्या';
+      case 'te':
+        return 'వార్తలు';
+      case 'ta':
+        return 'செய்திகள்';
+      case 'en':
+        return 'News';
+      default:
+        return 'News'; // Default fallback value
+    }
+  }
   AppLocalizations(this.locale);
 
   static AppLocalizations of(BuildContext context) {
