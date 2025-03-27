@@ -34,7 +34,7 @@ class DetailedNewsScreen extends StatelessWidget {
               },
               child: Text("Read Full Article"),
             ),
-          ],
+          ],//runnnnnnnnnn!!!!!!!!!!!!!!!!!!!!
         ),
       ),
     );

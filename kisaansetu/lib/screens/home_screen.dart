@@ -1154,10 +1154,11 @@ import 'package:kisaansetu/main.dart';
 import 'package:kisaansetu/screens/agristore_screen.dart';
 import 'package:kisaansetu/screens/chatbot_screen.dart';
 import 'package:kisaansetu/screens/disease_screen.dart';
+import 'package:kisaansetu/screens/fertilizer_recommendation.dart';
 import 'package:kisaansetu/screens/government_schemes.dart';
 import 'package:kisaansetu/screens/nearby_store_screen.dart';
 import 'package:kisaansetu/screens/news_screen.dart';
-import 'package:kisaansetu/screens/soil_moisture_screen.dart';
+// import 'package:kisaansetu/screens/soil_moisture_screen.dart';
 import 'package:kisaansetu/screens/weather_screen.dart';
 import 'package:kisaansetu/screens/market_prices.dart';
 import 'package:kisaansetu/widgets/custom_button.dart';
@@ -1581,16 +1582,29 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     _buildFeatureCard(
                       context,
-                      localizations
-                          .newsScreen, // Localization placeholder
+                      'Fertilizer Recommendation',
+                      Icons.grass,
+                      Colors.brown.shade700,
+                      () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder:
+                                (context) =>
+                                    const FertilizerRecommendationScreen(),
+                          ),
+                        );
+                      },
+                    ),
+                    _buildFeatureCard(
+                      context,
+                      localizations.newsScreen, // Localization placeholder
                       Icons.camera_alt,
                       Colors.red.shade700,
                       () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                            builder: (context) => NewsScreen(),
-                          ),
+                          MaterialPageRoute(builder: (context) => NewsScreen()),
                         );
                       },
                     ),
