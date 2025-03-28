@@ -1552,7 +1552,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     _buildFeatureCard(
                       context,
-                      'AgriStore',
+                      localizations.agriStore,
                       Icons.shopping_cart, // Better for store
                       Colors.orange.shade700,
                       () {
@@ -1566,7 +1566,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     _buildFeatureCard(
                       context,
-                      'Nearby Store',
+                      localizations.nearbyStores,
                       Icons.store_mall_directory, // Better for physical stores
                       Colors.blue.shade700,
                       () {
@@ -1580,7 +1580,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     _buildFeatureCard(
                       context,
-                      'Nearby Traders',
+                      localizations.nearbyTraders,
                       Icons.people_alt, // Better for traders
                       Colors.brown.shade700,
                       () {
@@ -1594,7 +1594,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     _buildFeatureCard(
                       context,
-                      'Fertilizer Recommendation',
+                      localizations.fertilizerRecommendation,
                       Icons.eco, // Better for fertilizer
                       Colors.lightGreen.shade700,
                       () {

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:kisaansetu/screens/fertilizer_recommendation.dart';
 
 class AppLocalizations {
   final Locale locale;
-String get newsScreen {
+  String get newsScreen {
     switch (locale.languageCode) {
       case 'hi':
         return 'समाचार';
@@ -24,10 +25,118 @@ String get newsScreen {
         return 'News'; // Default fallback value
     }
   }
+
   AppLocalizations(this.locale);
 
   static AppLocalizations of(BuildContext context) {
     return Localizations.of<AppLocalizations>(context, AppLocalizations)!;
+  }
+
+  String get appName {
+    switch (locale.languageCode) {
+      case 'hi':
+        return 'किसान सेतु';
+      case 'pa':
+        return 'ਕਿਸਾਨ ਸੇਤੂ';
+      case 'bn':
+        return 'কৃষক সেতু';
+      case 'gu':
+        return 'કિસાન સેટુ';
+      case 'mr':
+        return 'किसान सेतू';
+      case 'te':
+        return 'కిసాన్ సేతు';
+      case 'ta':
+        return 'கிசான் செடு';
+      case 'en':
+        return 'Kisan Setu';
+      default:
+        return 'Kisan Setu'; // Default fallback value
+    }
+  }
+
+  String get agriStore {
+    switch (locale.languageCode) {
+      case 'hi':
+        return 'एग्रीस्टोर';
+      case 'pa':
+        return 'ਐਗਰੀਸਟੋਰ';
+      case 'bn':
+        return 'এগ্রিস্টোর';
+      case 'ta':
+        return 'அக்ரிஸ்டோர்';
+      case 'te':
+        return 'అగ్రిస్టోర్';
+      case 'mr':
+        return 'अॅग्रीस्टोर';
+      case 'gu':
+        return 'એગ્રીસ્ટોર';
+      default:
+        return 'AgriStore';
+    }
+  }
+
+  String get nearbyStores {
+    switch (locale.languageCode) {
+      case 'hi':
+        return 'आसपास के स्टोर्स';
+      case 'pa':
+        return 'ਨੇੜੇ ਦੁकਾਨਾਂ';
+      case 'bn':
+        return 'পার্শ্ববর্তী দোকানগুলি';
+      case 'ta':
+        return 'அருகிலுள்ள அங்காடிகள்';
+      case 'te':
+        return 'సమీప దుకాణాలు';
+      case 'mr':
+        return 'जवळच्या स्टोअर्स';
+      case 'gu':
+        return 'નજીકના દુકાનો';
+      default:
+        return 'Nearby Stores';
+    }
+  }
+
+  String get nearbyTraders {
+    switch (locale.languageCode) {
+      case 'hi':
+        return 'आसपास के व्यापारी';
+      case 'pa':
+        return 'ਨੇੜੇ ਵਪਾਰੀ';
+      case 'bn':
+        return 'পার্শ্ববর্তী ব্যবসায়ী';
+      case 'ta':
+        return 'அருகிலுள்ள வணிகர்கள்';
+      case 'te':
+        return 'సమీప వ్యాపారులు';
+      case 'mr':
+        return 'जवळच्या व्यापारी';
+      case 'gu':
+        return 'નજીકના વ્યાપારી';
+      default:
+        return 'Nearby Traders';
+    }
+  }
+
+  String get fertilizerRecommendation {
+    switch (locale.languageCode) {
+      case 'hi':
+        return 'उर्वरक सिफारिश';
+      case 'pa':
+        return 'ਖਾਦ ਸਿਫਾਰਸ਼';
+      case 'bn':
+        return 'সার পরামর্শ';
+      case 'ta':
+        return 'உரவக் காரியம்';
+      case 'te':
+        return 'ఎరువు సూచన';
+      case 'mr':
+        return 'खत सुचवणी';
+      case 'gu':
+        return 'ખેત સૂચન';
+      default:
+        return 'Fertilizer Recommendation';
+    }
   }
 
   // Language names in their respective languages
