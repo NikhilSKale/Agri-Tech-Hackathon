@@ -1523,20 +1523,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     _buildFeatureCard(
                       context,
-                      localizations.marketPrices,
-                      Icons.attach_money, // Better for market prices
-                      Colors.purple.shade700,
-                      () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => MarketScreen(),
-                          ),
-                        );
-                      },
-                    ),
-                    _buildFeatureCard(
-                      context,
                       localizations.governmentSchemes,
                       Icons.account_balance, // Better for government schemes
                       Colors.indigo.shade700,
@@ -1604,6 +1590,20 @@ class _HomeScreenState extends State<HomeScreen> {
                             builder:
                                 (context) =>
                                     const FertilizerRecommendationScreen(),
+                          ),
+                        );
+                      },
+                    ),
+                    _buildFeatureCard(
+                      context,
+                      localizations.marketPrices,
+                      Icons.attach_money, // Better for market prices
+                      Colors.purple.shade700,
+                      () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => MarketScreen(),
                           ),
                         );
                       },

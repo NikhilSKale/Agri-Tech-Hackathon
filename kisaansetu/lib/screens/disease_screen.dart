@@ -370,7 +370,7 @@ class _DiseaseDetectionScreenState extends State<DiseaseDetectionScreen> {
     try {
       var request = http.MultipartRequest(
         'POST',
-        Uri.parse('http://192.168.74.180:5000/predict_disease'),
+        Uri.parse('http://192.168.74.244:5000/predict'),
       );
 
       request.files.add(
