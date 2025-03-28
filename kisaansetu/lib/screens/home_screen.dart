@@ -1153,6 +1153,7 @@ import 'package:flutter/material.dart';
 import 'package:kisaansetu/main.dart';
 import 'package:kisaansetu/screens/agristore_screen.dart';
 import 'package:kisaansetu/screens/chatbot_screen.dart';
+import 'package:kisaansetu/screens/dealercontactscreen.dart';
 import 'package:kisaansetu/screens/disease_screen.dart';
 import 'package:kisaansetu/screens/fertilizer_recommendation.dart';
 import 'package:kisaansetu/screens/government_schemes.dart';
@@ -1480,8 +1481,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     _buildFeatureCard(
                       context,
-                      localizations.aiAssistant, // Localization placeholder
-                      Icons.chat,
+                      localizations.aiAssistant,
+                      Icons.smart_toy, // Better icon for AI assistant
                       Colors.green.shade700,
                       () {
                         Navigator.push(
@@ -1494,9 +1495,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     _buildFeatureCard(
                       context,
-                      localizations
-                          .diseaseDetection, // Localization placeholder
-                      Icons.camera_alt,
+                      localizations.diseaseDetection,
+                      Icons.health_and_safety, // Better for disease detection
                       Colors.red.shade700,
                       () {
                         Navigator.push(
@@ -1509,9 +1509,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     _buildFeatureCard(
                       context,
-                      localizations
-                          .cropRecommendations, // Localization placeholder
-                      Icons.eco,
+                      localizations.cropRecommendations,
+                      Icons.spa, // Better for crops
                       Colors.teal.shade700,
                       () {
                         Navigator.push(
@@ -1524,8 +1523,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     _buildFeatureCard(
                       context,
-                      localizations.marketPrices, // Localization placeholder
-                      Icons.bar_chart,
+                      localizations.marketPrices,
+                      Icons.attach_money, // Better for market prices
                       Colors.purple.shade700,
                       () {
                         Navigator.push(
@@ -1538,9 +1537,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     _buildFeatureCard(
                       context,
-                      localizations
-                          .governmentSchemes, // Localization placeholder
-                      Icons.assignment,
+                      localizations.governmentSchemes,
+                      Icons.account_balance, // Better for government schemes
                       Colors.indigo.shade700,
                       () {
                         Navigator.push(
@@ -1554,8 +1552,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     _buildFeatureCard(
                       context,
-                      'AgriStore', // Direct text instead of localized string
-                      Icons.store,
+                      'AgriStore',
+                      Icons.shopping_cart, // Better for store
                       Colors.orange.shade700,
                       () {
                         Navigator.push(
@@ -1568,14 +1566,28 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     _buildFeatureCard(
                       context,
-                      'Nearby Store', // Direct text instead of localized string
-                      Icons.store,
-                      Colors.orange.shade700,
+                      'Nearby Store',
+                      Icons.store_mall_directory, // Better for physical stores
+                      Colors.blue.shade700,
                       () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => NearbyStoresScreen(),
+                            builder: (context) => NearbyStorageScreen(),
+                          ),
+                        );
+                      },
+                    ),
+                    _buildFeatureCard(
+                      context,
+                      'Nearby Traders',
+                      Icons.people_alt, // Better for traders
+                      Colors.brown.shade700,
+                      () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => NearbyTradersScreen(),
                           ),
                         );
                       },
@@ -1583,8 +1595,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     _buildFeatureCard(
                       context,
                       'Fertilizer Recommendation',
-                      Icons.grass,
-                      Colors.brown.shade700,
+                      Icons.eco, // Better for fertilizer
+                      Colors.lightGreen.shade700,
                       () {
                         Navigator.push(
                           context,
@@ -1598,9 +1610,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     _buildFeatureCard(
                       context,
-                      localizations.newsScreen, // Localization placeholder
-                      Icons.camera_alt,
-                      Colors.red.shade700,
+                      localizations.newsScreen,
+                      Icons.newspaper, // Better for news
+                      Colors.blueGrey.shade700,
                       () {
                         Navigator.push(
                           context,
