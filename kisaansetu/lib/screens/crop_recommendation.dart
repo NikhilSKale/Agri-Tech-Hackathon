@@ -80,7 +80,7 @@ class _CropRecommendationScreenState extends State<CropRecommendationScreen> {
       final prompt = '''
 Suggest 5 best crops to grow in ${_weatherData!['name']} right now considering:
 - Weather: ${_weatherData!['weather'][0]['main']}
-- Temperature: ${_weatherData!['main']['temp']}°C 
+- Temperature: ${_weatherData!['main']['temp']}°C
 - Humidity: ${_weatherData!['main']['humidity']}%
 - Local market demand
 
@@ -114,7 +114,7 @@ For each crop provide:
 
     for (var section in cropSections) {
       if (section.trim().isEmpty) continue;
-      
+
       final lines = section.trim().split('\n');
       if (lines.isEmpty) continue;
 
@@ -320,7 +320,7 @@ For each crop provide:
   Widget _getWeatherIcon(String condition) {
     IconData icon;
     Color color;
-    
+
     switch (condition.toLowerCase()) {
       case 'rain':
         icon = Icons.umbrella;
@@ -338,106 +338,191 @@ For each crop provide:
         icon = Icons.device_thermostat;
         color = Colors.grey;
     }
-    
+
     return Icon(icon, color: color, size: 36);
   }
 }
 
+// import 'package:flutter/foundation.dart';
 // import 'package:flutter/material.dart';
 // import 'package:http/http.dart' as http;
 // import 'dart:convert';
 // import 'package:geolocator/geolocator.dart';
-// import 'package:permission_handler/permission_handler.dart';
+// import 'package:geocoding/geocoding.dart';
 
 // class CropRecommendationScreen extends StatefulWidget {
-//   final Map<String, dynamic> weatherData;
-  
-//   const CropRecommendationScreen({
-//     Key? key,
-//     required this.weatherData,
-//   }) : super(key: key);
-
 //   @override
 //   _CropRecommendationScreenState createState() => _CropRecommendationScreenState();
 // }
 
 // class _CropRecommendationScreenState extends State<CropRecommendationScreen> {
 //   bool _isLoading = false;
+//   bool _locationLoading = false;
+//   List<dynamic> _recommendations = [];
 //   String _errorMessage = '';
-//   List<dynamic> _recommendedCrops = [];
-//   int _duration = 6; // Default duration in months
-//   Position? _currentPosition;
+//   String _locationName = 'Fetching location...';
+//   double? _latitude;
+//   double? _longitude;
+//   double? _temperature;
+//   double? _humidity;
+//   double? _rainfall;
+//   double _phValue = 6.5; // Default soil pH (can be improved with soil APIs)
+
+//   // OpenWeatherMap API Key - replace with your own
+//   final String _weatherApiKey = '7e3cac2d274dba29e7551e1f3b582971';
+//   final String _backendUrl = 'http://192.168.74.180:5000/recommend_crops';
 
 //   @override
 //   void initState() {
 //     super.initState();
-//     _getCurrentLocation();
+//     _determinePosition();
 //   }
 
-//   Future<void> _getCurrentLocation() async {
+//   Future<void> _determinePosition() async {
+//     setState(() {
+//       _locationLoading = true;
+//     });
+
 //     try {
-//       var status = await Permission.location.request();
-//       if (status.isGranted) {
-//         setState(() => _isLoading = true);
-//         _currentPosition = await Geolocator.getCurrentPosition(
-//           desiredAccuracy: LocationAccuracy.medium,
-//         );
-//         await _fetchCropRecommendations();
-//       } else {
-//         setState(() {
-//           _errorMessage = 'Location permission helps provide more accurate recommendations.';
-//         });
-//         // Proceed without location
-//         await _fetchCropRecommendations();
+//       bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+//       if (!serviceEnabled) {
+//         throw 'Location services are disabled.';
 //       }
+
+//       LocationPermission permission = await Geolocator.checkPermission();
+//       if (permission == LocationPermission.denied) {
+//         permission = await Geolocator.requestPermission();
+//         if (permission == LocationPermission.denied) {
+//           throw 'Location permissions are denied';
+//         }
+//       }
+
+//       if (permission == LocationPermission.deniedForever) {
+//         throw 'Location permissions are permanently denied, we cannot request permissions.';
+//       }
+
+//       Position position = await Geolocator.getCurrentPosition();
+//       setState(() {
+//         _latitude = position.latitude;
+//         _longitude = position.longitude;
+//       });
+
+//       await _getLocationName(position.latitude, position.longitude);
+//       await _fetchWeatherData(position.latitude, position.longitude);
 //     } catch (e) {
 //       setState(() {
-//         _errorMessage = 'Location service unavailable. Using general recommendations.';
+//         _errorMessage = 'Could not get location: $e';
+//         _locationLoading = false;
 //       });
-//       // Proceed without location
-//       await _fetchCropRecommendations();
 //     }
 //   }
 
-//   Future<void> _fetchCropRecommendations() async {
+//   Future<void> _getLocationName(double lat, double lng) async {
+//     try {
+//       List<Placemark> placemarks = await placemarkFromCoordinates(lat, lng);
+//       Placemark place = placemarks[0];
+//       setState(() {
+//         _locationName = '${place.locality}, ${place.administrativeArea}, ${place.country}';
+//       });
+//     } catch (e) {
+//       setState(() {
+//         _locationName = 'Location: $lat, $lng';
+//       });
+//     }
+//   }
+
+//   Future<void> _fetchWeatherData(double lat, double lng) async {
+//   try {
+//     final response = await http.get(
+//       Uri.parse('https://api.openweathermap.org/data/2.5/weather?lat=$lat&lon=$lng&units=metric&appid=$_weatherApiKey'),
+//     );
+
+//     debugPrint('Weather API Response: ${response.body}'); // Debug the full response
+
+//     if (response.statusCode == 200) {
+//       final data = json.decode(response.body);
+//       debugPrint('Parsed Weather Data: $data'); // Debug parsed data
+
+//       // Safely extract values with null checks
+//       final mainData = data['main'] ?? {};
+//       final rainData = data['rain'] ?? {};
+
+//       setState(() {
+//         _temperature = mainData['temp']?.toDouble();
+//         _humidity = mainData['humidity']?.toDouble();
+//         _rainfall = rainData['1h']?.toDouble() ?? 0.0; // Default to 0 if no rain
+        
+//         debugPrint('Extracted Values - '
+//           'Temp: $_temperature, '
+//           'Humidity: $_humidity, '
+//           'Rainfall: $_rainfall');
+        
+//         _locationLoading = false;
+//       });
+
+//       // Check if we have all required data
+//       if (_temperature == null || _humidity == null) {
+//         throw 'Incomplete weather data received';
+//       }
+      
+//       _getRecommendations();
+//     } else {
+//       throw 'API Error: ${response.statusCode} - ${response.reasonPhrase}';
+//     }
+//   } catch (e) {
+//     debugPrint('Error fetching weather: $e');
+//     setState(() {
+//       _errorMessage = 'Weather data unavailable. Using default values.';
+//       _temperature = _temperature ?? 25.0; // Default fallback
+//       _humidity = _humidity ?? 60.0; // Default fallback
+//       _rainfall = _rainfall ?? 0.0;
+//       _locationLoading = false;
+//     });
+//     _getRecommendations(); // Proceed with fallback values
+//   }
+// }
+
+//   Future<void> _getRecommendations() async {
+//     if (_temperature == null || _humidity == null || _rainfall == null) {
+//       setState(() {
+//         _errorMessage = 'Weather data not available yet';
+//         // Show error message and return without making API call
+//         //i want to debug print to check which value is null
+//         debugPrint('Temperature: $_temperature, Humidity: $_humidity, Rainfall: $_rainfall');
+//       });
+//       return;
+//     }
+
 //     setState(() {
 //       _isLoading = true;
+//       _recommendations = [];
 //       _errorMessage = '';
 //     });
 
 //     try {
 //       final response = await http.post(
-//         Uri.parse('http://YOUR_FLASK_SERVER_IP:5000/recommend-crops'),
+//         Uri.parse(_backendUrl),
 //         headers: {'Content-Type': 'application/json'},
 //         body: json.encode({
-//           'temperature': widget.weatherData['temperature'],
-//           'humidity': widget.weatherData['humidity'],
-//           'rainfall': widget.weatherData['rainfall'] ?? 0,
-//           'duration': _duration,
-//           'latitude': _currentPosition?.latitude,
-//           'longitude': _currentPosition?.longitude,
+//           'temperature': _temperature,
+//           'humidity': _humidity,
+//           'rainfall': _rainfall,
+//           'ph': _phValue,
+//           'duration': 3, // Default duration (can be made configurable)
 //         }),
 //       );
 
 //       if (response.statusCode == 200) {
 //         final data = json.decode(response.body);
-//         if (data['success'] == true) {
-//           setState(() {
-//             _recommendedCrops = data['crops'];
-//           });
-//         } else {
-//           setState(() {
-//             _errorMessage = data['error'] ?? 'Failed to get recommendations';
-//           });
-//         }
-//       } else {
 //         setState(() {
-//           _errorMessage = 'Server error: ${response.statusCode}';
+//           _recommendations = data['recommendations'];
 //         });
+//       } else {
+//         throw 'Failed to get recommendations: ${response.reasonPhrase}';
 //       }
 //     } catch (e) {
 //       setState(() {
-//         _errorMessage = 'Connection error: $e';
+//         _errorMessage = 'Error: ${e.toString()}';
 //       });
 //     } finally {
 //       setState(() {
@@ -450,276 +535,198 @@ For each crop provide:
 //   Widget build(BuildContext context) {
 //     return Scaffold(
 //       appBar: AppBar(
-//         title: const Text('Crop Recommendations'),
-//         backgroundColor: Colors.teal.shade700,
+//         title: Text('Smart Crop Recommendation'),
+//         centerTitle: true,
 //         elevation: 0,
 //         actions: [
 //           IconButton(
-//             icon: const Icon(Icons.refresh),
-//             onPressed: _fetchCropRecommendations,
+//             icon: Icon(Icons.refresh),
+//             onPressed: () {
+//               _determinePosition();
+//             },
 //           ),
 //         ],
 //       ),
-//       body: _isLoading
-//           ? const Center(child: CircularProgressIndicator())
-//           : _buildRecommendationView(),
-//     );
-//   }
-
-//   Widget _buildRecommendationView() {
-//     return RefreshIndicator(
-//       onRefresh: _fetchCropRecommendations,
-//       child: SingleChildScrollView(
-//         padding: const EdgeInsets.all(16.0),
+//       body: SingleChildScrollView(
+//         padding: EdgeInsets.all(16),
 //         child: Column(
-//           crossAxisAlignment: CrossAxisAlignment.start,
+//           crossAxisAlignment: CrossAxisAlignment.stretch,
 //           children: [
-//             // Weather summary card
 //             Card(
-//               elevation: 2,
-//               shape: RoundedRectangleBorder(
-//                 borderRadius: BorderRadius.circular(12),
-//               ),
+//               elevation: 4,
 //               child: Padding(
-//                 padding: const EdgeInsets.all(16.0),
+//                 padding: EdgeInsets.all(16),
 //                 child: Column(
-//                   crossAxisAlignment: CrossAxisAlignment.start,
 //                   children: [
-//                     const Text(
-//                       'Current Conditions',
-//                       style: TextStyle(
-//                         fontSize: 16, 
-//                         fontWeight: FontWeight.bold
+//                     ListTile(
+//                       leading: Icon(Icons.location_on, color: Colors.blue),
+//                       title: Text(_locationName),
+//                       subtitle: _locationLoading
+//                           ? LinearProgressIndicator()
+//                           : Text('Tap refresh to update location'),
+//                     ),
+//                     Divider(),
+//                     if (_temperature != null) _buildWeatherInfo('Temperature', '${_temperature!.toStringAsFixed(1)}°C', Icons.thermostat),
+//                     if (_humidity != null) _buildWeatherInfo('Humidity', '${_humidity!.toStringAsFixed(1)}%', Icons.water_drop),
+//                     if (_rainfall != null) _buildWeatherInfo('Rainfall', '${_rainfall!.toStringAsFixed(1)} mm', Icons.umbrella),
+//                     _buildWeatherInfo('Soil pH', '${_phValue.toStringAsFixed(1)}', Icons.grass),
+//                     SizedBox(height: 16),
+//                     ElevatedButton(
+//                       onPressed: _isLoading ? null : _getRecommendations,
+//                       child: _isLoading
+//                           ? CircularProgressIndicator(color: Colors.white)
+//                           : Text('Get Smart Recommendations'),
+//                       style: ElevatedButton.styleFrom(
+//                         minimumSize: Size(double.infinity, 50),
 //                       ),
 //                     ),
-//                     const SizedBox(height: 12),
-//                     Row(
-//                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                       children: [
-//                         _buildConditionItem('Temperature', '${widget.weatherData['temperature']?.toStringAsFixed(1) ?? 'N/A'}°C'),
-//                         _buildConditionItem('Humidity', '${widget.weatherData['humidity']?.toStringAsFixed(0) ?? 'N/A'}%'),
-//                         _buildConditionItem('Rainfall', '${widget.weatherData['rainfall']?.toStringAsFixed(1) ?? 'N/A'} mm'),
-//                       ],
-//                     ),
 //                   ],
 //                 ),
 //               ),
 //             ),
-//             const SizedBox(height: 24),
-            
-//             // Duration selector
-//             Column(
-//               crossAxisAlignment: CrossAxisAlignment.start,
-//               children: [
-//                 const Text(
-//                   'Select Growing Duration',
-//                   style: TextStyle(
-//                     fontSize: 16, 
-//                     fontWeight: FontWeight.bold
-//                   ),
-//                 ),
-//                 const SizedBox(height: 8),
-//                 Slider(
-//                   value: _duration.toDouble(),
-//                   min: 3,
-//                   max: 15,
-//                   divisions: 12,
-//                   label: '$_duration months',
-//                   activeColor: Colors.teal.shade700,
-//                   inactiveColor: Colors.teal.shade100,
-//                   onChanged: (value) {
-//                     setState(() {
-//                       _duration = value.round();
-//                     });
-//                   },
-//                   onChangeEnd: (value) {
-//                     _fetchCropRecommendations();
-//                   },
-//                 ),
-//                 const SizedBox(height: 4),
-//                 Row(
-//                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                   children: const [
-//                     Text('3 months'),
-//                     Text('15 months'),
-//                   ],
-//                 ),
-//               ],
-//             ),
-//             const SizedBox(height: 24),
-            
-//             // Error message if any
+//             SizedBox(height: 20),
 //             if (_errorMessage.isNotEmpty)
 //               Padding(
-//                 padding: const EdgeInsets.only(bottom: 16),
+//                 padding: EdgeInsets.symmetric(vertical: 8),
 //                 child: Text(
 //                   _errorMessage,
-//                   style: TextStyle(
-//                     color: Colors.orange.shade700,
-//                     fontStyle: FontStyle.italic,
+//                   style: TextStyle(color: Colors.red, fontSize: 16),
+//                   textAlign: TextAlign.center,
+//                 ),
+//               ),
+//             if (_recommendations.isNotEmpty)
+//               Column(
+//                 crossAxisAlignment: CrossAxisAlignment.start,
+//                 children: [
+//                   Text(
+//                     'Recommended Crops for Your Location',
+//                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
 //                   ),
-//                 ),
+//                   SizedBox(height: 8),
+//                   ..._recommendations.map((crop) => _buildCropCard(crop)).toList(),
+//                 ],
 //               ),
-            
-//             // Recommended crops list
-//             if (_recommendedCrops.isNotEmpty) ...[
-//               const Text(
-//                 'Recommended Crops',
-//                 style: TextStyle(
-//                   fontSize: 18, 
-//                   fontWeight: FontWeight.bold
-//                 ),
-//               ),
-//               const SizedBox(height: 12),
-//               ..._recommendedCrops.map((crop) => _buildCropCard(crop)).toList(),
-//             ] else if (!_isLoading) ...[
-//               Center(
-//                 child: Column(
-//                   children: [
-//                     Image.asset(
-//                       'assets/images/no_crops.png', // Add this asset
-//                       height: 150,
-//                       width: 150,
-//                     ),
-//                     const SizedBox(height: 16),
-//                     const Text(
-//                       'No crop recommendations available\nfor current conditions',
-//                       textAlign: TextAlign.center,
-//                       style: TextStyle(
-//                         fontSize: 16, 
-//                         color: Colors.grey
-//                       ),
-//                     ),
-//                   ],
-//                 ),
-//               ),
-//             ],
 //           ],
 //         ),
 //       ),
 //     );
 //   }
 
-//   Widget _buildConditionItem(String label, String value) {
-//     return Column(
-//       children: [
-//         Text(
-//           label,
-//           style: const TextStyle(
-//             fontSize: 12, 
-//             color: Colors.grey
+//   Widget _buildWeatherInfo(String label, String value, IconData icon) {
+//     return Padding(
+//       padding: EdgeInsets.symmetric(vertical: 8),
+//       child: Row(
+//         children: [
+//           Icon(icon, size: 24, color: Colors.blue),
+//           SizedBox(width: 16),
+//           Text(
+//             label,
+//             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
 //           ),
-//         ),
-//         const SizedBox(height: 4),
-//         Text(
-//           value,
-//           style: const TextStyle(
-//             fontSize: 16, 
-//             fontWeight: FontWeight.bold
+//           Spacer(),
+//           Text(
+//             value,
+//             style: TextStyle(fontSize: 16),
 //           ),
-//         ),
-//       ],
+//         ],
+//       ),
 //     );
 //   }
 
 //   Widget _buildCropCard(Map<String, dynamic> crop) {
 //     return Card(
-//       margin: const EdgeInsets.only(bottom: 16),
-//       elevation: 2,
-//       shape: RoundedRectangleBorder(
-//         borderRadius: BorderRadius.circular(12),
-//       ),
+//       margin: EdgeInsets.only(bottom: 12),
+//       elevation: 3,
 //       child: ExpansionTile(
 //         title: Text(
 //           crop['name'],
-//           style: const TextStyle(fontWeight: FontWeight.bold),
+//           style: TextStyle(fontWeight: FontWeight.bold),
 //         ),
 //         subtitle: Text(
-//           '${(crop['probability'] * 100).toStringAsFixed(1)}% suitable | ${crop['duration']}',
-//         ),
-//         leading: CircleAvatar(
-//           backgroundColor: Colors.teal.shade100,
-//           child: Text(
-//             crop['name'][0],
-//             style: TextStyle(color: Colors.teal.shade800),
-//           ),
+//           'Confidence: ${(crop['probability'] * 100).toStringAsFixed(1)}%',
+//           style: TextStyle(color: Colors.green),
 //         ),
 //         children: [
 //           Padding(
-//             padding: const EdgeInsets.all(16.0),
+//             padding: EdgeInsets.all(16),
 //             child: Column(
 //               crossAxisAlignment: CrossAxisAlignment.start,
 //               children: [
-//                 Text(
-//                   crop['description'],
-//                   style: const TextStyle(fontStyle: FontStyle.italic),
-//                 ),
-//                 const SizedBox(height: 16),
-                
-//                 // Growing process timeline
-//                 const Text(
-//                   'Growing Process:',
-//                   style: TextStyle(fontWeight: FontWeight.bold),
-//                 ),
-//                 const SizedBox(height: 8),
-//                 ...crop['process'].map((stage) => Padding(
-//                   padding: const EdgeInsets.symmetric(vertical: 4),
-//                   child: Row(
+//                 _buildDetailRow('Description', crop['description']),
+//                 _buildDetailRow('Season', crop['season'] ?? 'Not specified'),
+//                 _buildDetailRow('Soil Type', crop['soil'] ?? 'Not specified'),
+//                 _buildDetailRow('Water Requirements', crop['water'] ?? 'Not specified'),
+//                 _buildDetailRow('Temperature Range', crop['temperature'] ?? 'Not specified'),
+//                 _buildDetailRow('Soil pH Range', crop['ph'] ?? 'Not specified'),
+//                 _buildDetailRow('Duration', crop['duration'] ?? 'Not specified'),
+//                 _buildDetailRow('Expected Yield', crop['yield'] ?? 'Not specified'),
+//                 SizedBox(height: 12),
+//                 if (crop['fertilizer'] != null)
+//                   Column(
 //                     crossAxisAlignment: CrossAxisAlignment.start,
 //                     children: [
-//                       Container(
-//                         width: 80,
-//                         child: Text(
-//                           stage['time'],
-//                           style: const TextStyle(fontWeight: FontWeight.w500),
-//                         ),
+//                       Text(
+//                         'Fertilizer Requirements:',
+//                         style: TextStyle(fontWeight: FontWeight.bold),
 //                       ),
-//                       const SizedBox(width: 8),
-//                       Expanded(
-//                         child: Column(
-//                           crossAxisAlignment: CrossAxisAlignment.start,
-//                           children: [
-//                             Text(
-//                               stage['stage'],
-//                               style: const TextStyle(fontWeight: FontWeight.w500),
-//                             ),
-//                             Text(
-//                               stage['details'],
-//                               style: TextStyle(color: Colors.grey.shade700),
-//                             ),
-//                           ],
+//                       SizedBox(height: 4),
+//                       ...(crop['fertilizer'] as Map<String, dynamic>).entries.map(
+//                         (e) => Padding(
+//                           padding: EdgeInsets.only(left: 8, bottom: 4),
+//                           child: Text('${e.key}: ${e.value}'),
 //                         ),
 //                       ),
 //                     ],
 //                   ),
-//                 )).toList(),
-//                 const SizedBox(height: 16),
-                
-//                 // Benefits section
-//                 const Text(
-//                   'Benefits:',
-//                   style: TextStyle(fontWeight: FontWeight.bold),
-//                 ),
-//                 const SizedBox(height: 8),
-//                 ...crop['benefits'].map((benefit) => Padding(
-//                   padding: const EdgeInsets.symmetric(vertical: 4),
-//                   child: Row(
+//                 SizedBox(height: 12),
+//                 if (crop['process'] != null && (crop['process'] as List).isNotEmpty)
+//                   Column(
 //                     crossAxisAlignment: CrossAxisAlignment.start,
 //                     children: [
-//                       Icon(
-//                         Icons.check_circle,
-//                         color: Colors.teal.shade600,
-//                         size: 20,
+//                       Text(
+//                         'Growing Process:',
+//                         style: TextStyle(fontWeight: FontWeight.bold),
 //                       ),
-//                       const SizedBox(width: 8),
-//                       Expanded(child: Text(benefit)),
+//                       SizedBox(height: 8),
+//                       ...(crop['process'] as List).map(
+//                         (stage) => Padding(
+//                           padding: EdgeInsets.only(left: 8, bottom: 8),
+//                           child: Column(
+//                             crossAxisAlignment: CrossAxisAlignment.start,
+//                             children: [
+//                               Text(
+//                                 '${stage['stage']} (${stage['time']})',
+//                                 style: TextStyle(fontWeight: FontWeight.w600),
+//                               ),
+//                               Text(stage['details']),
+//                             ],
+//                           ),
+//                         ),
+//                       ),
 //                     ],
 //                   ),
-//                 )).toList(),
 //               ],
 //             ),
 //           ),
 //         ],
+//       ),
+//     );
+//   }
+
+//   Widget _buildDetailRow(String label, String value) {
+//     return Padding(
+//       padding: EdgeInsets.only(bottom: 8),
+//       child: RichText(
+//         text: TextSpan(
+//           style: TextStyle(color: Colors.black87, fontSize: 14),
+//           children: [
+//             TextSpan(
+//               text: '$label: ',
+//               style: TextStyle(fontWeight: FontWeight.bold),
+//             ),
+//             TextSpan(text: value),
+//           ],
+//         ),
 //       ),
 //     );
 //   }

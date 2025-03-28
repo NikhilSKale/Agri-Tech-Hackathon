@@ -1,1156 +1,1282 @@
-
-# from flask import Flask, request, jsonify
-# from flask_cors import CORS
-# import tensorflow as tf
-# import numpy as np
-# from PIL import Image
-# import io
-# import os
-
-# import logging
-
-# # Configure logging
-# logging.basicConfig(level=logging.INFO, 
-#                     format='%(asctime)s - %(levelname)s - %(message)s')
-# logger = logging.getLogger(__name__)
-
-# app = Flask(__name__)
-# CORS(app, resources={r"/*": {"origins": "*"}})
-
-# # Define class names for plant disease classification
-# # Define class names for plant disease classification
-# CLASS_NAMES = [
-#     "Apple_Apple_scab", "Apple_Black_rot", "Apple_Cedar_apple_rust", "Apple_healthy",
-#     "Blueberry_healthy", "Cherry_Powdery_mildew", "Cherry_healthy",
-#     "Corn_Cercospora_leaf_spot_Gray_leaf_spot", "Corn_Common_rust",
-#     "Corn_Northern_Leaf_Blight", "Corn_healthy", "Grape_Black_rot",
-#     "Grape_Esca_Black_Measles", "Grape_Leaf_blight_Isariopsis_Leaf_Spot", "Grape_healthy",
-#     "Orange_Haunglongbing_Citrus_greening", "Peach_Bacterial_spot", "Peach_healthy",
-#     "Pepper_bell_Bacterial_spot", "Pepper_bell_healthy", "Potato_Early_blight",
-#     "Potato_Late_blight", "Potato_healthy", "Raspberry_healthy", "Soybean_healthy",
-#     "Squash_Powdery_mildew", "Strawberry_Leaf_scorch", "Strawberry_healthy",
-#     "Tomato_Bacterial_spot", "Tomato_Early_blight", "Tomato_Late_blight",
-#     "Tomato_Leaf_Mold", "Tomato_Septoria_leaf_spot", "Tomato_Spider_mites_Two_spotted_spider_mite",
-#     "Tomato_Target_Spot", "Tomato_Yellow_Leaf_Curl_Virus", "Tomato_Tomato_mosaic_virus",
-#     "Tomato_healthy"
-# ]
-
-# # Comprehensive disease information dictionary
-# DISEASE_INFO = {
-#     "Apple_Apple_scab": {
-#         "cause": "A fungal disease caused by Venturia inaequalis that thrives in cool, moist spring weather. The fungus overwinters in infected leaves on the ground and releases spores during spring rains, which are then carried by wind to new growth.",
-#         "remedy": [
-#             "Apply fungicides containing myclobutanil or sulfur at regular intervals during spring",
-#             "Remove and destroy fallen leaves in autumn to reduce overwintering spores",
-#             "Plant resistant varieties like 'Liberty' or 'Freedom'",
-#             "Prune trees to improve air circulation and reduce leaf wetness duration",
-#             "Avoid overhead irrigation to keep foliage dry"
-#         ]
-#     },
-#     "Apple_Black_rot": {
-#         "cause": "A fungal disease caused by Botryosphaeria obtusa that affects fruits, leaves, and bark. The fungus survives in cankers, mummified fruits, and infected bark. Spores spread during rainy periods and infect through wounds or natural openings.",
-#         "remedy": [
-#             "Remove and destroy all infected plant material including mummified fruits and dead branches",
-#             "Apply fungicides containing captan or thiophanate-methyl during bloom and early fruit development",
-#             "Prune out cankers during dormant season, making cuts at least 12 inches below visible symptoms",
-#             "Avoid wounding trees during cultivation or harvesting",
-#             "Maintain tree vigor through proper nutrition and irrigation"
-#         ]
-#     },
-#     "Apple_Cedar_apple_rust": {
-#         "cause": "A fungal disease caused by Gymnosporangium juniperi-virginianae that requires both apple and eastern red cedar trees to complete its life cycle. Bright orange lesions appear on apple leaves in spring after spores are released from galls on nearby cedars during rainy periods.",
-#         "remedy": [
-#             "Remove eastern red cedar trees within a 2-mile radius if possible",
-#             "Apply protective fungicides containing myclobutanil or triadimefon at pink bud stage",
-#             "Plant resistant varieties like 'Redfree' or 'William's Pride'",
-#             "Rake and destroy fallen leaves to reduce local spore production",
-#             "Space trees properly to allow for good air circulation"
-#         ]
-#     },
-#     "Apple_healthy": {
-#         "cause": "No signs of disease detected. The tree exhibits normal growth with healthy foliage and proper fruit development.",
-#         "remedy": [
-#             "Maintain a regular fungicide spray program as preventive measure",
-#             "Conduct annual pruning to remove dead wood and improve sunlight penetration",
-#             "Test soil every 2-3 years and amend based on results",
-#             "Apply balanced fertilizer in early spring before bud break",
-#             "Install drip irrigation to maintain consistent moisture without wetting foliage"
-#         ]
-#     },
-#     "Blueberry_healthy": {
-#         "cause": "No disease symptoms present. Plants show vigorous growth with uniform blue-green foliage and proper fruit set.",
-#         "remedy": [
-#             "Maintain soil pH between 4.5-5.5 through annual sulfur applications if needed",
-#             "Apply organic mulch annually to conserve moisture and suppress weeds",
-#             "Prune out old canes (over 5 years) during dormancy to encourage new growth",
-#             "Use bird netting during fruiting season if birds are problematic",
-#             "Apply balanced fertilizer formulated for acid-loving plants in early spring"
-#         ]
-#     },
-#     "Cherry_Powdery_mildew": {
-#         "cause": "Fungal disease caused by Podosphaera clandestina that forms white powdery growth on leaves and shoots. Thrives in warm days and cool nights with high humidity but no leaf wetness.",
-#         "remedy": [
-#             "Apply sulfur or potassium bicarbonate sprays at first sign of disease",
-#             "Prune to improve air circulation through canopy",
-#             "Avoid excessive nitrogen fertilization that promotes succulent growth",
-#             "Use resistant varieties like 'Montmorency' for tart cherries",
-#             "Apply horticultural oil in dormant season to reduce overwintering spores"
-#         ]
-#     },
-#     "Cherry_healthy": {
-#         "cause": "No disease symptoms detected. Trees have glossy green leaves and normal fruit production.",
-#         "remedy": [
-#             "Monitor for common pests like cherry fruit fly using sticky traps",
-#             "Apply dormant oil spray in late winter to control overwintering insects",
-#             "Install trunk guards to prevent rodent damage during winter",
-#             "Thin fruit clusters to improve size and reduce branch breakage",
-#             "Harvest fruit with stems attached to prevent fruit spur damage"
-#         ]
-#     },
-#     "Corn_Cercospora_leaf_spot_Gray_leaf_spot": {
-#         "cause": "Fungal disease caused by Cercospora zeae-maydis that produces rectangular, tan lesions bounded by leaf veins. Spreads through wind-blown spores and survives in crop residue.",
-#         "remedy": [
-#             "Rotate crops with non-host plants for at least 2 years",
-#             "Use resistant hybrids with good tolerance ratings",
-#             "Apply foliar fungicides like azoxystrobin at tasseling stage if disease appears",
-#             "Plow under crop debris after harvest to accelerate decomposition",
-#             "Avoid overhead irrigation that prolongs leaf wetness periods"
-#         ]
-#     },
-#     "Corn_Common_rust": {
-#         "cause": "Caused by Puccinia sorghi fungus producing cinnamon-brown pustules on leaves. Requires living plant tissue to survive and spreads via windborne spores over long distances.",
-#         "remedy": [
-#             "Plant early-maturing hybrids to escape peak disease periods",
-#             "Apply fungicides containing pyraclostrobin when pustules first appear",
-#             "Avoid planting adjacent to late-planted fields that can serve as inoculum sources",
-#             "Remove volunteer corn plants that may harbor the disease",
-#             "Maintain proper plant spacing to reduce canopy humidity"
-#         ]
-#     },
-#     "Corn_Northern_Leaf_Blight": {
-#         "cause": "Fungal disease (Exserohilum turcicum) causing long, elliptical gray-green lesions that turn tan. Overwinters in corn debris and spreads during warm (65-80°F), humid weather.",
-#         "remedy": [
-#             "Use hybrids with single-gene (Ht) or partial resistance",
-#             "Apply fungicides containing propiconazole at first disease detection",
-#             "Rotate with soybean or small grains for at least one year",
-#             "Chop and incorporate residue after harvest to reduce inoculum",
-#             "Avoid continuous corn planting in high-risk areas"
-#         ]
-#     },
-#     "Corn_healthy": {
-#         "cause": "No disease symptoms present. Plants show uniform growth with dark green leaves and proper ear development.",
-#         "remedy": [
-#             "Conduct soil tests to optimize fertility and pH (6.0-6.8)",
-#             "Use starter fertilizer at planting to promote early growth",
-#             "Monitor for European corn borer and apply Bt treatments if needed",
-#             "Maintain proper plant population for your hybrid (typically 28,000-34,000 plants/acre)",
-#             "Consider cover crops to improve soil health after harvest"
-#         ]
-#     },
-#     "Grape_Black_rot": {
-#         "cause": "Fungal disease (Guignardia bidwellii) causing circular brown lesions with black pycnidia on leaves and mummified berries. Requires wet periods for infection and spreads via rain splash.",
-#         "remedy": [
-#             "Apply fungicides containing mancozeb beginning at bud break through fruit set",
-#             "Remove and destroy all mummified berries during pruning",
-#             "Train vines to vertical shoot positioning for better air circulation",
-#             "Use canopy management techniques to reduce shade and moisture retention",
-#             "Plant resistant varieties like 'Cayuga White' in high-risk areas"
-#         ]
-#     },
-#     "Grape_Esca_Black_Measles": {
-#         "cause": "Complex disease caused by multiple fungi (Phaeomoniella spp., Phaeoacremonium spp.) that colonize vascular tissue, leading to trunk cankers and leaf tiger-striping. Spreads through pruning wounds.",
-#         "remedy": [
-#             "Make clean pruning cuts and avoid large wounds",
-#             "Apply wound protectants containing borate after pruning",
-#             "Remove and destroy severely infected vines including root systems",
-#             "Delay pruning until late winter to allow natural wound defense mechanisms",
-#             "Avoid mechanical injury to trunks during cultivation"
-#         ]
-#     },
-#     "Grape_Leaf_blight_Isariopsis_Leaf_Spot": {
-#         "cause": "Fungal disease (Pseudocercospora vitis) causing angular brown spots with yellow halos. Severe infections lead to premature defoliation. Spreads via rain splash and thrives in humid conditions.",
-#         "remedy": [
-#             "Apply copper-based fungicides at 7-10 day intervals during wet periods",
-#             "Remove basal leaves early in season to improve air circulation",
-#             "Use drip irrigation instead of overhead watering",
-#             "Apply balanced fertilizer to maintain vine vigor without excessive growth",
-#             "Train vines to allow sunlight penetration into canopy"
-#         ]
-#     },
-#     "Grape_healthy": {
-#         "cause": "No disease symptoms detected. Vines show uniform growth with healthy green leaves and normal fruit clusters.",
-#         "remedy": [
-#             "Monitor for Japanese beetles and other foliar feeders",
-#             "Conduct annual spur pruning during dormancy to maintain fruiting wood",
-#             "Apply mulch to maintain soil moisture and temperature",
-#             "Test petiole samples at bloom to fine-tune fertilization",
-#             "Use bird netting before veraison if birds are problematic"
-#         ]
-#     },
-#     "Orange_Haunglongbing_Citrus_greening": {
-#         "cause": "Bacterial disease (Candidatus Liberibacter asiaticus) spread by Asian citrus psyllid. Causes blotchy mottle leaves, lopsided fruit, and bitter juice. Eventually kills trees within 5-10 years.",
-#         "remedy": [
-#             "Remove and destroy infected trees immediately to reduce inoculum",
-#             "Apply systemic insecticides like imidacloprid to control psyllid vectors",
-#             "Release biological control agents like Tamarixia radiata wasps",
-#             "Use reflective mulch to deter psyllid landings",
-#             "Plant disease-free nursery stock with protective insecticide treatments"
-#         ]
-#     },
-#     "Peach_Bacterial_spot": {
-#         "cause": "Caused by Xanthomonas arboricola pv. pruni. Creates angular leaf spots and fruit lesions. Spreads through rain, wind-driven rain, and contaminated pruning tools.",
-#         "remedy": [
-#             "Apply copper sprays at leaf fall and before bud swell",
-#             "Plant resistant varieties like 'Cresthaven' or 'Redhaven'",
-#             "Use windbreaks to minimize leaf wetness from wind-driven rain",
-#             "Avoid overhead irrigation that spreads bacteria",
-#             "Prune during dry weather to allow rapid wound healing"
-#         ]
-#     },
-#     "Peach_healthy": {
-#         "cause": "No disease symptoms present. Trees exhibit normal growth with healthy foliage and fruit development.",
-#         "remedy": [
-#             "Thin fruit to 6-8 inches apart when marble-sized to improve quality",
-#             "Apply dormant oil spray to control scale insects and mites",
-#             "Monitor for peach tree borers using trunk inspections",
-#             "Maintain grass-free area under canopy to reduce humidity",
-#             "Harvest fruit when background color changes from green to yellow"
-#         ]
-#     },
-#     "Pepper_bell_Bacterial_spot": {
-#         "cause": "Caused by Xanthomonas species, producing small water-soaked lesions that become necrotic. Spreads via contaminated seed, rain splash, and handling wet plants.",
-#         "remedy": [
-#             "Use pathogen-free certified seed and transplants",
-#             "Apply copper bactericides at first sign of disease",
-#             "Avoid working with plants when foliage is wet",
-#             "Rotate with non-host crops for 2-3 years",
-#             "Remove and destroy infected plants to reduce spread"
-#         ]
-#     },
-#     "Pepper_bell_healthy": {
-#         "cause": "No disease symptoms detected. Plants show vigorous growth with dark green leaves and normal fruit production.",
-#         "remedy": [
-#             "Use black plastic mulch to warm soil and suppress weeds",
-#             "Provide support cages or stakes for heavy fruit loads",
-#             "Monitor for aphids and whiteflies which vector viruses",
-#             "Apply balanced fertilizer with adequate calcium to prevent blossom end rot",
-#             "Harvest peppers regularly to encourage continued production"
-#         ]
-#     },
-#     "Potato_Early_blight": {
-#         "cause": "Fungal disease (Alternaria solani) causing concentric rings on leaves, resembling target spots. Survives in plant debris and soil, favored by warm, humid conditions with alternating wet/dry periods.",
-#         "remedy": [
-#             "Apply chlorothalonil or mancozeb fungicides at 7-10 day intervals",
-#             "Maintain adequate potassium levels to improve plant resistance",
-#             "Use drip irrigation to keep foliage dry",
-#             "Remove and destroy infected lower leaves early in season",
-#             "Harvest tubers only after vines are completely dead"
-#         ]
-#     },
-#     "Potato_Late_blight": {
-#         "cause": "Devastating disease (Phytophthora infestans) causing water-soaked lesions that rapidly destroy foliage. Spreads via windborne spores and requires cool, wet conditions.",
-#         "remedy": [
-#             "Plant certified disease-free seed potatoes",
-#             "Apply systemic fungicides like metalaxyl before infection occurs",
-#             "Destroy cull piles and volunteer potatoes",
-#             "Hill plants properly to prevent tuber infection",
-#             "Harvest promptly after vine kill to avoid tuber infection"
-#         ]
-#     },
-#     "Potato_healthy": {
-#         "cause": "No disease symptoms present. Plants show uniform growth with healthy foliage and proper tuber development.",
-#         "remedy": [
-#             "Rotate planting sites every 3-4 years with non-solanaceous crops",
-#             "Hill plants when 6-8 inches tall to promote tuber development",
-#             "Monitor for Colorado potato beetles and apply spinosad if needed",
-#             "Maintain consistent soil moisture during tuber bulking",
-#             "Harvest after vines die back for maximum skin set"
-#         ]
-#     },
-#     "Raspberry_healthy": {
-#         "cause": "No disease symptoms detected. Canes show vigorous growth with healthy foliage and normal fruit production.",
-#         "remedy": [
-#             "Prune out fruiting canes immediately after harvest",
-#             "Train canes on trellis systems to improve air circulation",
-#             "Apply straw mulch to suppress weeds and maintain moisture",
-#             "Monitor for Japanese beetles during fruiting season",
-#             "Renovate beds every 5-7 years to maintain productivity"
-#         ]
-#     },
-#     "Soybean_healthy": {
-#         "cause": "No disease symptoms present. Plants exhibit uniform growth with healthy green foliage and proper pod set.",
-#         "remedy": [
-#             "Rotate with corn or small grains to break disease cycles",
-#             "Inoculate seed with proper rhizobium strains if planting in new fields",
-#             "Monitor for soybean cyst nematode through soil testing",
-#             "Time planting when soil temperature reaches 60°F at seeding depth",
-#             "Consider foliar fungicide application at R3 stage in high-yield environments"
-#         ]
-#     },
-#     "Squash_Powdery_mildew": {
-#         "cause": "Fungal disease (Podosphaera xanthii) forming white powdery patches on leaves. Thrives in warm, dry conditions with high humidity at night, unlike most fungal diseases.",
-#         "remedy": [
-#             "Apply weekly sprays of potassium bicarbonate or horticultural oil",
-#             "Plant resistant varieties like 'Ambassador' zucchini",
-#             "Avoid overhead watering that increases humidity",
-#             "Remove severely infected leaves to improve air circulation",
-#             "Space plants properly to allow sunlight penetration"
-#         ]
-#     },
-#     "Strawberry_Leaf_scorch": {
-#         "cause": "Fungal disease (Diplocarpon earlianum) causing purple spots that expand into scorched-looking lesions. Overwinters in infected leaves and spreads during rainy periods.",
-#         "remedy": [
-#             "Apply captan or thiophanate-methyl fungicides at 10-14 day intervals",
-#             "Renovate beds immediately after harvest by mowing and thinning plants",
-#             "Remove old infected leaves before new growth begins in spring",
-#             "Use drip irrigation instead of overhead watering",
-#             "Plant resistant varieties like 'Allstar' or 'Jewel'"
-#         ]
-#     },
-#     "Strawberry_healthy": {
-#         "cause": "No disease symptoms detected. Plants show vigorous growth with healthy green foliage and normal fruit production.",
-#         "remedy": [
-#             "Renovate beds annually by mowing and narrowing rows after harvest",
-#             "Apply straw mulch in winter for protection and in-season for weed control",
-#             "Monitor for two-spotted spider mites during hot, dry periods",
-#             "Replace plants every 3-4 years as productivity declines",
-#             "Fertilize based on soil test results, avoiding excess nitrogen"
-#         ]
-#     },
-#     "Tomato_Bacterial_spot": {
-#         "cause": "Caused by Xanthomonas species, producing small water-soaked lesions with yellow halos. Spreads via contaminated seed, transplants, and rain splash.",
-#         "remedy": [
-#             "Use certified disease-free seed and transplants",
-#             "Apply copper bactericides mixed with mancozeb at first symptom",
-#             "Avoid overhead irrigation that spreads bacteria",
-#             "Sterilize pruning tools between plants with 10% bleach solution",
-#             "Rotate with non-host crops for at least 2 years"
-#         ]
-#     },
-#     "Tomato_Early_blight": {
-#         "cause": "Fungal disease (Alternaria solani) causing concentric target spots on older leaves first. Survives in plant debris and soil, favored by warm, humid weather.",
-#         "remedy": [
-#             "Apply chlorothalonil or copper fungicides preventatively",
-#             "Remove and destroy infected lower leaves early in season",
-#             "Stake plants to improve air circulation",
-#             "Mulch soil to prevent soil splash onto leaves",
-#             "Maintain consistent moisture to avoid drought stress"
-#         ]
-#     },
-#     "Tomato_Late_blight": {
-#         "cause": "Devastating disease (Phytophthora infestans) causing water-soaked lesions that rapidly destroy entire plants. Spreads via windborne spores during cool, wet weather.",
-#         "remedy": [
-#             "Apply systemic fungicides like famoxadone + cymoxanil at first warning",
-#             "Destroy all infected plants immediately (do not compost)",
-#             "Choose resistant varieties like 'Mountain Magic' or 'Defiant'",
-#             "Avoid working with plants when foliage is wet",
-#             "Space plants widely to allow quick drying after rain"
-#         ]
-#     },
-#     "Tomato_Leaf_Mold": {
-#         "cause": "Fungal disease (Passalora fulva) causing yellow spots on upper leaf surfaces with olive-green mold underneath. Thrives in high humidity (>85%) and moderate temperatures.",
-#         "remedy": [
-#             "Reduce humidity through proper spacing and ventilation",
-#             "Apply fungicides containing chlorothalonil or copper hydroxide",
-#             "Remove affected leaves at first sign of infection",
-#             "Avoid overhead watering, especially in late afternoon",
-#             "Sterilize greenhouse structures between crops with bleach solution"
-#         ]
-#     },
-#     "Tomato_Septoria_leaf_spot": {
-#         "cause": "Fungal disease (Septoria lycopersici) causing small circular spots with dark margins and light centers. Spreads via water splash and survives in plant debris.",
-#         "remedy": [
-#             "Apply copper-based fungicides at 7-10 day intervals",
-#             "Mulch plants to prevent soil splash onto lower leaves",
-#             "Prune off infected lower leaves early in disease development",
-#             "Rotate crops away from tomatoes for 3 years",
-#             "Disinfect tools and stakes between seasons"
-#         ]
-#     },
-#     "Tomato_Spider_mites_Two_spotted_spider_mite": {
-#         "cause": "Tiny arachnids (Tetranychus urticae) that feed on leaf undersides, causing stippling and webbing. Thrive in hot, dry conditions and rapidly develop pesticide resistance.",
-#         "remedy": [
-#             "Apply miticides like abamectin or spiromesifen in rotation",
-#             "Release predatory mites (Phytoseiulus persimilis) for biological control",
-#             "Use overhead watering to disrupt mite activity",
-#             "Remove heavily infested leaves and dispose properly",
-#             "Avoid broad-spectrum insecticides that kill natural enemies"
-#         ]
-#     },
-#     "Tomato_Target_Spot": {
-#         "cause": "Fungal disease (Corynespora cassiicola) causing circular spots with concentric rings and yellow halos. Spreads via wind, water, and contaminated tools.",
-#         "remedy": [
-#             "Apply strobilurin fungicides like azoxystrobin at first symptoms",
-#             "Remove and destroy infected plant material",
-#             "Improve air circulation through proper spacing and pruning",
-#             "Avoid working with plants when foliage is wet",
-#             "Use resistant varieties where available"
-#         ]
-#     },
-#     "Tomato_Yellow_Leaf_Curl_Virus": {
-#         "cause": "Viral disease transmitted by silverleaf whiteflies (Bemisia tabaci). Causes upward leaf curling, yellowing, and stunting. Cannot be cured once plants are infected.",
-#         "remedy": [
-#             "Remove and destroy infected plants immediately",
-#             "Control whiteflies with systemic insecticides like dinotefuran",
-#             "Use reflective mulches to repel whiteflies",
-#             "Plant resistant varieties like 'Tycoon' or 'Tachi'",
-#             "Install fine mesh netting over young plants as physical barrier"
-#         ]
-#     },
-#     "Tomato_Tomato_mosaic_virus": {
-#         "cause": "Highly stable virus (ToMV) causing mottled light and dark green leaf patterns. Spreads mechanically through contaminated tools, hands, and plant debris.",
-#         "remedy": [
-#             "Use certified virus-free seeds and transplants",
-#             "Disinfect tools with 10% bleach solution between plants",
-#             "Wash hands thoroughly after handling tobacco products",
-#             "Remove and destroy infected plants including roots",
-#             "Control weeds that may serve as alternative hosts"
-#         ]
-#     },
-#     "Tomato_healthy": {
-#         "cause": "No disease symptoms detected. Plants show vigorous growth with dark green foliage and normal fruit production.",
-#         "remedy": [
-#             "Stake or cage plants early to keep fruit off the ground",
-#             "Mulch with black plastic or straw to conserve moisture",
-#             "Prune suckers to improve air circulation",
-#             "Monitor for hornworms and other pests regularly",
-#             "Harvest fruit when fully colored but still firm"
-#         ]
-#     }
-# }
-# def load_model():
-#     MODEL_PATH = os.path.join(os.path.dirname(__file__), "model.h5")
-#     try:
-#         model = tf.keras.models.load_model(MODEL_PATH)
-#         logger.info("✅ Model loaded successfully!")
-#         return model
-#     except Exception as e:
-#         logger.error(f"❌ Error loading model: {e}")
-#         return None
-
-# global_model = load_model()
-
-# def preprocess_image(image_bytes):
-#     try:
-#         image = Image.open(io.BytesIO(image_bytes)).convert("RGB")
-#         image = image.resize((128, 128))
-#         img_array = np.array(image) / 255.0
-#         img_array = np.expand_dims(img_array, axis=0)
-#         return img_array
-#     except Exception as e:
-#         logger.error(f"Image preprocessing error: {e}")
-#         return None
-
-# # @app.route('/predict', methods=['POST'])
-# # def predict():
-# #     if global_model is None:
-# #         return jsonify({'error': 'Model not loaded'}), 500
-
-# #     try:
-# #         if 'image' not in request.files:
-# #             return jsonify({'error': 'No image uploaded'}), 400
-        
-# #         file = request.files['image']
-# #         image_bytes = file.read()
-        
-# #         img_array = preprocess_image(image_bytes)
-# #         if img_array is None:
-# #             return jsonify({'error': 'Invalid image'}), 400
-
-# #         predictions = global_model.predict(img_array)
-        
-# #         predicted_class_index = np.argmax(predictions)
-# #         predicted_class = CLASS_NAMES[predicted_class_index]
-# #         confidence_score = float(np.max(predictions))
-
-# #         # Enhanced logging and debugging
-# #         logger.info(f"Raw Prediction Details:")
-# #         logger.info(f"Predicted Class: {predicted_class}")
-# #         logger.info(f"Prediction Confidence: {confidence_score * 100}%")
-# #         logger.info(f"Full Prediction Array: {predictions}")
-        
-# #         # Print all available class names for verification
-# #         logger.info("All Available Classes:")
-# #         for idx, cls in enumerate(CLASS_NAMES):
-# #             logger.info(f"{idx}: {cls}")
-
-# #         # Check if prediction is actually in the dictionary
-# #         if predicted_class not in DISEASE_INFO:
-# #             logger.warning(f"No specific disease info found for class: {predicted_class}")
-# #             disease_info = {
-# #                 "cause": "Unable to determine disease specifics. The image might not be a recognized plant or crop.",
-# #                 "remedy": "Please upload a clear image of a plant leaf for accurate disease detection."
-# #             }
-# #         else:
-# #             disease_info = DISEASE_INFO[predicted_class]
-
-# #         return jsonify({
-# #             'status': 'success',
-# #             'prediction': predicted_class,
-# #             'confidence': confidence_score,
-# #             'cause': disease_info["cause"],
-# #             'remedy': disease_info["remedy"]
-# #         })
-
-# #     except Exception as e:
-# #         logger.error(f"Comprehensive Prediction Error: {e}", exc_info=True)
-# #         return jsonify({'error': 'Unexpected error during prediction'}), 500
-
-# @app.route('/predict', methods=['POST'])
-# def predict():
-#     if global_model is None:
-#         return jsonify({'error': 'Model not loaded'}), 500
-
-#     try:
-#         if 'image' not in request.files:
-#             return jsonify({'error': 'No image uploaded'}), 400
-        
-#         file = request.files['image']
-#         image_bytes = file.read()
-        
-#         img_array = preprocess_image(image_bytes)
-#         if img_array is None:
-#             return jsonify({'error': 'Invalid image'}), 400
-
-#         predictions = global_model.predict(img_array)
-        
-#         predicted_class_index = np.argmax(predictions)
-#         predicted_class = CLASS_NAMES[predicted_class_index]
-#         confidence_score = float(np.max(predictions))
-
-#         # Enhanced logging and debugging
-#         logger.info(f"Raw Prediction Details:")
-#         logger.info(f"Predicted Class: {predicted_class}")
-#         logger.info(f"Prediction Confidence: {confidence_score * 100}%")
-#         logger.info(f"Full Prediction Array: {predictions}")
-        
-#         # Print all available class names for verification
-#         logger.info("All Available Classes:")
-#         for idx, cls in enumerate(CLASS_NAMES):
-#             logger.info(f"{idx}: {cls}")
-
-#         # Check if prediction is actually in the dictionary
-#         if predicted_class not in DISEASE_INFO:
-#             logger.warning(f"No specific disease info found for class: {predicted_class}")
-#             disease_info = {
-#                 "cause": "Unable to determine disease specifics. The image might not be a recognized plant or crop.",
-#                 "remedy": ["Please upload a clear image of a plant leaf for accurate disease detection."]
-#             }
-#         else:
-#             disease_info = DISEASE_INFO[predicted_class]
-
-#         # Format the response with remedies as an array
-#         response = {
-#             'status': 'success',
-#             'prediction': predicted_class,
-#             'confidence': confidence_score,
-#             'cause': disease_info["cause"],
-#             'remedies': disease_info["remedy"]  # Changed from 'remedy' to 'remedies' for clarity
-#         }
-
-#         return jsonify(response)
-
-#     except Exception as e:
-#         logger.error(f"Comprehensive Prediction Error: {e}", exc_info=True)
-#         return jsonify({'error': 'Unexpected error during prediction'}), 500
-
-# @app.route('/health', methods=['GET'])
-# def health_check():
-#     return jsonify({
-#         'status': 'ok', 
-#         'model_loaded': global_model is not None,
-#         'available_classes': len(CLASS_NAMES)
-#     })
-
-# if __name__ == '__main__':
-#     app.run(host='0.0.0.0', port=5000, debug=True)
-    
- 
-
-
-from flask import Flask, request, jsonify
-from flask_cors import CORS
-import tensorflow as tf
-import numpy as np
-from PIL import Image
-import io
+from flask import Flask, request, jsonify  # type: ignore
+import numpy as np  # type: ignore
 import os
-import pickle
-import pandas as pd
-import logging
+from tensorflow.keras.models import load_model  # type: ignore
+from tensorflow.keras.preprocessing.image import img_to_array, load_img  # type: ignore
+import werkzeug  # type: ignore
 
-# Configure logging
-logging.basicConfig(level=logging.INFO, 
-                    format='%(asctime)s - %(levelname)s - %(message)s')
-logger = logging.getLogger(__name__)
+# Configuration
+IMG_SIZE = (224, 224)  # Image size for the model
+MODEL_PATH = 'best_model.keras'  # Path to your fine-tuned model
 
-app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "*"}})
+# Load the trained model
+model = load_model(MODEL_PATH)
 
-# ========== YOUR EXISTING PLANT DISEASE DETECTION CODE ==========
-# Define class names for plant disease classification
-CLASS_NAMES = [
-    "Apple_Apple_scab", "Apple_Black_rot", "Apple_Cedar_apple_rust", "Apple_healthy",
-    "Blueberry_healthy", "Cherry_Powdery_mildew", "Cherry_healthy",
-    "Corn_Cercospora_leaf_spot_Gray_leaf_spot", "Corn_Common_rust",
-    "Corn_Northern_Leaf_Blight", "Corn_healthy", "Grape_Black_rot",
-    "Grape_Esca_Black_Measles", "Grape_Leaf_blight_Isariopsis_Leaf_Spot", "Grape_healthy",
-    "Orange_Haunglongbing_Citrus_greening", "Peach_Bacterial_spot", "Peach_healthy",
-    "Pepper_bell_Bacterial_spot", "Pepper_bell_healthy", "Potato_Early_blight",
-    "Potato_Late_blight", "Potato_healthy", "Raspberry_healthy", "Soybean_healthy",
-    "Squash_Powdery_mildew", "Strawberry_Leaf_scorch", "Strawberry_healthy",
-    "Tomato_Bacterial_spot", "Tomato_Early_blight", "Tomato_Late_blight",
-    "Tomato_Leaf_Mold", "Tomato_Septoria_leaf_spot", "Tomato_Spider_mites_Two_spotted_spider_mite",
-    "Tomato_Target_Spot", "Tomato_Yellow_Leaf_Curl_Virus", "Tomato_Tomato_mosaic_virus",
-    "Tomato_healthy"
-]
-
-# Comprehensive disease information dictionary
-DISEASE_INFO = {
-    "Apple_Apple_scab": {
-        "cause": "A fungal disease caused by Venturia inaequalis that thrives in cool, moist spring weather. The fungus overwinters in infected leaves on the ground and releases spores during spring rains, which are then carried by wind to new growth.",
-        "remedy": [
-            "Apply fungicides containing myclobutanil or sulfur at regular intervals during spring",
-            "Remove and destroy fallen leaves in autumn to reduce overwintering spores",
-            "Plant resistant varieties like 'Liberty' or 'Freedom'",
-            "Prune trees to improve air circulation and reduce leaf wetness duration",
-            "Avoid overhead irrigation to keep foliage dry"
+# Define the class mapping with additional information
+class_info = {
+    'Apple___Apple_scab': {
+        'cause': 'Fungal disease caused by Venturia inaequalis that infects leaves and fruits during wet spring weather',
+        'remedies': [
+            'FUNGICIDE PROGRAM: Begin spraying at green tip stage with sulfur (3 tbsp/gal water) every 7-10 days during wet periods. '
+            'For heavy infections, alternate with myclobutanil (Immunox) following label directions. Continue sprays until 2 weeks before harvest.',
+            
+            'CULTURAL CONTROLS: Rake and destroy all fallen leaves in autumn - the fungus overwinters on dead leaves. '
+            'Prune trees to open canopy for better air circulation (aim for wine-glass shape). Water at the base only, never on leaves.',
+            
+            'RESISTANT VARIETIES: Plant scab-resistant cultivars like Liberty, Freedom, or Enterprise. Avoid susceptible varieties like McIntosh and Cortland. '
+            'Space trees 15-20 feet apart for proper air flow.'
         ]
     },
-    "Apple_Black_rot": {
-        "cause": "A fungal disease caused by Botryosphaeria obtusa that affects fruits, leaves, and bark. The fungus survives in cankers, mummified fruits, and infected bark. Spores spread during rainy periods and infect through wounds or natural openings.",
-        "remedy": [
-            "Remove and destroy all infected plant material including mummified fruits and dead branches",
-            "Apply fungicides containing captan or thiophanate-methyl during bloom and early fruit development",
-            "Prune out cankers during dormant season, making cuts at least 12 inches below visible symptoms",
-            "Avoid wounding trees during cultivation or harvesting",
-            "Maintain tree vigor through proper nutrition and irrigation"
+    'Apple___Black_rot': {
+        'cause': 'Fungal disease (Botryosphaeria obtusa) causing fruit rot, leaf spots, and cankers on branches',
+        'remedies': [
+            'SANITATION: Remove all mummified fruits from trees and ground. Prune out dead branches 6-8 inches below visible cankers during winter dormancy. '
+            'Disinfect pruning tools with 10% bleach solution between cuts.',
+            
+            'SPRAY SCHEDULE: Apply captan fungicide at: 1) Silver tip stage 2) Pink bud stage 3) Petal fall 4) Every 10-14 days during wet periods until harvest. '
+            'For organic production, use sulfur or copper-based fungicides.',
+            
+            'PREVENTION: Avoid wounding tree bark during maintenance. Maintain balanced fertilization - excess nitrogen increases susceptibility. '
+            'Control apple maggots and other pests that create entry wounds.'
         ]
     },
-    "Apple_Cedar_apple_rust": {
-        "cause": "A fungal disease caused by Gymnosporangium juniperi-virginianae that requires both apple and eastern red cedar trees to complete its life cycle. Bright orange lesions appear on apple leaves in spring after spores are released from galls on nearby cedars during rainy periods.",
-        "remedy": [
-            "Remove eastern red cedar trees within a 2-mile radius if possible",
-            "Apply protective fungicides containing myclobutanil or triadimefon at pink bud stage",
-            "Plant resistant varieties like 'Redfree' or 'William's Pride'",
-            "Rake and destroy fallen leaves to reduce local spore production",
-            "Space trees properly to allow for good air circulation"
+    'Apple___Cedar_apple_rust': {
+        'cause': 'Fungal disease (Gymnosporangium juniperi-virginianae) requiring both apple and juniper/cedar to complete life cycle',
+        'remedies': [
+            'JUNIPER REMOVAL: Eliminate junipers within 300 feet if possible. If removal isn\'t feasible, prune out galls on junipers in late winter before orange telial horns form.',
+            
+            'PROTECTIVE SPRAYS: Apply fungicides at pink bud stage and repeat every 10-14 days during wet springs. Effective products include: '
+            'myclobutanil (Immunox), tebuconazole (Orius), or sulfur. Spray until petals fall.',
+            
+            'RESISTANT VARIETIES: Plant resistant cultivars like Redfree, William\'s Pride, or Freedom. Avoid highly susceptible varieties like Jonathan and Rome.'
         ]
     },
-    "Apple_healthy": {
-        "cause": "No signs of disease detected. The tree exhibits normal growth with healthy foliage and proper fruit development.",
-        "remedy": [
-            "Maintain a regular fungicide spray program as preventive measure",
-            "Conduct annual pruning to remove dead wood and improve sunlight penetration",
-            "Test soil every 2-3 years and amend based on results",
-            "Apply balanced fertilizer in early spring before bud break",
-            "Install drip irrigation to maintain consistent moisture without wetting foliage"
+    'Apple___healthy': {
+        'cause': 'No disease detected - tree shows normal growth and foliage',
+        'remedies': [
+            'MAINTENANCE PRUNING: Annually prune during dormancy to maintain open canopy. Remove crossing branches, water sprouts, and maintain central leader structure. '
+            'Disinfect tools between trees.',
+            
+            'SOIL MANAGEMENT: Test soil every 3 years - maintain pH 6.0-6.5. Apply balanced fertilizer (10-10-10) in early spring at 1lb per inch of trunk diameter. '
+            'Maintain 3-4" organic mulch (keep 6" from trunk).',
+            
+            'MONITORING: Conduct weekly leaf inspections during growing season. Use pheromone traps for codling moth monitoring. '
+            'Keep records of pest/disease occurrences for future reference.'
         ]
     },
-    "Blueberry_healthy": {
-        "cause": "No disease symptoms present. Plants show vigorous growth with uniform blue-green foliage and proper fruit set.",
-        "remedy": [
-            "Maintain soil pH between 4.5-5.5 through annual sulfur applications if needed",
-            "Apply organic mulch annually to conserve moisture and suppress weeds",
-            "Prune out old canes (over 5 years) during dormancy to encourage new growth",
-            "Use bird netting during fruiting season if birds are problematic",
-            "Apply balanced fertilizer formulated for acid-loving plants in early spring"
+    'Background_without_leaves': {
+        'cause': 'No plant material detected in the image',
+        'remedies': [
+            'PHOTOGRAPHY GUIDANCE: Capture clear images of affected leaves against neutral background. Include both sides of leaves. '
+            'Take multiple photos showing symptom progression from different angles.',
+            
+            'SAMPLING TIPS: Collect samples in early morning when symptoms are most visible. Place samples in paper bags (not plastic) to prevent moisture buildup. '
+            'Include healthy tissue near affected areas for comparison.',
+            
+            'ADDITIONAL INFORMATION NEEDED: Note weather conditions, planting date, variety, and any recent chemical applications. '
+            'Describe irrigation practices and nearby plants showing similar symptoms.'
         ]
     },
-    "Cherry_Powdery_mildew": {
-        "cause": "Fungal disease caused by Podosphaera clandestina that forms white powdery growth on leaves and shoots. Thrives in warm days and cool nights with high humidity but no leaf wetness.",
-        "remedy": [
-            "Apply sulfur or potassium bicarbonate sprays at first sign of disease",
-            "Prune to improve air circulation through canopy",
-            "Avoid excessive nitrogen fertilization that promotes succulent growth",
-            "Use resistant varieties like 'Montmorency' for tart cherries",
-            "Apply horticultural oil in dormant season to reduce overwintering spores"
+    'Blueberry___healthy': {
+        'cause': 'No disease detected - plants show vigorous growth',
+        'remedies': [
+            'SOIL REQUIREMENTS: Maintain acidic soil (pH 4.5-5.5). Incorporate peat moss or pine bark at planting. '
+            'Apply sulfur if pH rises above 5.5. Test soil annually in early spring.',
+            
+            'MULCHING: Apply 4-6" of pine bark or sawdust mulch annually. Replenish as needed to maintain acidic conditions and moisture retention. '
+            'Avoid using hardwood mulches which raise pH.',
+            
+            'PRUNING: Annually remove 1-2 oldest canes (over 5 years old) at ground level. Thin weak shoots and maintain 8-10 vigorous canes per plant. '
+            'Prune in late winter while dormant.'
         ]
     },
-    "Cherry_healthy": {
-        "cause": "No disease symptoms detected. Trees have glossy green leaves and normal fruit production.",
-        "remedy": [
-            "Monitor for common pests like cherry fruit fly using sticky traps",
-            "Apply dormant oil spray in late winter to control overwintering insects",
-            "Install trunk guards to prevent rodent damage during winter",
-            "Thin fruit clusters to improve size and reduce branch breakage",
-            "Harvest fruit with stems attached to prevent fruit spur damage"
+    'Cherry___Powdery_mildew': {
+        'cause': 'Fungal disease (Podosphaera clandestina) causing white powdery growth on leaves and shoots',
+        'remedies': [
+            'FUNGICIDE PROGRAM: Begin sprays at shuck split stage. Alternate every 10-14 days between: '
+            'potassium bicarbonate (MilStop 2.5 lb/acre), sulfur (6 lb/acre), and myclobutanil (Rally 40W 5 oz/acre). '
+            'Continue until harvest if conditions remain humid.',
+            
+            'CULTURAL CONTROLS: Prune to open canopy for better air circulation. Avoid overhead irrigation. '
+            'Remove and destroy infected shoots during summer pruning. Rake and remove fallen leaves in autumn.',
+            
+            'VARIETY SELECTION: Plant resistant varieties like Balaton, Regina, or Somerset. Avoid highly susceptible varieties like Bing and Lambert.'
         ]
     },
-    "Corn_Cercospora_leaf_spot_Gray_leaf_spot": {
-        "cause": "Fungal disease caused by Cercospora zeae-maydis that produces rectangular, tan lesions bounded by leaf veins. Spreads through wind-blown spores and survives in crop residue.",
-        "remedy": [
-            "Rotate crops with non-host plants for at least 2 years",
-            "Use resistant hybrids with good tolerance ratings",
-            "Apply foliar fungicides like azoxystrobin at tasseling stage if disease appears",
-            "Plow under crop debris after harvest to accelerate decomposition",
-            "Avoid overhead irrigation that prolongs leaf wetness periods"
+    'Cherry___healthy': {
+        'cause': 'No disease detected - trees show normal growth',
+        'remedies': [
+            'ANNUAL CARE: Apply balanced fertilizer (10-10-10) in early spring before growth begins at rate of 1/8 lb per year of tree age. '
+            'Maintain grass-free area under canopy with organic mulch.',
+            
+            'WATER MANAGEMENT: Provide consistent moisture, especially during fruit development. Install drip irrigation or soaker hoses. '
+            'Avoid wetting foliage to prevent disease. Water deeply 1-2 times per week.',
+            
+            'BIRD CONTROL: Install netting before fruit colors to prevent bird damage. Use reflective tape or scare devices as supplemental controls. '
+            'Harvest promptly when fruit ripens.'
         ]
     },
-    "Corn_Common_rust": {
-        "cause": "Caused by Puccinia sorghi fungus producing cinnamon-brown pustules on leaves. Requires living plant tissue to survive and spreads via windborne spores over long distances.",
-        "remedy": [
-            "Plant early-maturing hybrids to escape peak disease periods",
-            "Apply fungicides containing pyraclostrobin when pustules first appear",
-            "Avoid planting adjacent to late-planted fields that can serve as inoculum sources",
-            "Remove volunteer corn plants that may harbor the disease",
-            "Maintain proper plant spacing to reduce canopy humidity"
+    'Corn___Cercospora_leaf_spot Gray_leaf_spot': {
+        'cause': 'Fungal disease (Cercospora zeae-maydis) causing rectangular lesions with yellow halos',
+        'remedies': [
+            'RESISTANT HYBRIDS: Plant resistant varieties like DKC62-08, P1197YHR. Check university extension recommendations for locally adapted resistant hybrids.',
+            
+            'FUNGICIDE APPLICATION: Spray at V8-V10 growth stage if disease is present in previous years. Use azoxystrobin (Quadris 6.2 oz/acre) or '
+            'propiconazole (Tilt 4 oz/acre). Repeat in 14 days if wet weather persists.',
+            
+            'CROP MANAGEMENT: Rotate with non-host crops (soybeans, small grains) for 2 years. Plow under crop residues after harvest. '
+            'Avoid continuous corn planting in same field.'
         ]
     },
-    "Corn_Northern_Leaf_Blight": {
-        "cause": "Fungal disease (Exserohilum turcicum) causing long, elliptical gray-green lesions that turn tan. Overwinters in corn debris and spreads during warm (65-80°F), humid weather.",
-        "remedy": [
-            "Use hybrids with single-gene (Ht) or partial resistance",
-            "Apply fungicides containing propiconazole at first disease detection",
-            "Rotate with soybean or small grains for at least one year",
-            "Chop and incorporate residue after harvest to reduce inoculum",
-            "Avoid continuous corn planting in high-risk areas"
+    'Corn___Common_rust': {
+        'cause': 'Fungal disease (Puccinia sorghi) producing orange pustules on leaves',
+        'remedies': [
+            'RESISTANT VARIETIES: Select hybrids with good rust resistance ratings. Check seed company ratings for specific products in your region.',
+            
+            'FUNGICIDE TIMING: Apply at first sign of disease if weather favors development (cool nights with heavy dew). Use products containing '
+            'pyraclostrobin (Headline 6-12 oz/acre) or trifloxystrobin (Stratego 10 oz/acre).',
+            
+            'CULTURAL PRACTICES: Avoid late plantings which are more susceptible. Maintain proper fertility - avoid excess nitrogen. '
+            'Control volunteer corn plants that may harbor disease.'
         ]
     },
-    "Corn_healthy": {
-        "cause": "No disease symptoms present. Plants show uniform growth with dark green leaves and proper ear development.",
-        "remedy": [
-            "Conduct soil tests to optimize fertility and pH (6.0-6.8)",
-            "Use starter fertilizer at planting to promote early growth",
-            "Monitor for European corn borer and apply Bt treatments if needed",
-            "Maintain proper plant population for your hybrid (typically 28,000-34,000 plants/acre)",
-            "Consider cover crops to improve soil health after harvest"
+    'Corn___Northern_Leaf_Blight': {
+        'cause': 'Fungal disease (Exserohilum turcicum) causing long, cigar-shaped lesions',
+        'remedies': [
+            'RESISTANT HYBRIDS: Choose hybrids with good resistance ratings. Partial resistance is common in modern hybrids.',
+            
+            'FUNGICIDE APPLICATION: Spray at V8-V10 stage if disease was severe in previous year. Use chlorothalonil (Bravo Weather Stik 1.5 pt/acre) or '
+            'propiconazole (Tilt 4 oz/acre). Repeat in 14 days if needed.',
+            
+            'CROP ROTATION: Rotate with non-host crops for 1-2 years. Incorporate crop residues after harvest to speed decomposition. '
+            'Avoid planting adjacent to last year\'s corn field.'
         ]
     },
-    "Grape_Black_rot": {
-        "cause": "Fungal disease (Guignardia bidwellii) causing circular brown lesions with black pycnidia on leaves and mummified berries. Requires wet periods for infection and spreads via rain splash.",
-        "remedy": [
-            "Apply fungicides containing mancozeb beginning at bud break through fruit set",
-            "Remove and destroy all mummified berries during pruning",
-            "Train vines to vertical shoot positioning for better air circulation",
-            "Use canopy management techniques to reduce shade and moisture retention",
-            "Plant resistant varieties like 'Cayuga White' in high-risk areas"
+    'Corn___healthy': {
+        'cause': 'No disease detected - plants show normal growth',
+        'remedies': [
+            'PLANTING PRACTICES: Plant when soil temperature reaches 50°F at 2" depth. Use proper seeding rates for your hybrid (typically 28,000-34,000 seeds/acre). '
+            'Ensure good seed-to-soil contact.',
+            
+            'FERTILITY MANAGEMENT: Soil test and apply needed nutrients. Side-dress nitrogen when plants are 12" tall. '
+            'Consider split applications of nitrogen in sandy soils.',
+            
+            'WEED CONTROL: Maintain weed-free conditions through critical period (up to V8 stage). Use pre-emergence herbicides if needed. '
+            'Cultivate carefully to avoid root damage.'
         ]
     },
-    "Grape_Esca_Black_Measles": {
-        "cause": "Complex disease caused by multiple fungi (Phaeomoniella spp., Phaeoacremonium spp.) that colonize vascular tissue, leading to trunk cankers and leaf tiger-striping. Spreads through pruning wounds.",
-        "remedy": [
-            "Make clean pruning cuts and avoid large wounds",
-            "Apply wound protectants containing borate after pruning",
-            "Remove and destroy severely infected vines including root systems",
-            "Delay pruning until late winter to allow natural wound defense mechanisms",
-            "Avoid mechanical injury to trunks during cultivation"
+    'Grape___Black_rot': {
+        'cause': 'Fungal disease (Guignardia bidwellii) destroying fruit clusters and causing leaf spots',
+        'remedies': [
+            'CRITICAL SPRAY TIMINGS: 1) 1" new growth: mancozeb (3 lb/acre) 2) Pre-bloom: sulfur (6 lb/acre) + captan (2 lb/acre) '
+            '3) Post-bloom: same as pre-bloom 4) Every 10-14 days during wet periods until veraison',
+            
+            'VINEYARD SANITATION: Remove all mummified clusters during winter pruning. Cultivate soil in early spring to bury infected debris. '
+            'Prune to 4-5 buds per spur to reduce disease pressure.',
+            
+            'CANOPY MANAGEMENT: Position shoots vertically for better air flow. Remove leaves around clusters 3 weeks after bloom. '
+            'Avoid excessive nitrogen fertilization that promotes dense growth.'
         ]
     },
-    "Grape_Leaf_blight_Isariopsis_Leaf_Spot": {
-        "cause": "Fungal disease (Pseudocercospora vitis) causing angular brown spots with yellow halos. Severe infections lead to premature defoliation. Spreads via rain splash and thrives in humid conditions.",
-        "remedy": [
-            "Apply copper-based fungicides at 7-10 day intervals during wet periods",
-            "Remove basal leaves early in season to improve air circulation",
-            "Use drip irrigation instead of overhead watering",
-            "Apply balanced fertilizer to maintain vine vigor without excessive growth",
-            "Train vines to allow sunlight penetration into canopy"
+    'Grape__Esca(Black_Measles)': {
+        'cause': 'Wood-decaying fungal complex (Phaeomoniella spp.) causing internal trunk damage',
+        'remedies': [
+            'PRUNING PRACTICES: Make clean cuts at the collar when pruning. Avoid large pruning wounds. Prune during dry weather in late winter. '
+            'Disinfect tools between vines with 70% alcohol.',
+            
+            'PROTECTIVE TREATMENTS: Apply wound sealant containing borate or thiophanate-methyl to large pruning cuts. '
+            'Consider trunk injection with fungicides in severely affected vineyards.',
+            
+            'VINE REPLACEMENT: Remove and replace severely affected vines. When replanting, use certified disease-free stock. '
+            'Avoid planting new vines near infected ones.'
         ]
     },
-    "Grape_healthy": {
-        "cause": "No disease symptoms detected. Vines show uniform growth with healthy green leaves and normal fruit clusters.",
-        "remedy": [
-            "Monitor for Japanese beetles and other foliar feeders",
-            "Conduct annual spur pruning during dormancy to maintain fruiting wood",
-            "Apply mulch to maintain soil moisture and temperature",
-            "Test petiole samples at bloom to fine-tune fertilization",
-            "Use bird netting before veraison if birds are problematic"
+    'Grape__Leaf_blight(Isariopsis_Leaf_Spot)': {
+        'cause': 'Fungal disease (Isariopsis clavispora) causing angular leaf spots and defoliation',
+        'remedies': [  # Fixed from 'remedies'
+            'FUNGICIDE PROGRAM: Begin sprays when shoots are 6" long. Use mancozeb (2 lb/acre) every 14 days during wet periods. '
+            'Alternate with copper hydroxide (Kocide 3000 1.5 lb/acre) to prevent resistance.',
+            
+            'CANOPY MANAGEMENT: Train vines to allow good air circulation. Remove basal leaves early in season. '
+            'Avoid overhead irrigation that prolongs leaf wetness.',
+            
+            'VARIETY SELECTION: Plant less susceptible varieties where possible. European wine grapes (Vitis vinifera) are generally more susceptible than American hybrids.'
         ]
     },
-    "Orange_Haunglongbing_Citrus_greening": {
-        "cause": "Bacterial disease (Candidatus Liberibacter asiaticus) spread by Asian citrus psyllid. Causes blotchy mottle leaves, lopsided fruit, and bitter juice. Eventually kills trees within 5-10 years.",
-        "remedy": [
-            "Remove and destroy infected trees immediately to reduce inoculum",
-            "Apply systemic insecticides like imidacloprid to control psyllid vectors",
-            "Release biological control agents like Tamarixia radiata wasps",
-            "Use reflective mulch to deter psyllid landings",
-            "Plant disease-free nursery stock with protective insecticide treatments"
+    'Grape___healthy': {
+        'cause': 'No disease detected - vines show normal growth',
+        'remedies': [
+            'TRELLIS MANAGEMENT: Train vines properly on trellis system. Position shoots vertically for even sunlight exposure. '
+            'Maintain adequate spacing between vines (typically 6-8 ft).',
+            
+            'WATER MANAGEMENT: Monitor soil moisture carefully. Implement drip irrigation for consistent watering. '
+            'Reduce irrigation during veraison to improve fruit quality.',
+            
+            'HARVEST PRACTICES: Monitor brix levels for optimal harvest timing. Handle clusters gently to prevent bruising. '
+            'Cool fruit immediately after picking if storing.'
         ]
     },
-    "Peach_Bacterial_spot": {
-        "cause": "Caused by Xanthomonas arboricola pv. pruni. Creates angular leaf spots and fruit lesions. Spreads through rain, wind-driven rain, and contaminated pruning tools.",
-        "remedy": [
-            "Apply copper sprays at leaf fall and before bud swell",
-            "Plant resistant varieties like 'Cresthaven' or 'Redhaven'",
-            "Use windbreaks to minimize leaf wetness from wind-driven rain",
-            "Avoid overhead irrigation that spreads bacteria",
-            "Prune during dry weather to allow rapid wound healing"
+    'Orange__Haunglongbing(Citrus_greening)': {
+        'cause': 'Bacterial disease (Candidatus Liberibacter asiaticus) spread by Asian citrus psyllid',
+        'remedies': [
+            'PSYLLID CONTROL: Apply systemic insecticides like imidacloprid (soil drench) combined with foliar sprays of pyrethroids. '
+            'Treat entire block simultaneously for best results.',
+            
+            'TREE REMOVAL: Remove infected trees immediately to reduce disease spread. Treat surrounding trees preventatively. '
+            'Never relocate potentially infected plant material.',
+            
+            'NUTRITION PROGRAM: Maintain vigorous trees with balanced fertilization. Apply micronutrients (zinc, manganese, iron) via foliar sprays. '
+            'Use slow-release fertilizers for consistent nutrition.'
         ]
     },
-    "Peach_healthy": {
-        "cause": "No disease symptoms present. Trees exhibit normal growth with healthy foliage and fruit development.",
-        "remedy": [
-            "Thin fruit to 6-8 inches apart when marble-sized to improve quality",
-            "Apply dormant oil spray to control scale insects and mites",
-            "Monitor for peach tree borers using trunk inspections",
-            "Maintain grass-free area under canopy to reduce humidity",
-            "Harvest fruit when background color changes from green to yellow"
+    'Peach___Bacterial_spot': {
+        'cause': 'Bacterial disease (Xanthomonas arboricola pv. pruni) causing leaf spots and fruit lesions',
+        'remedies': [
+            'COPPER SPRAYS: Apply fixed copper at leaf fall and again at bud swell. Use rates specified on label to avoid phytotoxicity. '
+            'Add mancozeb to copper sprays during growing season for better protection.',
+            
+            'CULTURAL PRACTICES: Prune to improve air circulation. Avoid overhead irrigation. Remove and destroy severely infected branches. '
+            'Control leafhoppers that spread bacteria.',
+            
+            'RESISTANT VARIETIES: Plant less susceptible varieties like Contender, Harrow Diamond, or PF-1. Avoid highly susceptible varieties like Redhaven.'
         ]
     },
-    "Pepper_bell_Bacterial_spot": {
-        "cause": "Caused by Xanthomonas species, producing small water-soaked lesions that become necrotic. Spreads via contaminated seed, rain splash, and handling wet plants.",
-        "remedy": [
-            "Use pathogen-free certified seed and transplants",
-            "Apply copper bactericides at first sign of disease",
-            "Avoid working with plants when foliage is wet",
-            "Rotate with non-host crops for 2-3 years",
-            "Remove and destroy infected plants to reduce spread"
+    'Peach___healthy': {
+        'cause': 'No disease detected - trees show normal growth',
+        'remedies': [
+            'PRUNING TECHNIQUES: Prune to open center (vase shape) for maximum sunlight penetration. Remove vertical water sprouts. '
+            'Thin fruits to 6-8" apart for better size and quality.',
+            
+            'FERTILIZATION: Apply balanced fertilizer (10-10-10) in early spring at rate of 1/2 lb per year of tree age. '
+            'Split applications in sandy soils - half at bloom, half 6 weeks later.',
+            
+            'FROST PROTECTION: Plant on elevated sites with good air drainage. Use overhead sprinklers or wind machines during radiation frost events. '
+            'Avoid early blooming varieties in frost-prone areas.'
         ]
     },
-    "Pepper_bell_healthy": {
-        "cause": "No disease symptoms detected. Plants show vigorous growth with dark green leaves and normal fruit production.",
-        "remedy": [
-            "Use black plastic mulch to warm soil and suppress weeds",
-            "Provide support cages or stakes for heavy fruit loads",
-            "Monitor for aphids and whiteflies which vector viruses",
-            "Apply balanced fertilizer with adequate calcium to prevent blossom end rot",
-            "Harvest peppers regularly to encourage continued production"
+    'Pepper,bell__Bacterial_spot': {
+        'cause': 'Bacterial disease (Xanthomonas spp.) causing angular leaf spots and fruit lesions',
+        'remedies': [
+            'SEED TREATMENT: Use hot water treated seed (50°C for 25 minutes) or commercially treated seed. '
+            'Avoid saving seed from infected plants.',
+            
+            'COPPER SPRAYS: Begin copper hydroxide sprays (Kocide 3000 1.5 lb/acre) at first true leaf stage. '
+            'Continue every 7-10 days during wet weather. Add mancozeb for better protection.',
+            
+            'SANITATION: Sterilize tools and equipment with 10% bleach solution. Remove and destroy infected plants. '
+            'Rotate with non-host crops for 2-3 years.'
         ]
     },
-    "Potato_Early_blight": {
-        "cause": "Fungal disease (Alternaria solani) causing concentric rings on leaves, resembling target spots. Survives in plant debris and soil, favored by warm, humid conditions with alternating wet/dry periods.",
-        "remedy": [
-            "Apply chlorothalonil or mancozeb fungicides at 7-10 day intervals",
-            "Maintain adequate potassium levels to improve plant resistance",
-            "Use drip irrigation to keep foliage dry",
-            "Remove and destroy infected lower leaves early in season",
-            "Harvest tubers only after vines are completely dead"
+    'Pepper,bell__healthy': {
+        'cause': 'No disease detected - plants show normal growth',
+        'remedies': [
+            'PLANTING PRACTICES: Transplant after soil reaches 60°F. Use black plastic mulch to warm soil. '
+            'Space plants 18-24" apart in rows 30-36" apart for good air circulation.',
+            
+            'WATER MANAGEMENT: Use drip irrigation to keep foliage dry. Water deeply 1-2 times per week depending on rainfall. '
+            'Avoid water stress during fruit set and development.',
+            
+            'HARVESTING: Cut fruits from plant with pruning shears to avoid damage. Harvest when fruits reach full size and color. '
+            'Store at 45-50°F with 90-95% relative humidity.'
         ]
     },
-    "Potato_Late_blight": {
-        "cause": "Devastating disease (Phytophthora infestans) causing water-soaked lesions that rapidly destroy foliage. Spreads via windborne spores and requires cool, wet conditions.",
-        "remedy": [
-            "Plant certified disease-free seed potatoes",
-            "Apply systemic fungicides like metalaxyl before infection occurs",
-            "Destroy cull piles and volunteer potatoes",
-            "Hill plants properly to prevent tuber infection",
-            "Harvest promptly after vine kill to avoid tuber infection"
+    'Potato___Early_blight': {
+        'cause': 'Fungal disease (Alternaria solani) causing concentric ring spots on leaves',
+        'remedies': [
+            'FUNGICIDE PROGRAM: Begin sprays when plants are 6-8" tall. Alternate every 7-10 days between chlorothalonil (Bravo Weather Stik 1.5 pt/acre) '
+            'and mancozeb (Dithane 2 lb/acre). Continue until vine kill.',
+            
+            'CULTURAL PRACTICES: Mulch with straw to prevent soil splash. Rotate with non-host crops for 3 years. '
+            'Destroy volunteer potato plants and nightshade weeds.',
+            
+            'HARVEST PRACTICES: Allow tubers to mature fully before harvest. Avoid wounding during harvest. '
+            'Cure at 50-60°F with high humidity for 10-14 days before storage.'
         ]
     },
-    "Potato_healthy": {
-        "cause": "No disease symptoms present. Plants show uniform growth with healthy foliage and proper tuber development.",
-        "remedy": [
-            "Rotate planting sites every 3-4 years with non-solanaceous crops",
-            "Hill plants when 6-8 inches tall to promote tuber development",
-            "Monitor for Colorado potato beetles and apply spinosad if needed",
-            "Maintain consistent soil moisture during tuber bulking",
-            "Harvest after vines die back for maximum skin set"
+    'Potato___Late_blight': {
+        'cause': 'Devastating fungal disease (Phytophthora infestans) that spreads rapidly in cool, wet weather',
+        'remedies': [  # Fixed from 'remedies'
+            'PREVENTIVE SPRAYS: Begin fungicide applications before symptoms appear when weather favors disease (cool nights <60°F, humid days). '
+            'Use chlorothalonil (Bravo Ultrex 1.4 lb/acre) or mancozeb (2 lb/acre) every 5-7 days during high risk periods.',
+            
+            'EMERGENCY MEASURES: At first sign (water-soaked lesions), apply curative fungicide like cymoxanil (Curzate 3.2 oz/acre). '
+            'Destroy infected plants by burying or burning - do not compost.',
+            
+            'CULTURAL CONTROLS: Plant certified disease-free seed potatoes. Hill plants to prevent tuber infection. '
+            'Avoid overhead irrigation. Harvest promptly after vine kill.'
         ]
     },
-    "Raspberry_healthy": {
-        "cause": "No disease symptoms detected. Canes show vigorous growth with healthy foliage and normal fruit production.",
-        "remedy": [
-            "Prune out fruiting canes immediately after harvest",
-            "Train canes on trellis systems to improve air circulation",
-            "Apply straw mulch to suppress weeds and maintain moisture",
-            "Monitor for Japanese beetles during fruiting season",
-            "Renovate beds every 5-7 years to maintain productivity"
+    'Potato___healthy': {
+        'cause': 'No disease detected - plants show normal growth',
+        'remedies': [
+            'SEED SELECTION: Use certified disease-free seed potatoes. Cut seed pieces 1-2 days before planting to allow suberization. '
+            'Ensure each piece has at least 2 eyes.',
+            
+            'SOIL PREPARATION: Plant in well-drained soil with pH 5.0-6.0. Incorporate organic matter. '
+            'Apply balanced fertilizer (10-10-10) at planting and side-dress when plants are 6" tall.',
+            
+            'PEST MONITORING: Scout regularly for Colorado potato beetles and aphids. Use floating row covers for early season protection. '
+            'Remove potato cull piles that harbor pests.'
         ]
     },
-    "Soybean_healthy": {
-        "cause": "No disease symptoms present. Plants exhibit uniform growth with healthy green foliage and proper pod set.",
-        "remedy": [
-            "Rotate with corn or small grains to break disease cycles",
-            "Inoculate seed with proper rhizobium strains if planting in new fields",
-            "Monitor for soybean cyst nematode through soil testing",
-            "Time planting when soil temperature reaches 60°F at seeding depth",
-            "Consider foliar fungicide application at R3 stage in high-yield environments"
+    'Raspberry___healthy': {
+        'cause': 'No disease detected - plants show normal growth',
+        'remedies': [
+            'PRUNING PRACTICES: For summer-bearing types, remove fruited canes after harvest. For fall-bearing, cut all canes to ground in late winter. '
+            'Thin remaining canes to 4-6 per linear foot of row.',
+            
+            'TRELLISING: Install T-trellis or V-trellis system for support. Tie canes loosely to wires. '
+            'Maintain walkways between rows for air circulation and harvesting.',
+            
+            'WINTER PROTECTION: In cold climates, bend canes to ground and cover with straw after several hard freezes. '
+            'Remove mulch in early spring before new growth begins.'
         ]
     },
-    "Squash_Powdery_mildew": {
-        "cause": "Fungal disease (Podosphaera xanthii) forming white powdery patches on leaves. Thrives in warm, dry conditions with high humidity at night, unlike most fungal diseases.",
-        "remedy": [
-            "Apply weekly sprays of potassium bicarbonate or horticultural oil",
-            "Plant resistant varieties like 'Ambassador' zucchini",
-            "Avoid overhead watering that increases humidity",
-            "Remove severely infected leaves to improve air circulation",
-            "Space plants properly to allow sunlight penetration"
+    'Soybean___healthy': {
+        'cause': 'No disease detected - plants show normal growth',
+        'remedies': [
+            'PLANTING PRACTICES: Plant when soil temperature reaches 60°F at seeding depth. Use proper seeding rates for your variety (typically 140,000-160,000 seeds/acre). '
+            'Ensure good seed-to-soil contact.',
+            
+            'INOCULATION: Use fresh rhizobium inoculant specific for soybeans, especially in fields new to soybeans. '
+            'Apply as peat powder, liquid, or granular formulation at planting.',
+            
+            'HARVEST TIMING: Harvest when moisture reaches 13-15%. Check lower pods for maturity. '
+            'Adjust combine settings to minimize split beans and harvest losses.'
         ]
     },
-    "Strawberry_Leaf_scorch": {
-        "cause": "Fungal disease (Diplocarpon earlianum) causing purple spots that expand into scorched-looking lesions. Overwinters in infected leaves and spreads during rainy periods.",
-        "remedy": [
-            "Apply captan or thiophanate-methyl fungicides at 10-14 day intervals",
-            "Renovate beds immediately after harvest by mowing and thinning plants",
-            "Remove old infected leaves before new growth begins in spring",
-            "Use drip irrigation instead of overhead watering",
-            "Plant resistant varieties like 'Allstar' or 'Jewel'"
+    'Squash___Powdery_mildew': {
+        'cause': 'Fungal disease (Podosphaera xanthii) causing white powdery growth on leaves',
+        'remedies': [
+            'ORGANIC CONTROL: Spray weekly with: 1) Milk solution (1 part milk to 9 parts water) 2) Baking soda spray (1 tbsp baking soda, 1/2 tsp liquid soap per gallon) '
+            '3) Potassium bicarbonate (MilStop 2.5 lb/acre). Apply early morning.',
+            
+            'CHEMICAL CONTROL: At first sign, apply myclobutanil (Rally 40W 5 oz/acre) or azoxystrobin (Quadris 6.2 oz/acre). '
+            'Rotate fungicide classes to prevent resistance.',
+            
+            'CULTURAL PRACTICES: Plant resistant varieties like Ambassador or Dunja. Space plants properly (24-36" apart). '
+            'Avoid overhead watering. Remove severely infected leaves.'
         ]
     },
-    "Strawberry_healthy": {
-        "cause": "No disease symptoms detected. Plants show vigorous growth with healthy green foliage and normal fruit production.",
-        "remedy": [
-            "Renovate beds annually by mowing and narrowing rows after harvest",
-            "Apply straw mulch in winter for protection and in-season for weed control",
-            "Monitor for two-spotted spider mites during hot, dry periods",
-            "Replace plants every 3-4 years as productivity declines",
-            "Fertilize based on soil test results, avoiding excess nitrogen"
+    'Strawberry___Leaf_scorch': {
+        'cause': 'Fungal disease (Diplocarpon earliana) causing purple spots on leaves',
+        'remedies': [
+            'FUNGICIDE PROGRAM: Begin sprays at first new leaves in spring. Use captan (2 lb/acre) or myclobutanil (Rally 40W 5 oz/acre) every 10-14 days. '
+            'Continue until harvest in wet seasons.',
+            
+            'PLANTING PRACTICES: Set plants with crown at soil level - neither too deep nor too shallow. '
+            'Renovate June-bearing beds immediately after harvest by mowing and thinning plants.',
+            
+            'SANITATION: Remove old infected leaves during renovation. Irrigate in morning so leaves dry quickly. '
+            'Rotate planting sites every 3-4 years.'
         ]
     },
-    "Tomato_Bacterial_spot": {
-        "cause": "Caused by Xanthomonas species, producing small water-soaked lesions with yellow halos. Spreads via contaminated seed, transplants, and rain splash.",
-        "remedy": [
-            "Use certified disease-free seed and transplants",
-            "Apply copper bactericides mixed with mancozeb at first symptom",
-            "Avoid overhead irrigation that spreads bacteria",
-            "Sterilize pruning tools between plants with 10% bleach solution",
-            "Rotate with non-host crops for at least 2 years"
+    'Strawberry___healthy': {
+        'cause': 'No disease detected - plants show normal growth',
+        'remedies': [
+            'BED PREPARATION: Plant in raised beds with black plastic mulch for weed control and earliness. '
+            'Incorporate organic matter and balanced fertilizer before planting.',
+            
+            'WINTER PROTECTION: In cold climates, apply 2-3" straw mulch after several hard freezes in autumn. '
+            'Remove mulch gradually in spring when plants show new growth.',
+            
+            'RUNNER MANAGEMENT: For June-bearing types, remove runners first year to establish strong plants. '
+            'For day-neutral types, allow limited runner production for matted row system.'
         ]
     },
-    "Tomato_Early_blight": {
-        "cause": "Fungal disease (Alternaria solani) causing concentric target spots on older leaves first. Survives in plant debris and soil, favored by warm, humid weather.",
-        "remedy": [
-            "Apply chlorothalonil or copper fungicides preventatively",
-            "Remove and destroy infected lower leaves early in season",
-            "Stake plants to improve air circulation",
-            "Mulch soil to prevent soil splash onto leaves",
-            "Maintain consistent moisture to avoid drought stress"
+    'Tomato___Bacterial_spot': {
+        'cause': 'Bacterial disease (Xanthomonas spp.) causing small, water-soaked leaf spots',
+        'remedies': [
+            'SEED TREATMENT: Use hot water treated seed (50°C for 25 minutes) or commercially treated seed. '
+            'Avoid saving seed from infected plants.',
+            
+            'COPPER SPRAYS: Begin copper hydroxide sprays (Kocide 3000 1.5 lb/acre) at transplanting. Continue every 7-10 days during wet weather. '
+            'Add mancozeb (1.5 lb/acre) for better protection.',
+            
+            'SANITATION: Sterilize tools and stakes with 10% bleach solution. Remove and destroy infected plants promptly. '
+            'Rotate with non-host crops for 2-3 years.'
         ]
     },
-    "Tomato_Late_blight": {
-        "cause": "Devastating disease (Phytophthora infestans) causing water-soaked lesions that rapidly destroy entire plants. Spreads via windborne spores during cool, wet weather.",
-        "remedy": [
-            "Apply systemic fungicides like famoxadone + cymoxanil at first warning",
-            "Destroy all infected plants immediately (do not compost)",
-            "Choose resistant varieties like 'Mountain Magic' or 'Defiant'",
-            "Avoid working with plants when foliage is wet",
-            "Space plants widely to allow quick drying after rain"
+    'Tomato___Early_blight': {
+        'cause': 'Fungal disease (Alternaria solani) causing target-like leaf spots and stem cankers',
+        'remedies': [
+            'FUNGICIDE ROTATION: Begin sprays when plants are 6-8" tall. Alternate every 7-10 days between: '
+            'chlorothalonil (Bravo Weather Stik 1.5 pt/acre), mancozeb (Dithane 2 lb/acre), and azoxystrobin (Quadris 6.2 oz/acre).',
+            
+            'CULTURAL PRACTICES: Mulch with straw to prevent soil splash. Stake plants and remove lower leaves up to 12" from ground. '
+            'Rotate crops - no tomatoes/peppers/eggplant in same spot for 3 years.',
+            
+            'RESISTANT VARIETIES: Plant Defiant PhR, Mountain Merit, or Iron Lady which have genetic resistance.'
         ]
     },
-    "Tomato_Leaf_Mold": {
-        "cause": "Fungal disease (Passalora fulva) causing yellow spots on upper leaf surfaces with olive-green mold underneath. Thrives in high humidity (>85%) and moderate temperatures.",
-        "remedy": [
-            "Reduce humidity through proper spacing and ventilation",
-            "Apply fungicides containing chlorothalonil or copper hydroxide",
-            "Remove affected leaves at first sign of infection",
-            "Avoid overhead watering, especially in late afternoon",
-            "Sterilize greenhouse structures between crops with bleach solution"
+    'Tomato___Late_blight': {
+        'cause': 'Devastating fungal disease (Phytophthora infestans) that spreads rapidly in cool, wet weather',
+        'remedies': [
+            'EMERGENCY MEASURES: At first sign (water-soaked lesions), remove and bag infected plants. Spray surrounding plants with: '
+            'copper (2 oz/gal) + mancozeb (1.5 lb/acre). Apply phosphorous acid (Agri-Fos 2.5 qt/acre) as systemic treatment.',
+            
+            'PREVENTIVE PROGRAM: Start preventative sprays when night temps <60°F and humidity >90%. Alternate weekly between: '
+            'chlorothalonil (Bravo Ultrex 1.4 lb/acre) and mandipropamid (Revus 8 oz/acre). Continue until 1 week before harvest.',
+            
+            'ENVIRONMENTAL CONTROLS: Use drip irrigation only. Increase plant spacing (3-4ft between plants). '
+            'Apply compost tea weekly to boost plant immunity.'
         ]
     },
-    "Tomato_Septoria_leaf_spot": {
-        "cause": "Fungal disease (Septoria lycopersici) causing small circular spots with dark margins and light centers. Spreads via water splash and survives in plant debris.",
-        "remedy": [
-            "Apply copper-based fungicides at 7-10 day intervals",
-            "Mulch plants to prevent soil splash onto lower leaves",
-            "Prune off infected lower leaves early in disease development",
-            "Rotate crops away from tomatoes for 3 years",
-            "Disinfect tools and stakes between seasons"
+    'Tomato___Leaf_Mold': {
+        'cause': 'Fungal disease (Passalora fulva) causing yellow spots on upper leaf surfaces with purple mold underneath',
+        'remedies': [
+            'GREENHOUSE MANAGEMENT: Reduce humidity below 85%. Increase air circulation with fans. '
+            'Space plants properly and prune to improve airflow. Water early in day so leaves dry quickly.',
+            
+            'FUNGICIDE PROGRAM: Apply chlorothalonil (Bravo Weather Stik 1.5 pt/acre) or mancozeb (Dithane 2 lb/acre) every 7-10 days. '
+            'For organic production, use copper or potassium bicarbonate sprays.',
+            
+            'RESISTANT VARIETIES: In greenhouse production, plant resistant cultivars like Trust, Match, or Cobra. '
+            'Avoid extremely dense foliage varieties.'
         ]
     },
-    "Tomato_Spider_mites_Two_spotted_spider_mite": {
-        "cause": "Tiny arachnids (Tetranychus urticae) that feed on leaf undersides, causing stippling and webbing. Thrive in hot, dry conditions and rapidly develop pesticide resistance.",
-        "remedy": [
-            "Apply miticides like abamectin or spiromesifen in rotation",
-            "Release predatory mites (Phytoseiulus persimilis) for biological control",
-            "Use overhead watering to disrupt mite activity",
-            "Remove heavily infested leaves and dispose properly",
-            "Avoid broad-spectrum insecticides that kill natural enemies"
+    'Tomato___Septoria_leaf_spot': {
+        'cause': 'Fungal disease (Septoria lycopersici) causing small circular spots with dark borders',
+        'remedies': [
+            'SANITATION: Remove and destroy infected lower leaves at first sign. Sterilize tools with 10% bleach solution. '
+            'Remove all plant debris after harvest - do not compost infected material.',
+            
+            'FUNGICIDE PROGRAM: Begin sprays when plants are 6-8" tall. Use chlorothalonil (Bravo Weather Stik 1.5 pt/acre) or '
+            'mancozeb (Dithane 2 lb/acre) every 7-10 days during wet periods.',
+            
+            'CULTURAL PRACTICES: Mulch with straw to prevent soil splash. Stake plants and prune suckers for better air circulation. '
+            'Rotate crops away from tomatoes for 2-3 years.'
         ]
     },
-    "Tomato_Target_Spot": {
-        "cause": "Fungal disease (Corynespora cassiicola) causing circular spots with concentric rings and yellow halos. Spreads via wind, water, and contaminated tools.",
-        "remedy": [
-            "Apply strobilurin fungicides like azoxystrobin at first symptoms",
-            "Remove and destroy infected plant material",
-            "Improve air circulation through proper spacing and pruning",
-            "Avoid working with plants when foliage is wet",
-            "Use resistant varieties where available"
+    'Tomato___Spider_mites Two-spotted_spider_mite': {
+        'cause': 'Tiny arachnids (Tetranychus urticae) that suck plant juices, causing stippling and webbing',
+        'remedies': [
+            'BIOLOGICAL CONTROL: Release predatory mites (Phytoseiulus persimilis) at first sign of infestation. '
+            'Avoid broad-spectrum insecticides that kill beneficials.',
+            
+            'MITICIDE OPTIONS: For heavy infestations, use: 1) Bifenthrin (2-4 oz/acre) 2) Abamectin (8-16 oz/acre) '
+            '3) Spiromesifen (5 oz/acre). Rotate classes to prevent resistance.',
+            
+            'CULTURAL CONTROLS: Avoid excessive nitrogen fertilization. Spray plants with strong water jet to dislodge mites. '
+            'Remove severely infested leaves and destroy.'
         ]
     },
-    "Tomato_Yellow_Leaf_Curl_Virus": {
-        "cause": "Viral disease transmitted by silverleaf whiteflies (Bemisia tabaci). Causes upward leaf curling, yellowing, and stunting. Cannot be cured once plants are infected.",
-        "remedy": [
-            "Remove and destroy infected plants immediately",
-            "Control whiteflies with systemic insecticides like dinotefuran",
-            "Use reflective mulches to repel whiteflies",
-            "Plant resistant varieties like 'Tycoon' or 'Tachi'",
-            "Install fine mesh netting over young plants as physical barrier"
+    'Tomato___Target_Spot': {
+        'cause': 'Fungal disease (Corynespora cassiicola) causing circular spots with concentric rings',
+        'remedies': [
+            'FUNGICIDE PROGRAM: Begin preventive sprays at flowering. Use chlorothalonil (Bravo Weather Stik 1.5 pt/acre) or '
+            'azoxystrobin (Quadris 6.2 oz/acre) every 7-10 days during wet weather.',
+            
+            'CROP MANAGEMENT: Remove infected leaves and fruit. Improve air circulation by proper spacing and staking. '
+            'Avoid overhead irrigation that spreads spores.',
+            
+            'VARIETY SELECTION: Some varieties show partial resistance. Check with local extension for recommended cultivars in your area.'
         ]
     },
-    "Tomato_Tomato_mosaic_virus": {
-        "cause": "Highly stable virus (ToMV) causing mottled light and dark green leaf patterns. Spreads mechanically through contaminated tools, hands, and plant debris.",
-        "remedy": [
-            "Use certified virus-free seeds and transplants",
-            "Disinfect tools with 10% bleach solution between plants",
-            "Wash hands thoroughly after handling tobacco products",
-            "Remove and destroy infected plants including roots",
-            "Control weeds that may serve as alternative hosts"
+    'Tomato___Tomato_Yellow_Leaf_Curl_Virus': {
+        'cause': 'Viral disease transmitted by whiteflies (Bemisia tabaci)',
+        'remedies': [
+            'WHITEFLY CONTROL: Apply systemic insecticides like imidacloprid at planting. Use yellow sticky traps for monitoring. '
+            'Screen greenhouses with 50-mesh screens to exclude whiteflies.',
+            
+            'SANITATION: Remove and destroy infected plants immediately. Control weed hosts around fields. '
+            'Avoid moving plants from infected to clean areas.',
+            
+            'RESISTANT VARIETIES: Plant TYLCV-resistant cultivars like Tygress, Quincy, or Talladega in endemic areas. '
+            'These carry the Ty-1 or Ty-3 resistance genes.'
         ]
     },
-    "Tomato_healthy": {
-        "cause": "No disease symptoms detected. Plants show vigorous growth with dark green foliage and normal fruit production.",
-        "remedy": [
-            "Stake or cage plants early to keep fruit off the ground",
-            "Mulch with black plastic or straw to conserve moisture",
-            "Prune suckers to improve air circulation",
-            "Monitor for hornworms and other pests regularly",
-            "Harvest fruit when fully colored but still firm"
+    'Tomato___Tomato_mosaic_virus': {
+        'cause': 'Viral disease spread mechanically and through contaminated seed',
+        'remedies': [
+            'SEED TREATMENT: Use virus-tested certified seed. Treat seed with 10% trisodium phosphate solution for 15 minutes before planting.',
+            
+            'SANITATION: Disinfect tools with 10% bleach solution between plants. Wash hands with soap after handling infected plants. '
+            'Remove and destroy symptomatic plants immediately.',
+            
+            'RESISTANT VARIETIES: Plant cultivars with Tm-1, Tm-2, or Tm-2² resistance genes. Many modern hybrids incorporate these resistances.'
+        ]
+    },
+    'Tomato___healthy': {
+        'cause': 'No disease detected - plants show vigorous growth',
+        'remedies': [
+            'PLANTING TECHNIQUES: Transplant after danger of frost when soil reaches 60°F. Bury stems up to first true leaves for stronger roots. '
+            'Space plants 24-36" apart depending on variety.',
+            
+            'SUPPORT SYSTEMS: Install cages/stakes at planting time. Tie plants loosely with soft twine. Prune indeterminate varieties to 1-2 main stems. '
+            'Remove suckers when small (under 2").',
+            
+            'HARVEST PRACTICES: Pick fruits when fully colored but still firm. Store at 55-60°F - refrigeration harms flavor. '
+            'Clean all supports and stakes after season.'
         ]
     }
 }
 
-def load_model():
-    MODEL_PATH = os.path.join(os.path.dirname(__file__), "model.h5")
-    try:
-        model = tf.keras.models.load_model(MODEL_PATH)
-        logger.info("✅ Model loaded successfully!")
-        return model
-    except Exception as e:
-        logger.error(f"❌ Error loading model: {e}")
-        return None
+# Initialize the Flask application
+app = Flask(__name__)
 
-global_model = load_model()
-
-def preprocess_image(image_bytes):
-    try:
-        image = Image.open(io.BytesIO(image_bytes)).convert("RGB")
-        image = image.resize((128, 128))
-        img_array = np.array(image) / 255.0
-        img_array = np.expand_dims(img_array, axis=0)
-        return img_array
-    except Exception as e:
-        logger.error(f"Image preprocessing error: {e}")
-        return None
-
-@app.route('/predict-disease', methods=['POST'])
-def predict_disease():
-    if global_model is None:
-        return jsonify({'error': 'Model not loaded'}), 500
-
-    try:
-        if 'image' not in request.files:
-            return jsonify({'error': 'No image uploaded'}), 400
-        
-        file = request.files['image']
-        image_bytes = file.read()
-        
-        img_array = preprocess_image(image_bytes)
-        if img_array is None:
-            return jsonify({'error': 'Invalid image'}), 400
-
-        predictions = global_model.predict(img_array)
-        
-        predicted_class_index = np.argmax(predictions)
-        predicted_class = CLASS_NAMES[predicted_class_index]
-        confidence_score = float(np.max(predictions))
-
-        # Enhanced logging and debugging
-        logger.info(f"Raw Prediction Details:")
-        logger.info(f"Predicted Class: {predicted_class}")
-        logger.info(f"Prediction Confidence: {confidence_score * 100}%")
-        logger.info(f"Full Prediction Array: {predictions}")
-        
-        # Print all available class names for verification
-        logger.info("All Available Classes:")
-        for idx, cls in enumerate(CLASS_NAMES):
-            logger.info(f"{idx}: {cls}")
-
-        # Check if prediction is actually in the dictionary
-        if predicted_class not in DISEASE_INFO:
-            logger.warning(f"No specific disease info found for class: {predicted_class}")
-            disease_info = {
-                "cause": "Unable to determine disease specifics. The image might not be a recognized plant or crop.",
-                "remedy": ["Please upload a clear image of a plant leaf for accurate disease detection."]
-            }
-        else:
-            disease_info = DISEASE_INFO[predicted_class]
-
-        # Format the response with remedies as an array
-        response = {
-            'status': 'success',
-            'prediction': predicted_class,
-            'confidence': confidence_score,
-            'cause': disease_info["cause"],
-            'remedies': disease_info["remedy"]
-        }
-
-        return jsonify(response)
-
-    except Exception as e:
-        logger.error(f"Comprehensive Prediction Error: {e}", exc_info=True)
-        return jsonify({'error': 'Unexpected error during prediction'}), 500
-
-# ========== NEW CROP RECOMMENDATION SYSTEM ==========
-# Load your crop recommendation model (separate from the disease model)
-with open('crop_model.pkl', 'rb') as f:
-    crop_model = pickle.load(f)
-
-# Crop recommendation database
-CROP_DATABASE = {
-    'rice': {
-        'name': 'Rice',
-        'description': 'Staple food crop with high demand worldwide',
-        'duration': '3-6 months',
-        'process': [
-            {'stage': 'Land Prep', 'time': 'Month 1', 'details': 'Plow and level field, add organic matter'},
-            {'stage': 'Planting', 'time': 'Month 1-2', 'details': 'Transplant seedlings (25-30 days old)'},
-            {'stage': 'Growth', 'time': 'Month 2-4', 'details': 'Maintain 2-5cm water level, apply fertilizers'},
-            {'stage': 'Harvest', 'time': 'Month 4-6', 'details': 'Harvest when grains are 20-25% moisture'}
-        ],
-        'benefits': [
-            'High market demand with stable prices',
-            'Government subsidies available in many regions',
-            'Yield potential of 3-10 tons/ha depending on variety',
-            'Multiple cropping possible in tropical regions'
-        ]
-    },
-    # Add more crops as needed...
-}
-
-@app.route('/recommend-crops', methods=['POST'])
-def recommend_crops():
-    try:
-        data = request.json
-        
-        # Prepare input for model
-        input_data = pd.DataFrame([[
-            data['temperature'],
-            data['humidity'],
-            data['rainfall'],
-            data.get('ph', 6.5),  # Default pH if not provided
-            data['duration']
-        ]], columns=['temperature', 'humidity', 'rainfall', 'ph', 'duration'])
-        
-        # Get predictions
-        predictions = crop_model.predict_proba(input_data)[0]
-        crop_classes = crop_model.classes_
-        
-        # Get top crops with probability > 20%
-        recommended = []
-        for crop, prob in zip(crop_classes, predictions):
-            if prob > 0.2 and crop in CROP_DATABASE:
-                crop_info = CROP_DATABASE[crop].copy()
-                crop_info['probability'] = float(prob)
-                recommended.append(crop_info)
-        
-        # Sort by probability
-        recommended.sort(key=lambda x: -x['probability'])
-        
-        return jsonify({
-            'success': True,
-            'crops': recommended,
-            'weather': {
-                'temperature': data['temperature'],
-                'humidity': data['humidity'],
-                'rainfall': data['rainfall']
-            }
-        })
+def preprocess_image(image_path):
+    # Load the image
+    img = load_img(image_path, target_size=IMG_SIZE)  # Resize to target size
     
-    except Exception as e:
-        return jsonify({
-            'success': False,
-            'error': str(e)
-        }), 500
+    # Convert the image to a numpy array and normalize
+    img_array = img_to_array(img) / 255.0  # Normalize to [0, 1]
+    
+    # Add batch dimension
+    img_array = np.expand_dims(img_array, axis=0)
+    
+    return img_array
 
-# Common health check endpoint
-@app.route('/health', methods=['GET'])
-def health_check():
-    return jsonify({
-        'status': 'ok', 
-        'disease_model_loaded': global_model is not None,
-        'crop_model_loaded': 'crop_model' in globals(),
-        'available_disease_classes': len(CLASS_NAMES)
+def predict_image(image_path):
+    # Preprocess the image
+    processed_image = preprocess_image(image_path)
+    
+    # Make prediction
+    predictions = model.predict(processed_image)
+    predicted_class_index = np.argmax(predictions, axis=1)[0]
+    
+    # Get the class name from the mapping
+    predicted_class_name = list(class_info.keys())[predicted_class_index]
+    
+    # Get the confidence of the prediction
+    confidence = float(predictions[0][predicted_class_index])  # Probability of the predicted class
+    
+    # Get additional information
+    info = class_info.get(predicted_class_name, {
+        'cause': 'Unknown cause',
+        'remedies': ['No specific remedies available']
     })
+    
+    return predicted_class_name, confidence, info['cause'], info['remedies']
+
+# Define the prediction route
+@app.route('/predict', methods=['POST'])
+def predict():
+    if 'image' not in request.files:
+        return jsonify({'error': 'No image provided'}), 400
+    
+    file = request.files['image']
+    
+    if file.filename == '':
+        return jsonify({'error': 'No selected file'}), 400
+    
+    # Save the uploaded file temporarily
+    filename = werkzeug.utils.secure_filename(file.filename)
+    file_path = os.path.join('static', filename)
+    file.save(file_path)
+    
+    try:
+        # Make prediction
+        predicted_class, confidence, cause, remedies = predict_image(file_path)
+        
+        # Clean up the temporary file
+        if os.path.exists(file_path):
+            os.remove(file_path)
+        
+        # Return the prediction as JSON
+        return jsonify({
+            'prediction': predicted_class,
+            'confidence': confidence,
+            'cause': cause,
+            'remedies': remedies
+        })
+    except Exception as e:
+        # Clean up the temporary file if it exists
+        if os.path.exists(file_path):
+            os.remove(file_path)
+        return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    # Create static directory if it doesn't exist
+    if not os.path.exists('static'):
+        os.makedirs('static')
+    
+app.run(host='0.0.0.0', port=5000, debug=True)
+
+
+# from flask import Flask, request, jsonify
+# import numpy as np
+# import os
+# import pickle
+# import pandas as pd
+# from tensorflow.keras.models import load_model
+# from tensorflow.keras.preprocessing.image import img_to_array, load_img
+# import werkzeug
+
+# # Configuration
+# IMG_SIZE = (224, 224)  # Image size for disease model
+# DISEASE_MODEL_PATH = 'best_model.keras'  # Path to disease prediction model
+# CROP_MODEL_PATH = 'crop_model.pkl'     # Path to crop recommendation model
+
+# # Load models
+# disease_model = load_model(DISEASE_MODEL_PATH)
+# with open(CROP_MODEL_PATH, 'rb') as f:
+#     crop_model = pickle.load(f)
+
+# # Disease information database
+# class_info = {
+#         'Apple___Apple_scab': {
+#         'cause': 'Fungal disease caused by Venturia inaequalis that infects leaves and fruits during wet spring weather',
+#         'remedies': [
+#             'FUNGICIDE PROGRAM: Begin spraying at green tip stage with sulfur (3 tbsp/gal water) every 7-10 days during wet periods. '
+#             'For heavy infections, alternate with myclobutanil (Immunox) following label directions. Continue sprays until 2 weeks before harvest.',
+            
+#             'CULTURAL CONTROLS: Rake and destroy all fallen leaves in autumn - the fungus overwinters on dead leaves. '
+#             'Prune trees to open canopy for better air circulation (aim for wine-glass shape). Water at the base only, never on leaves.',
+            
+#             'RESISTANT VARIETIES: Plant scab-resistant cultivars like Liberty, Freedom, or Enterprise. Avoid susceptible varieties like McIntosh and Cortland. '
+#             'Space trees 15-20 feet apart for proper air flow.'
+#         ]
+#     },
+#     'Apple___Black_rot': {
+#         'cause': 'Fungal disease (Botryosphaeria obtusa) causing fruit rot, leaf spots, and cankers on branches',
+#         'remedies': [
+#             'SANITATION: Remove all mummified fruits from trees and ground. Prune out dead branches 6-8 inches below visible cankers during winter dormancy. '
+#             'Disinfect pruning tools with 10% bleach solution between cuts.',
+            
+#             'SPRAY SCHEDULE: Apply captan fungicide at: 1) Silver tip stage 2) Pink bud stage 3) Petal fall 4) Every 10-14 days during wet periods until harvest. '
+#             'For organic production, use sulfur or copper-based fungicides.',
+            
+#             'PREVENTION: Avoid wounding tree bark during maintenance. Maintain balanced fertilization - excess nitrogen increases susceptibility. '
+#             'Control apple maggots and other pests that create entry wounds.'
+#         ]
+#     },
+#     'Apple___Cedar_apple_rust': {
+#         'cause': 'Fungal disease (Gymnosporangium juniperi-virginianae) requiring both apple and juniper/cedar to complete life cycle',
+#         'remedies': [
+#             'JUNIPER REMOVAL: Eliminate junipers within 300 feet if possible. If removal isn\'t feasible, prune out galls on junipers in late winter before orange telial horns form.',
+            
+#             'PROTECTIVE SPRAYS: Apply fungicides at pink bud stage and repeat every 10-14 days during wet springs. Effective products include: '
+#             'myclobutanil (Immunox), tebuconazole (Orius), or sulfur. Spray until petals fall.',
+            
+#             'RESISTANT VARIETIES: Plant resistant cultivars like Redfree, William\'s Pride, or Freedom. Avoid highly susceptible varieties like Jonathan and Rome.'
+#         ]
+#     },
+#     'Apple___healthy': {
+#         'cause': 'No disease detected - tree shows normal growth and foliage',
+#         'remedies': [
+#             'MAINTENANCE PRUNING: Annually prune during dormancy to maintain open canopy. Remove crossing branches, water sprouts, and maintain central leader structure. '
+#             'Disinfect tools between trees.',
+            
+#             'SOIL MANAGEMENT: Test soil every 3 years - maintain pH 6.0-6.5. Apply balanced fertilizer (10-10-10) in early spring at 1lb per inch of trunk diameter. '
+#             'Maintain 3-4" organic mulch (keep 6" from trunk).',
+            
+#             'MONITORING: Conduct weekly leaf inspections during growing season. Use pheromone traps for codling moth monitoring. '
+#             'Keep records of pest/disease occurrences for future reference.'
+#         ]
+#     },
+#     'Background_without_leaves': {
+#         'cause': 'No plant material detected in the image',
+#         'remedies': [
+#             'PHOTOGRAPHY GUIDANCE: Capture clear images of affected leaves against neutral background. Include both sides of leaves. '
+#             'Take multiple photos showing symptom progression from different angles.',
+            
+#             'SAMPLING TIPS: Collect samples in early morning when symptoms are most visible. Place samples in paper bags (not plastic) to prevent moisture buildup. '
+#             'Include healthy tissue near affected areas for comparison.',
+            
+#             'ADDITIONAL INFORMATION NEEDED: Note weather conditions, planting date, variety, and any recent chemical applications. '
+#             'Describe irrigation practices and nearby plants showing similar symptoms.'
+#         ]
+#     },
+#     'Blueberry___healthy': {
+#         'cause': 'No disease detected - plants show vigorous growth',
+#         'remedies': [
+#             'SOIL REQUIREMENTS: Maintain acidic soil (pH 4.5-5.5). Incorporate peat moss or pine bark at planting. '
+#             'Apply sulfur if pH rises above 5.5. Test soil annually in early spring.',
+            
+#             'MULCHING: Apply 4-6" of pine bark or sawdust mulch annually. Replenish as needed to maintain acidic conditions and moisture retention. '
+#             'Avoid using hardwood mulches which raise pH.',
+            
+#             'PRUNING: Annually remove 1-2 oldest canes (over 5 years old) at ground level. Thin weak shoots and maintain 8-10 vigorous canes per plant. '
+#             'Prune in late winter while dormant.'
+#         ]
+#     },
+#     'Cherry___Powdery_mildew': {
+#         'cause': 'Fungal disease (Podosphaera clandestina) causing white powdery growth on leaves and shoots',
+#         'remedies': [
+#             'FUNGICIDE PROGRAM: Begin sprays at shuck split stage. Alternate every 10-14 days between: '
+#             'potassium bicarbonate (MilStop 2.5 lb/acre), sulfur (6 lb/acre), and myclobutanil (Rally 40W 5 oz/acre). '
+#             'Continue until harvest if conditions remain humid.',
+            
+#             'CULTURAL CONTROLS: Prune to open canopy for better air circulation. Avoid overhead irrigation. '
+#             'Remove and destroy infected shoots during summer pruning. Rake and remove fallen leaves in autumn.',
+            
+#             'VARIETY SELECTION: Plant resistant varieties like Balaton, Regina, or Somerset. Avoid highly susceptible varieties like Bing and Lambert.'
+#         ]
+#     },
+#     'Cherry___healthy': {
+#         'cause': 'No disease detected - trees show normal growth',
+#         'remedies': [
+#             'ANNUAL CARE: Apply balanced fertilizer (10-10-10) in early spring before growth begins at rate of 1/8 lb per year of tree age. '
+#             'Maintain grass-free area under canopy with organic mulch.',
+            
+#             'WATER MANAGEMENT: Provide consistent moisture, especially during fruit development. Install drip irrigation or soaker hoses. '
+#             'Avoid wetting foliage to prevent disease. Water deeply 1-2 times per week.',
+            
+#             'BIRD CONTROL: Install netting before fruit colors to prevent bird damage. Use reflective tape or scare devices as supplemental controls. '
+#             'Harvest promptly when fruit ripens.'
+#         ]
+#     },
+#     'Corn___Cercospora_leaf_spot Gray_leaf_spot': {
+#         'cause': 'Fungal disease (Cercospora zeae-maydis) causing rectangular lesions with yellow halos',
+#         'remedies': [
+#             'RESISTANT HYBRIDS: Plant resistant varieties like DKC62-08, P1197YHR. Check university extension recommendations for locally adapted resistant hybrids.',
+            
+#             'FUNGICIDE APPLICATION: Spray at V8-V10 growth stage if disease is present in previous years. Use azoxystrobin (Quadris 6.2 oz/acre) or '
+#             'propiconazole (Tilt 4 oz/acre). Repeat in 14 days if wet weather persists.',
+            
+#             'CROP MANAGEMENT: Rotate with non-host crops (soybeans, small grains) for 2 years. Plow under crop residues after harvest. '
+#             'Avoid continuous corn planting in same field.'
+#         ]
+#     },
+#     'Corn___Common_rust': {
+#         'cause': 'Fungal disease (Puccinia sorghi) producing orange pustules on leaves',
+#         'remedies': [
+#             'RESISTANT VARIETIES: Select hybrids with good rust resistance ratings. Check seed company ratings for specific products in your region.',
+            
+#             'FUNGICIDE TIMING: Apply at first sign of disease if weather favors development (cool nights with heavy dew). Use products containing '
+#             'pyraclostrobin (Headline 6-12 oz/acre) or trifloxystrobin (Stratego 10 oz/acre).',
+            
+#             'CULTURAL PRACTICES: Avoid late plantings which are more susceptible. Maintain proper fertility - avoid excess nitrogen. '
+#             'Control volunteer corn plants that may harbor disease.'
+#         ]
+#     },
+#     'Corn___Northern_Leaf_Blight': {
+#         'cause': 'Fungal disease (Exserohilum turcicum) causing long, cigar-shaped lesions',
+#         'remedies': [
+#             'RESISTANT HYBRIDS: Choose hybrids with good resistance ratings. Partial resistance is common in modern hybrids.',
+            
+#             'FUNGICIDE APPLICATION: Spray at V8-V10 stage if disease was severe in previous year. Use chlorothalonil (Bravo Weather Stik 1.5 pt/acre) or '
+#             'propiconazole (Tilt 4 oz/acre). Repeat in 14 days if needed.',
+            
+#             'CROP ROTATION: Rotate with non-host crops for 1-2 years. Incorporate crop residues after harvest to speed decomposition. '
+#             'Avoid planting adjacent to last year\'s corn field.'
+#         ]
+#     },
+#     'Corn___healthy': {
+#         'cause': 'No disease detected - plants show normal growth',
+#         'remedies': [
+#             'PLANTING PRACTICES: Plant when soil temperature reaches 50°F at 2" depth. Use proper seeding rates for your hybrid (typically 28,000-34,000 seeds/acre). '
+#             'Ensure good seed-to-soil contact.',
+            
+#             'FERTILITY MANAGEMENT: Soil test and apply needed nutrients. Side-dress nitrogen when plants are 12" tall. '
+#             'Consider split applications of nitrogen in sandy soils.',
+            
+#             'WEED CONTROL: Maintain weed-free conditions through critical period (up to V8 stage). Use pre-emergence herbicides if needed. '
+#             'Cultivate carefully to avoid root damage.'
+#         ]
+#     },
+#     'Grape___Black_rot': {
+#         'cause': 'Fungal disease (Guignardia bidwellii) destroying fruit clusters and causing leaf spots',
+#         'remedies': [
+#             'CRITICAL SPRAY TIMINGS: 1) 1" new growth: mancozeb (3 lb/acre) 2) Pre-bloom: sulfur (6 lb/acre) + captan (2 lb/acre) '
+#             '3) Post-bloom: same as pre-bloom 4) Every 10-14 days during wet periods until veraison',
+            
+#             'VINEYARD SANITATION: Remove all mummified clusters during winter pruning. Cultivate soil in early spring to bury infected debris. '
+#             'Prune to 4-5 buds per spur to reduce disease pressure.',
+            
+#             'CANOPY MANAGEMENT: Position shoots vertically for better air flow. Remove leaves around clusters 3 weeks after bloom. '
+#             'Avoid excessive nitrogen fertilization that promotes dense growth.'
+#         ]
+#     },
+#     'Grape__Esca(Black_Measles)': {
+#         'cause': 'Wood-decaying fungal complex (Phaeomoniella spp.) causing internal trunk damage',
+#         'remedies': [
+#             'PRUNING PRACTICES: Make clean cuts at the collar when pruning. Avoid large pruning wounds. Prune during dry weather in late winter. '
+#             'Disinfect tools between vines with 70% alcohol.',
+            
+#             'PROTECTIVE TREATMENTS: Apply wound sealant containing borate or thiophanate-methyl to large pruning cuts. '
+#             'Consider trunk injection with fungicides in severely affected vineyards.',
+            
+#             'VINE REPLACEMENT: Remove and replace severely affected vines. When replanting, use certified disease-free stock. '
+#             'Avoid planting new vines near infected ones.'
+#         ]
+#     },
+#     'Grape__Leaf_blight(Isariopsis_Leaf_Spot)': {
+#         'cause': 'Fungal disease (Isariopsis clavispora) causing angular leaf spots and defoliation',
+#         'remedies': [  # Fixed from 'remedies'
+#             'FUNGICIDE PROGRAM: Begin sprays when shoots are 6" long. Use mancozeb (2 lb/acre) every 14 days during wet periods. '
+#             'Alternate with copper hydroxide (Kocide 3000 1.5 lb/acre) to prevent resistance.',
+            
+#             'CANOPY MANAGEMENT: Train vines to allow good air circulation. Remove basal leaves early in season. '
+#             'Avoid overhead irrigation that prolongs leaf wetness.',
+            
+#             'VARIETY SELECTION: Plant less susceptible varieties where possible. European wine grapes (Vitis vinifera) are generally more susceptible than American hybrids.'
+#         ]
+#     },
+#     'Grape___healthy': {
+#         'cause': 'No disease detected - vines show normal growth',
+#         'remedies': [
+#             'TRELLIS MANAGEMENT: Train vines properly on trellis system. Position shoots vertically for even sunlight exposure. '
+#             'Maintain adequate spacing between vines (typically 6-8 ft).',
+            
+#             'WATER MANAGEMENT: Monitor soil moisture carefully. Implement drip irrigation for consistent watering. '
+#             'Reduce irrigation during veraison to improve fruit quality.',
+            
+#             'HARVEST PRACTICES: Monitor brix levels for optimal harvest timing. Handle clusters gently to prevent bruising. '
+#             'Cool fruit immediately after picking if storing.'
+#         ]
+#     },
+#     'Orange__Haunglongbing(Citrus_greening)': {
+#         'cause': 'Bacterial disease (Candidatus Liberibacter asiaticus) spread by Asian citrus psyllid',
+#         'remedies': [
+#             'PSYLLID CONTROL: Apply systemic insecticides like imidacloprid (soil drench) combined with foliar sprays of pyrethroids. '
+#             'Treat entire block simultaneously for best results.',
+            
+#             'TREE REMOVAL: Remove infected trees immediately to reduce disease spread. Treat surrounding trees preventatively. '
+#             'Never relocate potentially infected plant material.',
+            
+#             'NUTRITION PROGRAM: Maintain vigorous trees with balanced fertilization. Apply micronutrients (zinc, manganese, iron) via foliar sprays. '
+#             'Use slow-release fertilizers for consistent nutrition.'
+#         ]
+#     },
+#     'Peach___Bacterial_spot': {
+#         'cause': 'Bacterial disease (Xanthomonas arboricola pv. pruni) causing leaf spots and fruit lesions',
+#         'remedies': [
+#             'COPPER SPRAYS: Apply fixed copper at leaf fall and again at bud swell. Use rates specified on label to avoid phytotoxicity. '
+#             'Add mancozeb to copper sprays during growing season for better protection.',
+            
+#             'CULTURAL PRACTICES: Prune to improve air circulation. Avoid overhead irrigation. Remove and destroy severely infected branches. '
+#             'Control leafhoppers that spread bacteria.',
+            
+#             'RESISTANT VARIETIES: Plant less susceptible varieties like Contender, Harrow Diamond, or PF-1. Avoid highly susceptible varieties like Redhaven.'
+#         ]
+#     },
+#     'Peach___healthy': {
+#         'cause': 'No disease detected - trees show normal growth',
+#         'remedies': [
+#             'PRUNING TECHNIQUES: Prune to open center (vase shape) for maximum sunlight penetration. Remove vertical water sprouts. '
+#             'Thin fruits to 6-8" apart for better size and quality.',
+            
+#             'FERTILIZATION: Apply balanced fertilizer (10-10-10) in early spring at rate of 1/2 lb per year of tree age. '
+#             'Split applications in sandy soils - half at bloom, half 6 weeks later.',
+            
+#             'FROST PROTECTION: Plant on elevated sites with good air drainage. Use overhead sprinklers or wind machines during radiation frost events. '
+#             'Avoid early blooming varieties in frost-prone areas.'
+#         ]
+#     },
+#     'Pepper,bell__Bacterial_spot': {
+#         'cause': 'Bacterial disease (Xanthomonas spp.) causing angular leaf spots and fruit lesions',
+#         'remedies': [
+#             'SEED TREATMENT: Use hot water treated seed (50°C for 25 minutes) or commercially treated seed. '
+#             'Avoid saving seed from infected plants.',
+            
+#             'COPPER SPRAYS: Begin copper hydroxide sprays (Kocide 3000 1.5 lb/acre) at first true leaf stage. '
+#             'Continue every 7-10 days during wet weather. Add mancozeb for better protection.',
+            
+#             'SANITATION: Sterilize tools and equipment with 10% bleach solution. Remove and destroy infected plants. '
+#             'Rotate with non-host crops for 2-3 years.'
+#         ]
+#     },
+#     'Pepper,bell__healthy': {
+#         'cause': 'No disease detected - plants show normal growth',
+#         'remedies': [
+#             'PLANTING PRACTICES: Transplant after soil reaches 60°F. Use black plastic mulch to warm soil. '
+#             'Space plants 18-24" apart in rows 30-36" apart for good air circulation.',
+            
+#             'WATER MANAGEMENT: Use drip irrigation to keep foliage dry. Water deeply 1-2 times per week depending on rainfall. '
+#             'Avoid water stress during fruit set and development.',
+            
+#             'HARVESTING: Cut fruits from plant with pruning shears to avoid damage. Harvest when fruits reach full size and color. '
+#             'Store at 45-50°F with 90-95% relative humidity.'
+#         ]
+#     },
+#     'Potato___Early_blight': {
+#         'cause': 'Fungal disease (Alternaria solani) causing concentric ring spots on leaves',
+#         'remedies': [
+#             'FUNGICIDE PROGRAM: Begin sprays when plants are 6-8" tall. Alternate every 7-10 days between chlorothalonil (Bravo Weather Stik 1.5 pt/acre) '
+#             'and mancozeb (Dithane 2 lb/acre). Continue until vine kill.',
+            
+#             'CULTURAL PRACTICES: Mulch with straw to prevent soil splash. Rotate with non-host crops for 3 years. '
+#             'Destroy volunteer potato plants and nightshade weeds.',
+            
+#             'HARVEST PRACTICES: Allow tubers to mature fully before harvest. Avoid wounding during harvest. '
+#             'Cure at 50-60°F with high humidity for 10-14 days before storage.'
+#         ]
+#     },
+#     'Potato___Late_blight': {
+#         'cause': 'Devastating fungal disease (Phytophthora infestans) that spreads rapidly in cool, wet weather',
+#         'remedies': [  # Fixed from 'remedies'
+#             'PREVENTIVE SPRAYS: Begin fungicide applications before symptoms appear when weather favors disease (cool nights <60°F, humid days). '
+#             'Use chlorothalonil (Bravo Ultrex 1.4 lb/acre) or mancozeb (2 lb/acre) every 5-7 days during high risk periods.',
+            
+#             'EMERGENCY MEASURES: At first sign (water-soaked lesions), apply curative fungicide like cymoxanil (Curzate 3.2 oz/acre). '
+#             'Destroy infected plants by burying or burning - do not compost.',
+            
+#             'CULTURAL CONTROLS: Plant certified disease-free seed potatoes. Hill plants to prevent tuber infection. '
+#             'Avoid overhead irrigation. Harvest promptly after vine kill.'
+#         ]
+#     },
+#     'Potato___healthy': {
+#         'cause': 'No disease detected - plants show normal growth',
+#         'remedies': [
+#             'SEED SELECTION: Use certified disease-free seed potatoes. Cut seed pieces 1-2 days before planting to allow suberization. '
+#             'Ensure each piece has at least 2 eyes.',
+            
+#             'SOIL PREPARATION: Plant in well-drained soil with pH 5.0-6.0. Incorporate organic matter. '
+#             'Apply balanced fertilizer (10-10-10) at planting and side-dress when plants are 6" tall.',
+            
+#             'PEST MONITORING: Scout regularly for Colorado potato beetles and aphids. Use floating row covers for early season protection. '
+#             'Remove potato cull piles that harbor pests.'
+#         ]
+#     },
+#     'Raspberry___healthy': {
+#         'cause': 'No disease detected - plants show normal growth',
+#         'remedies': [
+#             'PRUNING PRACTICES: For summer-bearing types, remove fruited canes after harvest. For fall-bearing, cut all canes to ground in late winter. '
+#             'Thin remaining canes to 4-6 per linear foot of row.',
+            
+#             'TRELLISING: Install T-trellis or V-trellis system for support. Tie canes loosely to wires. '
+#             'Maintain walkways between rows for air circulation and harvesting.',
+            
+#             'WINTER PROTECTION: In cold climates, bend canes to ground and cover with straw after several hard freezes. '
+#             'Remove mulch in early spring before new growth begins.'
+#         ]
+#     },
+#     'Soybean___healthy': {
+#         'cause': 'No disease detected - plants show normal growth',
+#         'remedies': [
+#             'PLANTING PRACTICES: Plant when soil temperature reaches 60°F at seeding depth. Use proper seeding rates for your variety (typically 140,000-160,000 seeds/acre). '
+#             'Ensure good seed-to-soil contact.',
+            
+#             'INOCULATION: Use fresh rhizobium inoculant specific for soybeans, especially in fields new to soybeans. '
+#             'Apply as peat powder, liquid, or granular formulation at planting.',
+            
+#             'HARVEST TIMING: Harvest when moisture reaches 13-15%. Check lower pods for maturity. '
+#             'Adjust combine settings to minimize split beans and harvest losses.'
+#         ]
+#     },
+#     'Squash___Powdery_mildew': {
+#         'cause': 'Fungal disease (Podosphaera xanthii) causing white powdery growth on leaves',
+#         'remedies': [
+#             'ORGANIC CONTROL: Spray weekly with: 1) Milk solution (1 part milk to 9 parts water) 2) Baking soda spray (1 tbsp baking soda, 1/2 tsp liquid soap per gallon) '
+#             '3) Potassium bicarbonate (MilStop 2.5 lb/acre). Apply early morning.',
+            
+#             'CHEMICAL CONTROL: At first sign, apply myclobutanil (Rally 40W 5 oz/acre) or azoxystrobin (Quadris 6.2 oz/acre). '
+#             'Rotate fungicide classes to prevent resistance.',
+            
+#             'CULTURAL PRACTICES: Plant resistant varieties like Ambassador or Dunja. Space plants properly (24-36" apart). '
+#             'Avoid overhead watering. Remove severely infected leaves.'
+#         ]
+#     },
+#     'Strawberry___Leaf_scorch': {
+#         'cause': 'Fungal disease (Diplocarpon earliana) causing purple spots on leaves',
+#         'remedies': [
+#             'FUNGICIDE PROGRAM: Begin sprays at first new leaves in spring. Use captan (2 lb/acre) or myclobutanil (Rally 40W 5 oz/acre) every 10-14 days. '
+#             'Continue until harvest in wet seasons.',
+            
+#             'PLANTING PRACTICES: Set plants with crown at soil level - neither too deep nor too shallow. '
+#             'Renovate June-bearing beds immediately after harvest by mowing and thinning plants.',
+            
+#             'SANITATION: Remove old infected leaves during renovation. Irrigate in morning so leaves dry quickly. '
+#             'Rotate planting sites every 3-4 years.'
+#         ]
+#     },
+#     'Strawberry___healthy': {
+#         'cause': 'No disease detected - plants show normal growth',
+#         'remedies': [
+#             'BED PREPARATION: Plant in raised beds with black plastic mulch for weed control and earliness. '
+#             'Incorporate organic matter and balanced fertilizer before planting.',
+            
+#             'WINTER PROTECTION: In cold climates, apply 2-3" straw mulch after several hard freezes in autumn. '
+#             'Remove mulch gradually in spring when plants show new growth.',
+            
+#             'RUNNER MANAGEMENT: For June-bearing types, remove runners first year to establish strong plants. '
+#             'For day-neutral types, allow limited runner production for matted row system.'
+#         ]
+#     },
+#     'Tomato___Bacterial_spot': {
+#         'cause': 'Bacterial disease (Xanthomonas spp.) causing small, water-soaked leaf spots',
+#         'remedies': [
+#             'SEED TREATMENT: Use hot water treated seed (50°C for 25 minutes) or commercially treated seed. '
+#             'Avoid saving seed from infected plants.',
+            
+#             'COPPER SPRAYS: Begin copper hydroxide sprays (Kocide 3000 1.5 lb/acre) at transplanting. Continue every 7-10 days during wet weather. '
+#             'Add mancozeb (1.5 lb/acre) for better protection.',
+            
+#             'SANITATION: Sterilize tools and stakes with 10% bleach solution. Remove and destroy infected plants promptly. '
+#             'Rotate with non-host crops for 2-3 years.'
+#         ]
+#     },
+#     'Tomato___Early_blight': {
+#         'cause': 'Fungal disease (Alternaria solani) causing target-like leaf spots and stem cankers',
+#         'remedies': [
+#             'FUNGICIDE ROTATION: Begin sprays when plants are 6-8" tall. Alternate every 7-10 days between: '
+#             'chlorothalonil (Bravo Weather Stik 1.5 pt/acre), mancozeb (Dithane 2 lb/acre), and azoxystrobin (Quadris 6.2 oz/acre).',
+            
+#             'CULTURAL PRACTICES: Mulch with straw to prevent soil splash. Stake plants and remove lower leaves up to 12" from ground. '
+#             'Rotate crops - no tomatoes/peppers/eggplant in same spot for 3 years.',
+            
+#             'RESISTANT VARIETIES: Plant Defiant PhR, Mountain Merit, or Iron Lady which have genetic resistance.'
+#         ]
+#     },
+#     'Tomato___Late_blight': {
+#         'cause': 'Devastating fungal disease (Phytophthora infestans) that spreads rapidly in cool, wet weather',
+#         'remedies': [
+#             'EMERGENCY MEASURES: At first sign (water-soaked lesions), remove and bag infected plants. Spray surrounding plants with: '
+#             'copper (2 oz/gal) + mancozeb (1.5 lb/acre). Apply phosphorous acid (Agri-Fos 2.5 qt/acre) as systemic treatment.',
+            
+#             'PREVENTIVE PROGRAM: Start preventative sprays when night temps <60°F and humidity >90%. Alternate weekly between: '
+#             'chlorothalonil (Bravo Ultrex 1.4 lb/acre) and mandipropamid (Revus 8 oz/acre). Continue until 1 week before harvest.',
+            
+#             'ENVIRONMENTAL CONTROLS: Use drip irrigation only. Increase plant spacing (3-4ft between plants). '
+#             'Apply compost tea weekly to boost plant immunity.'
+#         ]
+#     },
+#     'Tomato___Leaf_Mold': {
+#         'cause': 'Fungal disease (Passalora fulva) causing yellow spots on upper leaf surfaces with purple mold underneath',
+#         'remedies': [
+#             'GREENHOUSE MANAGEMENT: Reduce humidity below 85%. Increase air circulation with fans. '
+#             'Space plants properly and prune to improve airflow. Water early in day so leaves dry quickly.',
+            
+#             'FUNGICIDE PROGRAM: Apply chlorothalonil (Bravo Weather Stik 1.5 pt/acre) or mancozeb (Dithane 2 lb/acre) every 7-10 days. '
+#             'For organic production, use copper or potassium bicarbonate sprays.',
+            
+#             'RESISTANT VARIETIES: In greenhouse production, plant resistant cultivars like Trust, Match, or Cobra. '
+#             'Avoid extremely dense foliage varieties.'
+#         ]
+#     },
+#     'Tomato___Septoria_leaf_spot': {
+#         'cause': 'Fungal disease (Septoria lycopersici) causing small circular spots with dark borders',
+#         'remedies': [
+#             'SANITATION: Remove and destroy infected lower leaves at first sign. Sterilize tools with 10% bleach solution. '
+#             'Remove all plant debris after harvest - do not compost infected material.',
+            
+#             'FUNGICIDE PROGRAM: Begin sprays when plants are 6-8" tall. Use chlorothalonil (Bravo Weather Stik 1.5 pt/acre) or '
+#             'mancozeb (Dithane 2 lb/acre) every 7-10 days during wet periods.',
+            
+#             'CULTURAL PRACTICES: Mulch with straw to prevent soil splash. Stake plants and prune suckers for better air circulation. '
+#             'Rotate crops away from tomatoes for 2-3 years.'
+#         ]
+#     },
+#     'Tomato___Spider_mites Two-spotted_spider_mite': {
+#         'cause': 'Tiny arachnids (Tetranychus urticae) that suck plant juices, causing stippling and webbing',
+#         'remedies': [
+#             'BIOLOGICAL CONTROL: Release predatory mites (Phytoseiulus persimilis) at first sign of infestation. '
+#             'Avoid broad-spectrum insecticides that kill beneficials.',
+            
+#             'MITICIDE OPTIONS: For heavy infestations, use: 1) Bifenthrin (2-4 oz/acre) 2) Abamectin (8-16 oz/acre) '
+#             '3) Spiromesifen (5 oz/acre). Rotate classes to prevent resistance.',
+            
+#             'CULTURAL CONTROLS: Avoid excessive nitrogen fertilization. Spray plants with strong water jet to dislodge mites. '
+#             'Remove severely infested leaves and destroy.'
+#         ]
+#     },
+#     'Tomato___Target_Spot': {
+#         'cause': 'Fungal disease (Corynespora cassiicola) causing circular spots with concentric rings',
+#         'remedies': [
+#             'FUNGICIDE PROGRAM: Begin preventive sprays at flowering. Use chlorothalonil (Bravo Weather Stik 1.5 pt/acre) or '
+#             'azoxystrobin (Quadris 6.2 oz/acre) every 7-10 days during wet weather.',
+            
+#             'CROP MANAGEMENT: Remove infected leaves and fruit. Improve air circulation by proper spacing and staking. '
+#             'Avoid overhead irrigation that spreads spores.',
+            
+#             'VARIETY SELECTION: Some varieties show partial resistance. Check with local extension for recommended cultivars in your area.'
+#         ]
+#     },
+#     'Tomato___Tomato_Yellow_Leaf_Curl_Virus': {
+#         'cause': 'Viral disease transmitted by whiteflies (Bemisia tabaci)',
+#         'remedies': [
+#             'WHITEFLY CONTROL: Apply systemic insecticides like imidacloprid at planting. Use yellow sticky traps for monitoring. '
+#             'Screen greenhouses with 50-mesh screens to exclude whiteflies.',
+            
+#             'SANITATION: Remove and destroy infected plants immediately. Control weed hosts around fields. '
+#             'Avoid moving plants from infected to clean areas.',
+            
+#             'RESISTANT VARIETIES: Plant TYLCV-resistant cultivars like Tygress, Quincy, or Talladega in endemic areas. '
+#             'These carry the Ty-1 or Ty-3 resistance genes.'
+#         ]
+#     },
+#     'Tomato___Tomato_mosaic_virus': {
+#         'cause': 'Viral disease spread mechanically and through contaminated seed',
+#         'remedies': [
+#             'SEED TREATMENT: Use virus-tested certified seed. Treat seed with 10% trisodium phosphate solution for 15 minutes before planting.',
+            
+#             'SANITATION: Disinfect tools with 10% bleach solution between plants. Wash hands with soap after handling infected plants. '
+#             'Remove and destroy symptomatic plants immediately.',
+            
+#             'RESISTANT VARIETIES: Plant cultivars with Tm-1, Tm-2, or Tm-2² resistance genes. Many modern hybrids incorporate these resistances.'
+#         ]
+#     },
+#     'Tomato___healthy': {
+#         'cause': 'No disease detected - plants show vigorous growth',
+#         'remedies': [
+#             'PLANTING TECHNIQUES: Transplant after danger of frost when soil reaches 60°F. Bury stems up to first true leaves for stronger roots. '
+#             'Space plants 24-36" apart depending on variety.',
+            
+#             'SUPPORT SYSTEMS: Install cages/stakes at planting time. Tie plants loosely with soft twine. Prune indeterminate varieties to 1-2 main stems. '
+#             'Remove suckers when small (under 2").',
+            
+#             'HARVEST PRACTICES: Pick fruits when fully colored but still firm. Store at 55-60°F - refrigeration harms flavor. '
+#             'Clean all supports and stakes after season.'
+#         ]
+#     }
+# }
+
+# # Crop information database
+# CROP_INFO = {
+#     'rice': {
+#         'name': 'Rice',
+#         'description': 'Staple food crop grown in flooded fields',
+#         'season': 'Kharif (June-September)',
+#         'soil': 'Clay loam with good water retention',
+#         'water': 'Requires standing water (5-10cm)',
+#         'temperature': '20-35°C',
+#         'ph': '5.0-7.5',
+#         'duration': '3-6 months',
+#         'process': [
+#             {'stage': 'Land Prep', 'time': 'Month 1', 'details': 'Puddle soil and level field'},
+#             {'stage': 'Planting', 'time': 'Month 1-2', 'details': 'Transplant 20-25 day old seedlings'},
+#             {'stage': 'Growth', 'time': 'Month 2-4', 'details': 'Maintain water level, fertilize'},
+#             {'stage': 'Harvest', 'time': 'Month 4-6', 'details': 'Harvest when grains are hard (20-25% moisture)'}
+#         ],
+#         'fertilizer': {
+#             'N': '120-150 kg/ha',
+#             'P': '60-80 kg/ha',
+#             'K': '60-80 kg/ha'
+#         },
+#         'yield': '4-6 tons/ha (good conditions)'
+#     },
+#     'wheat': {
+#         'name': 'Wheat',
+#         'description': 'Winter cereal crop',
+#         'season': 'Rabi (October-March)',
+#         'soil': 'Well-drained loamy soil',
+#         'water': '3-4 irrigations',
+#         'temperature': '10-25°C',
+#         'ph': '6.0-7.5',
+#         'duration': '4-5 months',
+#         'process': [
+#             {'stage': 'Land Prep', 'time': 'Month 1', 'details': '2-3 ploughings with harrowing'},
+#             {'stage': 'Planting', 'time': 'Month 1', 'details': 'Sow in rows (20-22 cm apart)'},
+#             {'stage': 'Growth', 'time': 'Month 2-4', 'details': 'Weed control, irrigation'},
+#             {'stage': 'Harvest', 'time': 'Month 4-5', 'details': 'Harvest when grains are hard (14-16% moisture)'}
+#         ],
+#         'fertilizer': {
+#             'N': '100-120 kg/ha',
+#             'P': '50-60 kg/ha',
+#             'K': '40-50 kg/ha'
+#         },
+#         'yield': '3-5 tons/ha (good conditions)'
+#     },
+#     # Add more crops as needed...
+# }
+
+# # Initialize Flask app
+# app = Flask(__name__)
+
+# # Helper function for disease prediction
+# def preprocess_image(image_path):
+#     img = load_img(image_path, target_size=IMG_SIZE)
+#     img_array = img_to_array(img) / 255.0
+#     return np.expand_dims(img_array, axis=0)
+
+# # Disease prediction endpoint
+# @app.route('/predict_disease', methods=['POST'])
+# def predict_disease():
+#     if 'image' not in request.files:
+#         return jsonify({'error': 'No image provided'}), 400
+    
+#     file = request.files['image']
+#     if file.filename == '':
+#         return jsonify({'error': 'No selected file'}), 400
+    
+#     filename = werkzeug.utils.secure_filename(file.filename)
+#     file_path = os.path.join('static', filename)
+#     file.save(file_path)
+    
+#     try:
+#         # Make prediction
+#         img_array = preprocess_image(file_path)
+#         predictions = disease_model.predict(img_array)
+#         predicted_class_index = np.argmax(predictions, axis=1)[0]
+#         predicted_class = list(class_info.keys())[predicted_class_index]
+#         confidence = float(predictions[0][predicted_class_index])
+        
+#         # Get disease info
+#         disease_info = class_info.get(predicted_class, {
+#             'cause': 'Unknown',
+#             'remedies': ['Consult agricultural expert']
+#         })
+        
+#         # Prepare response
+#         response = {
+#             'status': 'success',
+#             'prediction': predicted_class,
+#             'confidence': confidence,
+#             'cause': disease_info['cause'],
+#             'remedies': disease_info['remedies']
+#         }
+        
+#         return jsonify(response)
+    
+#     except Exception as e:
+#         return jsonify({'error': str(e)}), 500
+#     finally:
+#         if os.path.exists(file_path):
+#             os.remove(file_path)
+
+# # Crop recommendation endpoint
+# @app.route('/recommend_crops', methods=['POST'])
+# def recommend_crops():
+#     try:
+#         data = request.get_json()
+#         required_fields = ['temperature', 'humidity', 'rainfall', 'ph']
+        
+#         # Validate input
+#         if not all(field in data for field in required_fields):
+#             return jsonify({'error': 'Missing required parameters'}), 400
+        
+#         # Prepare input data
+#         input_data = pd.DataFrame([[
+#             float(data['temperature']),
+#             float(data['humidity']),
+#             float(data['rainfall']),
+#             float(data['ph']),
+#             int(data.get('duration', 3))  # Default 3 months
+#         ]], columns=['temperature', 'humidity', 'rainfall', 'ph', 'duration'])
+        
+#         # Get predictions
+#         predictions = crop_model.predict_proba(input_data)[0]
+#         crops = crop_model.classes_
+        
+#         # Get top 5 recommendations
+#         top_crops = sorted(zip(crops, predictions), key=lambda x: -x[1])[:5]
+        
+#         # Prepare detailed response
+#         recommendations = []
+#         for crop, probability in top_crops:
+#             crop_data = CROP_INFO.get(crop, {
+#                 'name': crop.capitalize(),
+#                 'description': 'Recommended crop for your conditions',
+#                 'probability': float(probability)
+#             })
+#             crop_data['probability'] = float(probability)
+#             recommendations.append(crop_data)
+        
+#         return jsonify({
+#             'status': 'success',
+#             'recommendations': recommendations
+#         })
+    
+#     except Exception as e:
+#         return jsonify({'error': str(e)}), 500
+
+# # Health check endpoint
+# @app.route('/')
+# def health_check():
+#     return jsonify({
+#         'status': 'running',
+#         'services': {
+#             'disease_prediction': '/predict_disease',
+#             'crop_recommendation': '/recommend_crops'
+#         }
+#     })
+
+# if __name__ == '__main__':
+#     # Create static directory if needed
+#     if not os.path.exists('static'):
+#         os.makedirs('static')
+    
+#     # Run the app
+#     app.run(host='0.0.0.0', port=5000, debug=True)
