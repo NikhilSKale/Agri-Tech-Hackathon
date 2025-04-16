@@ -94,7 +94,7 @@ flutter run
 - Nikhil Kale
 - Tanaya Jain
 - Arnav Chaudhary
-- Rahat Ahmed
+- Varun Rahatgaonkar
 
 ## 🌟 Future Vision
 We aim to expand KisaanSetu to reach millions of farmers across India, continuously improving our AI algorithms and adding more localized features. Our mission is to bridge the technology gap in agriculture and empower farmers with accessible digital tools.
