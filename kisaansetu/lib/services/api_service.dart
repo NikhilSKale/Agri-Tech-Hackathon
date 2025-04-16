@@ -1,11 +1,7 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:flutter/foundation.dart';
 import 'package:kisaansetu/services/prompt_template.dart';
-import 'package:kisaansetu/services/conversation_history_service.dart';
-import 'package:kisaansetu/services/prompt_template_crop.dart';
-
 class ApiService {
   // Weather API - OpenWeatherMap (using your existing key)
   static final String _weatherApiKey = "7e3cac2d274dba29e7551e1f3b582971";
@@ -22,14 +18,8 @@ class ApiService {
       'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent';
 
   // Free farming API alternatives
-  static const String _agriApi =
-      'https://api.data.gov.in/resource/9ef84268-d588-465a-a308-a864a43d0070';
   static final String _agriApiKey =
       '579b464db66ec23bdd000001217d96c60c1646086c4cc3cc5dfc348d'; // Will explain in comments how to get this
-
-  // Disease detection mockup API (Mockable.io or similar)
-  static const String _diseaseMockApi =
-      'https://demo0904851.mockable.io/disease-detection';
 
   // Market prices API - Farmers Portal API from data.gov.in
   static const String _marketPricesApi =
