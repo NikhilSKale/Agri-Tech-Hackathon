@@ -77,7 +77,7 @@ KisaanSetu is a comprehensive, AI-powered mobile platform designed to empower In
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/kisaansetu.git
+git clone https://github.com/NikhilSKale/kisaansetu.git
 
 # Navigate to the project directory
 cd kisaansetu
